@@ -1,12 +1,12 @@
 package profilepush
 
 import (
-	"github.com/alfredyang1986/blackmirror-modules/bmcommon/bmsingleton/bmpkg"
-	"github.com/alfredyang1986/blackmirror-modules/bmerror"
-	"github.com/alfredyang1986/blackmirror/bmmodel/profile"
-	"github.com/alfredyang1986/blackmirror-modules/bmpipe"
-	"github.com/alfredyang1986/blackmirror-modules/bmrouter"
-	"github.com/alfredyang1986/blackmirror-modules/jsonapi"
+	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
+	"github.com/alfredyang1986/blackmirror/bmerror"
+	"github.com/alfredyang1986/ddsaas/bmmodel/profile"
+	"github.com/alfredyang1986/blackmirror/bmpipe"
+	"github.com/alfredyang1986/blackmirror/bmrouter"
+	"github.com/alfredyang1986/blackmirror/jsonapi"
 	"io"
 	"net/http"
 )

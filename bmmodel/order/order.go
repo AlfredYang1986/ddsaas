@@ -2,8 +2,8 @@ package order
 
 import (
 	"gopkg.in/mgo.v2/bson"
-	"github.com/alfredyang1986/blackmirror-modules/bmmodel"
-	"github.com/alfredyang1986/blackmirror-modules/bmmodel/request"
+	"github.com/alfredyang1986/blackmirror/bmmodel"
+	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 )
 
 /*

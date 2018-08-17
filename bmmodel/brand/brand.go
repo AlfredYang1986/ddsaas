@@ -1,17 +1,10 @@
 package brand
 
 import (
-	//"encoding/json"
-	//"errors"
-	//"fmt"
-	"github.com/alfredyang1986/blackmirror-modules/bmmodel"
-	//"github.com/alfredyang1986/blackmirror/bmmodel/date"
-	"github.com/alfredyang1986/blackmirror/bmmodel/location"
-	"github.com/alfredyang1986/blackmirror-modules/bmmodel/request"
-	//"gopkg.in/mgo.v2"
+	"github.com/alfredyang1986/blackmirror/bmmodel"
+	"github.com/alfredyang1986/ddsaas/bmmodel/location"
+	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"gopkg.in/mgo.v2/bson"
-	//"reflect"
-	//"strings"
 )
 
 type Brand struct {

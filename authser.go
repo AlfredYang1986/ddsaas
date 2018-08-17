@@ -1,25 +1,25 @@
-package main //authser
+package main
 
 import (
-	"github.com/alfredyang1986/blackmirror-modules/bmcommon/bmsingleton"
-	"github.com/alfredyang1986/blackmirror-modules/bmerror"
-	"github.com/alfredyang1986/blackmirror/bmmodel/auth"
-	"github.com/alfredyang1986/blackmirror/bmmodel/profile"
-	"github.com/alfredyang1986/blackmirror-modules/bmmodel/request"
-	"github.com/alfredyang1986/blackmirror/bmpipe/bmauthbricks/find"
-	"github.com/alfredyang1986/blackmirror/bmpipe/bmauthbricks/push"
-	"github.com/alfredyang1986/blackmirror/bmpipe/bmauthbricks/update"
-	"github.com/alfredyang1986/blackmirror-modules/bmrouter"
-	//"github.com/alfredyang1986/blackmirror/bmser/authser"
+	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton"
+	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"github.com/alfredyang1986/blackmirror/bmerror"
+	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"net/http"
-	"github.com/alfredyang1986/blackmirror/bmmodel/contact"
-	"github.com/alfredyang1986/blackmirror/bmpipe/bmcontactbricks/push"
-	"github.com/alfredyang1986/blackmirror/bmpipe/bmlocationbricks/push"
-	"github.com/alfredyang1986/blackmirror/bmmodel/location"
-	"github.com/alfredyang1986/blackmirror/bmmodel/order"
-	"github.com/alfredyang1986/blackmirror/bmpipe/bmorderbricks/push"
-	"github.com/alfredyang1986/blackmirror/bmpipe/bmcontactbricks/find"
-	"github.com/alfredyang1986/blackmirror/bmpipe/bmorderbricks/find"
+	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
+	"github.com/alfredyang1986/ddsaas/bmmodel/profile"
+	"github.com/alfredyang1986/ddsaas/bmmodel/contact"
+	"github.com/alfredyang1986/ddsaas/bmmodel/location"
+	"github.com/alfredyang1986/ddsaas/bmmodel/order"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmcontactbricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmorderbricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmlocationbricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmorderbricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmcontactbricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/update"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/others"
 )
 
 func main() {
@@ -74,6 +74,11 @@ func main() {
 	 *------------------------------------------------*/
 	fac.RegisterModel("BMAuthPhoneUpdateBrick", &authupdate.BMAuthPhoneUpdateBrick{})
 	fac.RegisterModel("BMAuthWechatUpdateBrick", &authupdate.BMAuthWechatUpdateBrick{})
+
+	/*------------------------------------------------
+	 * other bricks object
+	 *------------------------------------------------*/
+	fac.RegisterModel("BMAuthGenerateToken", &authothers.BMAuthGenerateToken{})
 
 	r := bmrouter.BindRouter()
 	http.ListenAndServe(":8080", r)

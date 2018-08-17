@@ -1,24 +1,19 @@
 package location
 
 import (
-	//"errors"
-	//"fmt"
-	//"reflect"
-	//"strings"
-	"github.com/alfredyang1986/blackmirror-modules/bmmodel"
-	"github.com/alfredyang1986/blackmirror-modules/bmmodel/request"
-	//"gopkg.in/mgo.v2"
+	"github.com/alfredyang1986/blackmirror/bmmodel"
+	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"gopkg.in/mgo.v2/bson"
 )
 
 type Location struct {
+
 	Id       string        `json:"id"`
 	Id_      bson.ObjectId `bson:"_id"`
 	Title    string        `json:"title" bson:"title"`
 	Address  string        `json:"address" bson:"address"`
 	District string        `json:"district" bson:"district"`
 
-	//Test test.Test `json:"test" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
