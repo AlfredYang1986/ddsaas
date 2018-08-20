@@ -30,6 +30,10 @@ func (b *BMAuthGenerateToken) Exec() error {
 	io.WriteString(h, bmah.Id)
 
 	token := fmt.Sprintf("%x", h.Sum(nil))
+
+	bmah.Token = token
+	b.BrickInstance().Pr = bmah
+
 	err := bmoauth.PushToken(token)
 
 	return err

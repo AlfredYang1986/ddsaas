@@ -14,6 +14,8 @@ type BMAuth struct {
 	Phone   BMPhone           `json:"phone" jsonapi:"relationships"`
 	Wechat  BMWechat          `json:"wechat" jsonapi:"relationships"`
 	Profile profile.BMProfile `json:"profile" jsonapi:"relationships"`
+
+	Token	string			  `json:"token"`
 }
 
 /*------------------------------------------------
