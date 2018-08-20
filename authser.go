@@ -1,25 +1,27 @@
 package main
 
 import (
-	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton"
-	"github.com/alfredyang1986/blackmirror/bmmodel/request"
-	"github.com/alfredyang1986/blackmirror/bmerror"
-	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"net/http"
+
+	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton"
+	"github.com/alfredyang1986/blackmirror/bmerror"
+	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
-	"github.com/alfredyang1986/ddsaas/bmmodel/profile"
 	"github.com/alfredyang1986/ddsaas/bmmodel/contact"
 	"github.com/alfredyang1986/ddsaas/bmmodel/location"
 	"github.com/alfredyang1986/ddsaas/bmmodel/order"
+	"github.com/alfredyang1986/ddsaas/bmmodel/profile"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/find"
-	"github.com/alfredyang1986/ddsaas/bmpipe/bmcontactbricks/find"
-	"github.com/alfredyang1986/ddsaas/bmpipe/bmorderbricks/find"
-	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/push"
-	"github.com/alfredyang1986/ddsaas/bmpipe/bmlocationbricks/push"
-	"github.com/alfredyang1986/ddsaas/bmpipe/bmorderbricks/push"
-	"github.com/alfredyang1986/ddsaas/bmpipe/bmcontactbricks/push"
-	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/others"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/update"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmcontactbricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmcontactbricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmlocationbricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmorderbricks/delete"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmorderbricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmorderbricks/push"
 )
 
 func main() {
@@ -74,6 +76,11 @@ func main() {
 	 *------------------------------------------------*/
 	fac.RegisterModel("BMAuthPhoneUpdateBrick", &authupdate.BMAuthPhoneUpdateBrick{})
 	fac.RegisterModel("BMAuthWechatUpdateBrick", &authupdate.BMAuthWechatUpdateBrick{})
+
+	/*------------------------------------------------
+	 * auth delete bricks object
+	 *------------------------------------------------*/
+	fac.RegisterModel("BMOrderDeleteBrick", &orderdelete.BMOrderDeleteBrick{})
 
 	/*------------------------------------------------
 	 * other bricks object

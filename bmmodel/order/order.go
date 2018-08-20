@@ -1,22 +1,22 @@
 package order
 
 import (
-	"gopkg.in/mgo.v2/bson"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"gopkg.in/mgo.v2/bson"
 )
 
 /*
-    Replace entityname && Entityname
-    Define Attibute1/2/... && attibute1/2/...
-    Case-sensitive
+   Replace entityname && Entityname
+   Define Attibute1/2/... && attibute1/2/...
+   Case-sensitive
 */
 
 type Order struct {
-	Id        string            `json:"id"`
-	Id_       bson.ObjectId     `bson:"_id"`
+	Id  string        `json:"id"`
+	Id_ bson.ObjectId `bson:"_id"`
 
-	Title	  string 			`json:"title" bson:"title"`
+	Title string `json:"title" bson:"title"`
 	//Goods
 
 }
@@ -74,6 +74,10 @@ func (bd *Order) InsertBMObject() error {
 
 func (bd *Order) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
+}
+
+func (bd *Order) DeleteOne(req request.Request) error {
+	return bmmodel.DeleteOne(req, bd)
 }
 
 func (bd *Order) UpdateBMObject(req request.Request) error {
