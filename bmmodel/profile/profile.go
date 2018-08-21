@@ -10,8 +10,8 @@ type BMProfile struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	ScreenName  string `json:"screen_name" bson:"screen_name"`
-	ScreenPhoto string `json:"screen_photo" bson:"screen_photo"`
+	ScreenName  string `json:"screenname" bson:"screen_name"`
+	ScreenPhoto string `json:"screenphoto" bson:"screen_photo"`
 
 	Company BMCompany `json:"company" jsonapi:"relationships"`
 }

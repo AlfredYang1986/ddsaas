@@ -10,7 +10,7 @@ import (
 type BMWechat struct {
 	Id      string        `json:"id"`
 	Id_     bson.ObjectId `bson:"_id"`
-	Open_id string        `json:"open_id" bson:"open_id"`
+	Open_id string        `json:"openid" bson:"open_id"`
 	Name    string        `json:"name" bson:"name"`
 	Photo   string        `json:"photo" bson:"photo"`
 
