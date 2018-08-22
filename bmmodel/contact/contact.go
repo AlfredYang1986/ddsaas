@@ -16,7 +16,6 @@ type Contact struct {
 	Phone	  string 			`json:"phone" bson:"phone"`
 	Location  location.Location `json:"location" jsonapi:"relationships"`
 
-	//Order  	  order.Order 		`json:"order" jsonapi:"relationships"`
 	Orders    []order.Order 	`json:"orders" jsonapi:"relationships"`
 
 }

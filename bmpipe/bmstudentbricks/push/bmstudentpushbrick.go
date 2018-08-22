@@ -1,8 +1,8 @@
-package orderpush
+package studentpush
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
-	"github.com/alfredyang1986/ddsaas/bmmodel/contact"
+	"github.com/alfredyang1986/ddsaas/bmmodel/student"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-type BMOrderPushBrick struct {
+type BMStudentPushBrick struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -19,20 +19,21 @@ type BMOrderPushBrick struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BMOrderPushBrick) Exec() error {
-	con := b.bk.Pr.(contact.Contact)
-	for _,tmp := range con.Orders {
-		tmp.InsertBMObject()
-	}
+func (b *BMStudentPushBrick) Exec() error {
+	var tmp student.BMStudent = b.bk.Pr.(student.BMStudent)
+	tmp.InsertBMObject()
+	b.bk.Pr = tmp
 	return nil
 }
 
-func (b *BMOrderPushBrick) Prepare(pr interface{}) error {
-	b.BrickInstance().Pr = pr
+func (b *BMStudentPushBrick) Prepare(pr interface{}) error {
+	req := pr.(student.BMStudent)
+	//b.bk.Pr = req
+	b.BrickInstance().Pr = req
 	return nil
 }
 
-func (b *BMOrderPushBrick) Done(pkg string, idx int64, e error) error {
+func (b *BMStudentPushBrick) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	if int(idx) < tmp-1 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)
@@ -40,26 +41,26 @@ func (b *BMOrderPushBrick) Done(pkg string, idx int64, e error) error {
 	return nil
 }
 
-func (b *BMOrderPushBrick) BrickInstance() *bmpipe.BMBrick {
+func (b *BMStudentPushBrick) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BMOrderPushBrick) ResultTo(w io.Writer) error {
+func (b *BMStudentPushBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	tmp := pr.(contact.Contact)
+	tmp := pr.(student.BMStudent)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BMOrderPushBrick) Return(w http.ResponseWriter) {
+func (b *BMStudentPushBrick) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval contact.Contact = b.BrickInstance().Pr.(contact.Contact)
+		var reval student.BMStudent = b.BrickInstance().Pr.(student.BMStudent)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }

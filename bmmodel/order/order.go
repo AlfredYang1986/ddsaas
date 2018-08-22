@@ -6,12 +6,6 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-/*
-   Replace entityname && Entityname
-   Define Attibute1/2/... && attibute1/2/...
-   Case-sensitive
-*/
-
 type Order struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`

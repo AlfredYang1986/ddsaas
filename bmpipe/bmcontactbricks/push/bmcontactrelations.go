@@ -41,16 +41,14 @@ func (b *BMContactRSPushBrick) Exec() error {
 	var qr contact.BMContactProp
 	err := qr.FindOne(c.(request.Request))
 	if err != nil && err.Error() == "not found" {
-		//panic(err)
 		qr.Id_ = bson.NewObjectId()
 		qr.Id = qr.Id_.Hex()
-		qr.Contact_id = tmp.Id
-		qr.Location_id = tmp.Location.Id
-		qr.Order_id = tmpOrderIds
+		qr.ContactId = tmp.Id
+		qr.LocationId = tmp.Location.Id
+		qr.OrderIds = tmpOrderIds
 		qr.InsertBMObject()
 	}
 	fmt.Println(qr)
-	//tmp.InsertBMObject()
 	return nil
 }
 

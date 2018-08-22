@@ -22,6 +22,10 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmorderbricks/delete"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmorderbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmorderbricks/push"
+	"github.com/alfredyang1986/ddsaas/bmmodel/course"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmcoursebricks/push"
+	"github.com/alfredyang1986/ddsaas/bmmodel/student"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmstudentbricks/push"
 )
 
 func main() {
@@ -37,15 +41,21 @@ func main() {
 	fac.RegisterModel("BMAuthProp", &auth.BMAuthProp{})
 	fac.RegisterModel("BMProfile", &profile.BMProfile{})
 	fac.RegisterModel("BMCompany", &profile.BMCompany{})
+	fac.RegisterModel("Location", &location.Location{})
 	fac.RegisterModel("BMErrorNode", &bmerror.BMErrorNode{})
 	fac.RegisterModel("request", &request.Request{})
 	fac.RegisterModel("eq_cond", &request.EQCond{})
 	fac.RegisterModel("up_cond", &request.UPCond{})
 	fac.RegisterModel("fm_cond", &request.FMUCond{})
-	fac.RegisterModel("Contact", &contact.Contact{})
-	fac.RegisterModel("BMContactProp", &contact.BMContactProp{})
-	fac.RegisterModel("Location", &location.Location{})
-	fac.RegisterModel("Order", &order.Order{})
+	fac.RegisterModel("BMCourse", &course.BMCourse{})
+	fac.RegisterModel("BMStudent", &student.BMStudent{})
+	fac.RegisterModel("BMGuardian", &student.BMGuardian{})
+	fac.RegisterModel("BMContacter", &student.BMContacter{})
+	fac.RegisterModel("BMStudentProp", &student.BMStudentProp{})
+
+	fac.RegisterModel("Contact", &contact.Contact{})				//del
+	fac.RegisterModel("BMContactProp", &contact.BMContactProp{})	//del
+	fac.RegisterModel("Order", &order.Order{})					//del
 
 	/*------------------------------------------------
 	 * auth find bricks object
@@ -53,9 +63,10 @@ func main() {
 	fac.RegisterModel("BMAuthPhoneFindBrick", &authfind.BMAuthPhoneFindBrick{})
 	fac.RegisterModel("BMAuthRS2AuthBrick", &authfind.BMAuthRS2AuthBrick{})
 	fac.RegisterModel("BMPhone2AuthRSBrick", &authfind.BMPhone2AuthRSBrick{})
-	fac.RegisterModel("BMContactFindBrick", &contactfind.BMContactFindBrick{})
-	fac.RegisterModel("BMOrderFindBrick", &orderfind.BMOrderFindBrick{})
-	fac.RegisterModel("BMOrderFindMultiBrick", &orderfind.BMOrderFindMultiBrick{})
+
+	fac.RegisterModel("BMContactFindBrick", &contactfind.BMContactFindBrick{})		//del
+	fac.RegisterModel("BMOrderFindBrick", &orderfind.BMOrderFindBrick{})				//del
+	fac.RegisterModel("BMOrderFindMultiBrick", &orderfind.BMOrderFindMultiBrick{})	//del
 
 	/*------------------------------------------------
 	 * auth push bricks object
@@ -67,9 +78,13 @@ func main() {
 	fac.RegisterModel("BMAuthPushBrick", &authpush.BMAuthPushBrick{})
 
 	fac.RegisterModel("BMLocationPushBrick", &locationpush.BMLocationPushBrick{})
-	fac.RegisterModel("BMOrderPushBrick", &orderpush.BMOrderPushBrick{})
-	fac.RegisterModel("BMContactRSPushBrick", &contactpush.BMContactRSPushBrick{})
-	fac.RegisterModel("BMContactPushBrick", &contactpush.BMContactPushBrick{})
+	fac.RegisterModel("BMCoursePushBrick", &coursepush.BMCoursePushBrick{})
+	fac.RegisterModel("BMStudentPushBrick", &studentpush.BMStudentPushBrick{})
+	fac.RegisterModel("BMStudentRSPushBrick", &studentpush.BMStudentRSPushBrick{})
+
+	fac.RegisterModel("BMOrderPushBrick", &orderpush.BMOrderPushBrick{})				//del
+	fac.RegisterModel("BMContactPushBrick", &contactpush.BMContactPushBrick{})		//del
+	fac.RegisterModel("BMContactRSPushBrick", &contactpush.BMContactRSPushBrick{})	//del
 
 	/*------------------------------------------------
 	 * auth update bricks object
@@ -80,7 +95,7 @@ func main() {
 	/*------------------------------------------------
 	 * auth delete bricks object
 	 *------------------------------------------------*/
-	fac.RegisterModel("BMOrderDeleteBrick", &orderdelete.BMOrderDeleteBrick{})
+	fac.RegisterModel("BMOrderDeleteBrick", &orderdelete.BMOrderDeleteBrick{})		//del
 
 	/*------------------------------------------------
 	 * other bricks object
