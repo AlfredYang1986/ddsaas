@@ -1,25 +1,24 @@
 package contact
 
 import (
-	"gopkg.in/mgo.v2/bson"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"gopkg.in/mgo.v2/bson"
 )
 
 /*
-    Replace entityname && Entityname
-    Define Attibute1/2/... && attibute1/2/...
-    Case-sensitive
+   Replace entityname && Entityname
+   Define Attibute1/2/... && attibute1/2/...
+   Case-sensitive
 */
 
 type BMContactProp struct {
-	Id        string            `json:"id"`
-	Id_       bson.ObjectId     `bson:"_id"`
+	Id  string        `json:"id"`
+	Id_ bson.ObjectId `bson:"_id"`
 
 	ContactId  string   `json:"contact_id" bson:"contact_id"`
 	LocationId string   `json:"location_id" bson:"location_id"`
 	OrderIds   []string `json:"order_ids" bson:"order_ids"`
-
 }
 
 /*------------------------------------------------

@@ -1,23 +1,22 @@
 package contact
 
 import (
-	"gopkg.in/mgo.v2/bson"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/ddsaas/bmmodel/location"
 	"github.com/alfredyang1986/ddsaas/bmmodel/order"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type Contact struct {
-	Id        string            `json:"id"`
-	Id_       bson.ObjectId     `bson:"_id"`
+	Id  string        `json:"id"`
+	Id_ bson.ObjectId `bson:"_id"`
 
-	Name	  string 			`json:"name" bson:"name"`
-	Phone	  string 			`json:"phone" bson:"phone"`
-	Location  location.Location `json:"location" jsonapi:"relationships"`
+	Name     string            `json:"name" bson:"name"`
+	Phone    string            `json:"phone" bson:"phone"`
+	Location location.Location `json:"location" jsonapi:"relationships"`
 
-	Orders    []order.Order 	`json:"orders" jsonapi:"relationships"`
-
+	Orders []order.Order `json:"orders" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------

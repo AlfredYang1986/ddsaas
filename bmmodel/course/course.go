@@ -1,31 +1,30 @@
 package course
 
 import (
-	"gopkg.in/mgo.v2/bson"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type BMCourse struct {
-	Id        		string            	`json:"id"`
-	Id_       		bson.ObjectId     	`bson:"_id"`
+	Id  string        `json:"id"`
+	Id_ bson.ObjectId `bson:"_id"`
 
-	CourseName	  	string 				`json:"coursename" bson:"course_name"`
-	Tags	  		[]string 			`json:"tags" bson:"tags"`
-	Description	  	string 				`json:"description" bson:"description"`
-	CourseType	  	string 				`json:"coursetype" bson:"course_type"`
-	MinAge	  		int 				`json:"minage" bson:"min_age"`
-	MaxAge	  		int 				`json:"maxage" bson:"max_age"`
-	Level	  		string 				`json:"level" bson:"level"`
-	PeriodCount	  	int	 				`json:"periodcount" bson:"period_count"`
-	Duration		int 				`json:"duration" bson:"duration"`
-	Mode			[]string 			`json:"mode" bson:"mode"`
-	Aims			string	 			`json:"aims" bson:"aims"`
-	Outline			string	 			`json:"outline" bson:"outline"`
-	Introduction	string	 			`json:"introduction" bson:"introduction"`
-	CoursePhoto		[]string	 		`json:"coursephoto" bson:"course_photo"`
-
+	CourseName   string        `json:"coursename" bson:"course_name"`
+	Tags         []interface{} `json:"tags" bson:"tags"`
+	Description  string        `json:"description" bson:"description"`
+	CourseType   string        `json:"coursetype" bson:"course_type"`
+	MinAge       int           `json:"minage" bson:"min_age"`
+	MaxAge       int           `json:"maxage" bson:"max_age"`
+	Level        string        `json:"level" bson:"level"`
+	PeriodCount  int           `json:"periodcount" bson:"period_count"`
+	Duration     int           `json:"duration" bson:"duration"`
+	Mode         []interface{} `json:"mode" bson:"mode"`
+	Aims         string        `json:"aims" bson:"aims"`
+	Outline      string        `json:"outline" bson:"outline"`
+	Introduction string        `json:"introduction" bson:"introduction"`
+	CoursePhoto  []interface{} `json:"coursephoto" bson:"course_photo"`
 }
 
 /*------------------------------------------------
