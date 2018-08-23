@@ -62,6 +62,6 @@ func (b *BMOrderFindMultiBrick) Return(w http.ResponseWriter) {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
 		var reval order.Orders = b.BrickInstance().Pr.(order.Orders)
-		jsonapi.ToJsonAPI(&reval, w)
+		jsonapi.ToJsonAPI(reval.Orders, w)
 	}
 }

@@ -10,7 +10,8 @@ type Orders struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Orders []Order `json:"orders" jsonapi:"relationships"`
+	//Orders []Order `json:"orders" jsonapi:"relationships"`
+	Orders []Order `json:"orders"`
 }
 
 func (bd *Orders) FindMulti(req request.Request) error {
