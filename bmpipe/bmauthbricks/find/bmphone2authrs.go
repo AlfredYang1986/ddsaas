@@ -5,11 +5,11 @@ import (
 	//"github.com/alfredyang1986/ddsaas/bmcommon/bmsingleton/bmconf"
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
 	"github.com/alfredyang1986/blackmirror/bmerror"
-	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
+	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
 	"io"
 	"net/http"
 )

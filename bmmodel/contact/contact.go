@@ -3,7 +3,6 @@ package contact
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
-	"github.com/alfredyang1986/ddsaas/bmmodel/location"
 	"github.com/alfredyang1986/ddsaas/bmmodel/order"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -12,9 +11,8 @@ type Contact struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Name     string            `json:"name" bson:"name"`
-	Phone    string            `json:"phone" bson:"phone"`
-	Location location.Location `json:"location" jsonapi:"relationships"`
+	Name  string `json:"name" bson:"name"`
+	Phone string `json:"phone" bson:"phone"`
 
 	Orders []order.Order `json:"orders" jsonapi:"relationships"`
 }
@@ -56,10 +54,6 @@ func (bd *Contact) SetId(id string) {
  *------------------------------------------------*/
 func (bd Contact) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
-	case "location":
-		bd.Location = v.(location.Location)
-	//case "order":
-	//	bd.Order = v.(order.Order)
 	case "orders":
 		var rst []order.Order
 		for _, item := range v.([]interface{}) {
@@ -72,10 +66,6 @@ func (bd Contact) SetConnect(tag string, v interface{}) interface{} {
 
 func (bd Contact) QueryConnect(tag string) interface{} {
 	switch tag {
-	case "location":
-		return bd.Location
-	//case "order":
-	//	return bd.Order
 	case "orders":
 		return bd.Orders
 	}

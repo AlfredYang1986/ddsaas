@@ -2,13 +2,14 @@ package studentpush
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
-	"github.com/alfredyang1986/ddsaas/bmmodel/student"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
+	"github.com/alfredyang1986/ddsaas/bmmodel/student"
 	"io"
 	"net/http"
+	"time"
 )
 
 type BMStudentPushBrick struct {
@@ -21,6 +22,9 @@ type BMStudentPushBrick struct {
 
 func (b *BMStudentPushBrick) Exec() error {
 	var tmp student.BMStudent = b.bk.Pr.(student.BMStudent)
+	//TODO： use type Timestamp
+	ts := time.Now().Unix()
+	tmp.Found = ts
 	tmp.InsertBMObject()
 	b.bk.Pr = tmp
 	return nil

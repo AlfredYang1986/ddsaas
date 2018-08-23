@@ -1,16 +1,15 @@
 package locationpush
 
 import (
-	"io"
-	"net/http"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
+	"io"
+	"net/http"
 
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
-	"github.com/alfredyang1986/ddsaas/bmmodel/location"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
-	"github.com/alfredyang1986/ddsaas/bmmodel/contact"
+	"github.com/alfredyang1986/ddsaas/bmmodel/location"
 )
 
 type BMLocationPushBrick struct {
@@ -22,9 +21,9 @@ type BMLocationPushBrick struct {
  *------------------------------------------------*/
 
 func (b *BMLocationPushBrick) Exec() error {
-	con := b.bk.Pr.(contact.Contact)
-	var tmp location.Location = con.Location //b.bk.Pr.(location.Location)
+	var tmp location.BMLocation = b.bk.Pr.(location.BMLocation)
 	tmp.InsertBMObject()
+	b.bk.Pr = tmp
 	return nil
 }
 
@@ -50,8 +49,7 @@ func (b *BMLocationPushBrick) BrickInstance() *bmpipe.BMBrick {
 
 func (b *BMLocationPushBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	//tmp := pr.(location.Location)
-	tmp := pr.(contact.Contact)
+	tmp := pr.(location.BMLocation)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
@@ -61,8 +59,7 @@ func (b *BMLocationPushBrick) Return(w http.ResponseWriter) {
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		//var reval location.Location = b.BrickInstance().Pr.(location.Location)
-		var reval contact.Contact = b.BrickInstance().Pr.(contact.Contact)
+		var reval location.BMLocation = b.BrickInstance().Pr.(location.BMLocation)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }

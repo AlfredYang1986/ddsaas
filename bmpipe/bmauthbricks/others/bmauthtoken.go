@@ -1,15 +1,15 @@
 package authothers
 
 import (
+	"crypto/md5"
 	"fmt"
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
 	"github.com/alfredyang1986/blackmirror/bmerror"
-	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
-	"github.com/alfredyang1986/blackmirror/bmrouter/bmoauth"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
+	"github.com/alfredyang1986/blackmirror/bmrouter/bmoauth"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
-	"crypto/md5"
+	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
 	"io"
 	"net/http"
 )

@@ -16,9 +16,8 @@ type BMContactProp struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	ContactId  string   `json:"contact_id" bson:"contact_id"`
-	LocationId string   `json:"location_id" bson:"location_id"`
-	OrderIds   []string `json:"order_ids" bson:"order_ids"`
+	ContactId string   `json:"contact_id" bson:"contact_id"`
+	OrderIds  []string `json:"order_ids" bson:"order_ids"`
 }
 
 /*------------------------------------------------

@@ -1,19 +1,19 @@
 package student
 
 import (
-	"gopkg.in/mgo.v2/bson"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type BMStudentProp struct {
-	Id        				string           `json:"id"`
-	Id_       				bson.ObjectId    `bson:"_id"`
+	Id  string        `json:"id"`
+	Id_ bson.ObjectId `bson:"_id"`
 
-	StudentID	  			string 			`json:"student_id" bson:"student_id"`
+	StudentID string `json:"student_id" bson:"student_id"`
 
-	GuardianIds   	[]string 		`json:"guardianids" bson:"guardianids"`
-	ContactIds   	[]string 		`json:"contactids" bson:"contactids"`
+	GuardianIds []string `json:"guardianids" bson:"guardianids"`
+	ContactIds  []string `json:"contactids" bson:"contactids"`
 	//ContinuedCoursesIds   	[]string 		`json:"continued_courses_ids" bson:"continued_courses_ids"`
 	//CompletedCoursesIds   	[]string 		`json:"completed_courses_ids" bson:"completed_courses_ids"`
 

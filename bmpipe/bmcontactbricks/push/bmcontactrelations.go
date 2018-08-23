@@ -1,17 +1,17 @@
 package contactpush
 
 import (
+	"fmt"
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
-	"github.com/alfredyang1986/blackmirror/bmmodel/request"
-	"github.com/alfredyang1986/ddsaas/bmmodel/contact"
 	"github.com/alfredyang1986/blackmirror/bmerror"
+	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
+	"github.com/alfredyang1986/ddsaas/bmmodel/contact"
+	"gopkg.in/mgo.v2/bson"
 	"io"
 	"net/http"
-	"fmt"
-	"gopkg.in/mgo.v2/bson"
 )
 
 type BMContactRSPushBrick struct {
@@ -28,7 +28,7 @@ func (b *BMContactRSPushBrick) Exec() error {
 	eq.Ky = "contact_id"
 	eq.Vy = tmp.Id
 	var tmpOrderIds []string
-	for _,v := range tmp.Orders {
+	for _, v := range tmp.Orders {
 		tmpOrderIds = append(tmpOrderIds, v.Id)
 	}
 	req := request.Request{}
@@ -44,7 +44,6 @@ func (b *BMContactRSPushBrick) Exec() error {
 		qr.Id_ = bson.NewObjectId()
 		qr.Id = qr.Id_.Hex()
 		qr.ContactId = tmp.Id
-		qr.LocationId = tmp.Location.Id
 		qr.OrderIds = tmpOrderIds
 		qr.InsertBMObject()
 	}
@@ -90,4 +89,3 @@ func (b *BMContactRSPushBrick) Return(w http.ResponseWriter) {
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }
-

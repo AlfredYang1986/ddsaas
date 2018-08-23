@@ -1,20 +1,19 @@
 package student
 
 import (
-	"gopkg.in/mgo.v2/bson"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type BMContacter struct {
-	Id        string            `json:"id"`
-	Id_       bson.ObjectId     `bson:"_id"`
+	Id  string        `json:"id"`
+	Id_ bson.ObjectId `bson:"_id"`
 
-	Name      			string            	`json:"name" bson:"name"`
-	NickName  			string           	`json:"nickname" bson:"nickname"`
-	Relationship  		string           	`json:"relationship" bson:"relationship"`
-	Mobile  			string           	`json:"mobile" bson:"mobile"`
-
+	Name         string `json:"name" bson:"name"`
+	NickName     string `json:"nickname" bson:"nickname"`
+	Relationship string `json:"relationship" bson:"relationship"`
+	Mobile       string `json:"mobile" bson:"mobile"`
 }
 
 /*------------------------------------------------

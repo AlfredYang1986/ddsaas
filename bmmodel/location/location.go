@@ -6,25 +6,27 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type Location struct {
+type BMLocation struct {
+	Id  string        `json:"id"`
+	Id_ bson.ObjectId `bson:"_id"`
 
-	Id       string        `json:"id"`
-	Id_      bson.ObjectId `bson:"_id"`
-	Title    string        `json:"title" bson:"title"`
-	Address  string        `json:"address" bson:"address"`
-	District string        `json:"district" bson:"district"`
-
+	Title         string        `json:"title" bson:"title"`
+	Address       string        `json:"address" bson:"address"`
+	Description   string        `json:"description" bson:"description"`
+	Facilities    []interface{} `json:"facilities" bson:"facilities"`
+	Environment   []interface{} `json:"environment" bson:"environment"`
+	Certification []interface{} `json:"certification" bson:"certification"`
 }
 
 /*------------------------------------------------
  * bm object interface
  *------------------------------------------------*/
 
-func (loc *Location) ResetIdWithId_() {
+func (loc *BMLocation) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(loc)
 }
 
-func (loc *Location) ResetId_WithID() {
+func (loc *BMLocation) ResetId_WithID() {
 	bmmodel.ResetId_WithID(loc)
 }
 
@@ -32,19 +34,19 @@ func (loc *Location) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *Location) QueryObjectId() bson.ObjectId {
+func (bd *BMLocation) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *Location) QueryId() string {
+func (bd *BMLocation) QueryId() string {
 	return bd.Id
 }
 
-func (bd *Location) SetObjectId(id_ bson.ObjectId) {
+func (bd *BMLocation) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *Location) SetId(id string) {
+func (bd *BMLocation) SetId(id string) {
 	bd.Id = id
 }
 
@@ -52,19 +54,11 @@ func (bd *Location) SetId(id string) {
  * relationships interface
  *------------------------------------------------*/
 
-func (loc Location) SetConnect(tag string, v interface{}) interface{} {
-	/* switch tag {*/
-	//case "test":
-	//loc.Test = v.(test.Test)
-	/*}*/
+func (loc BMLocation) SetConnect(tag string, v interface{}) interface{} {
 	return loc
 }
 
-func (loc Location) QueryConnect(tag string) interface{} {
-	/* switch tag {*/
-	//case "test":
-	//return loc.Test
-	/*}*/
+func (loc BMLocation) QueryConnect(tag string) interface{} {
 	return loc
 }
 
@@ -72,14 +66,14 @@ func (loc Location) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (loc *Location) InsertBMObject() error {
+func (loc *BMLocation) InsertBMObject() error {
 	return bmmodel.InsertBMObject(loc)
 }
 
-func (loc *Location) FindOne(req request.Request) error {
+func (loc *BMLocation) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, loc)
 }
 
-func (loc *Location) UpdateBMObject(req request.Request) error {
+func (loc *BMLocation) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, loc)
 }

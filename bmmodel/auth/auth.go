@@ -2,8 +2,8 @@ package auth
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
-	"github.com/alfredyang1986/ddsaas/bmmodel/profile"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"github.com/alfredyang1986/ddsaas/bmmodel/profile"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -15,7 +15,7 @@ type BMAuth struct {
 	Wechat  BMWechat          `json:"wechat" jsonapi:"relationships"`
 	Profile profile.BMProfile `json:"profile" jsonapi:"relationships"`
 
-	Token	string			  `json:"token"`
+	Token string `json:"token"`
 }
 
 /*------------------------------------------------

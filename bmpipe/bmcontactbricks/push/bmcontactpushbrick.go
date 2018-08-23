@@ -2,11 +2,11 @@ package contactpush
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
-	"github.com/alfredyang1986/ddsaas/bmmodel/contact"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
+	"github.com/alfredyang1986/ddsaas/bmmodel/contact"
 	"io"
 	"net/http"
 )
@@ -64,4 +64,3 @@ func (b *BMContactPushBrick) Return(w http.ResponseWriter) {
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }
-

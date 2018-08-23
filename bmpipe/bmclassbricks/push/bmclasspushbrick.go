@@ -1,17 +1,17 @@
-package authpush
+package classpush
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
+	"github.com/alfredyang1986/ddsaas/bmmodel/class"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
-	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
 	"io"
 	"net/http"
 )
 
-type BMAuthPushBrick struct {
+type BMClassPushBrick struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -19,21 +19,21 @@ type BMAuthPushBrick struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BMAuthPushBrick) Exec() error {
-	var tmp auth.BMAuth = b.bk.Pr.(auth.BMAuth)
+func (b *BMClassPushBrick) Exec() error {
+	var tmp class.BMClass = b.bk.Pr.(class.BMClass)
 	tmp.InsertBMObject()
 	b.bk.Pr = tmp
 	return nil
 }
 
-func (b *BMAuthPushBrick) Prepare(pr interface{}) error {
-	req := pr.(auth.BMAuth)
+func (b *BMClassPushBrick) Prepare(pr interface{}) error {
+	req := pr.(class.BMClass)
 	//b.bk.Pr = req
 	b.BrickInstance().Pr = req
 	return nil
 }
 
-func (b *BMAuthPushBrick) Done(pkg string, idx int64, e error) error {
+func (b *BMClassPushBrick) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	if int(idx) < tmp-1 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)
@@ -41,26 +41,26 @@ func (b *BMAuthPushBrick) Done(pkg string, idx int64, e error) error {
 	return nil
 }
 
-func (b *BMAuthPushBrick) BrickInstance() *bmpipe.BMBrick {
+func (b *BMClassPushBrick) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BMAuthPushBrick) ResultTo(w io.Writer) error {
+func (b *BMClassPushBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	tmp := pr.(auth.BMAuth)
+	tmp := pr.(class.BMClass)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BMAuthPushBrick) Return(w http.ResponseWriter) {
+func (b *BMClassPushBrick) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval auth.BMAuth = b.BrickInstance().Pr.(auth.BMAuth)
+		var reval class.BMClass = b.BrickInstance().Pr.(class.BMClass)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }

@@ -2,8 +2,8 @@ package brand
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
-	"github.com/alfredyang1986/ddsaas/bmmodel/location"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"github.com/alfredyang1986/ddsaas/bmmodel/location"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -19,7 +19,7 @@ type Brand struct {
 	Qualifier map[string]string `json:"qualifier"`
 	//Found     date.DDTime       `json:"found"`
 
-	Locations []location.Location `json:"locations" jsonapi:"relationships"`
+	Locations []location.BMLocation `json:"locations" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
@@ -60,9 +60,9 @@ func (bd *Brand) SetId(id string) {
 func (bd Brand) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
 	case "locations":
-		var rst []location.Location
+		var rst []location.BMLocation
 		for _, item := range v.([]interface{}) {
-			rst = append(rst, item.(location.Location))
+			rst = append(rst, item.(location.BMLocation))
 		}
 		bd.Locations = rst
 	}

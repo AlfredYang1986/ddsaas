@@ -1,27 +1,27 @@
 package student
 
 import (
-	"gopkg.in/mgo.v2/bson"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type BMStudent struct {
-	Id        			string            	`json:"id"`
-	Id_       			bson.ObjectId     	`bson:"_id"`
+	Id  string        `json:"id"`
+	Id_ bson.ObjectId `bson:"_id"`
 
-	Name      			string            	`json:"name" bson:"name"`
-	NickName  			string           	`json:"nickname" bson:"nickname"`
-	Birthday  			string           	`json:"birthday" bson:"birthday"`
-	Age  				int           		`json:"age" bson:"age"`
-	Sex  				string           	`json:"sex" bson:"sex"`
-	School  			string           	`json:"school" bson:"school"`
-	Photo  				string           	`json:"photo" bson:"photo"`
+	Name     string `json:"name" bson:"name"`
+	NickName string `json:"nickname" bson:"nickname"`
+	Birthday string `json:"birthday" bson:"birthday"`
+	Age      int    `json:"age" bson:"age"`
+	Sex      string `json:"sex" bson:"sex"`
+	School   string `json:"school" bson:"school"`
+	Photo    string `json:"photo" bson:"photo"`
 
-	Guardians			[]BMGuardian		`json:"guardians" jsonapi:"relationships"`
-	Contacts			[]BMContacter		`json:"contacts" jsonapi:"relationships"`
+	Guardians []BMGuardian  `json:"guardians" jsonapi:"relationships"`
+	Contacts  []BMContacter `json:"contacts" jsonapi:"relationships"`
+	Found     int64         `json:"found" bson:"found"`
 
-	//Found     			time.Time       	`json:"found"`
 	//Patriarch 			map[string]interface{} 	`json:"patriarch" bson:"patriarch"`			//del
 
 	//ContinuedCourses 	[]course.BMCourse 	`json:"continuedcourses" jsonapi:"relationships"`	//設計邏輯還未明確
@@ -72,7 +72,7 @@ func (bd BMStudent) SetConnect(tag string, v interface{}) interface{} {
 			guardians = append(guardians, item.(BMGuardian))
 		}
 		bd.Guardians = guardians
-	case "orders":
+	case "contacts":
 		var contacts []BMContacter
 		for _, item := range v.([]interface{}) {
 			contacts = append(contacts, item.(BMContacter))

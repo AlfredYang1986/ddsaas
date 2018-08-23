@@ -1,17 +1,17 @@
 package studentpush
 
 import (
+	"fmt"
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
-	"github.com/alfredyang1986/ddsaas/bmmodel/student"
 	"github.com/alfredyang1986/blackmirror/bmerror"
+	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
+	"github.com/alfredyang1986/ddsaas/bmmodel/student"
+	"gopkg.in/mgo.v2/bson"
 	"io"
 	"net/http"
-	"github.com/alfredyang1986/blackmirror/bmmodel/request"
-	"fmt"
-	"gopkg.in/mgo.v2/bson"
 )
 
 type BMStudentRSPushBrick struct {
@@ -30,11 +30,11 @@ func (b *BMStudentRSPushBrick) Exec() error {
 
 	var guardianIds []string
 	var contactIds []string
-	for _,v := range tmp.Guardians {
+	for _, v := range tmp.Guardians {
 		v.InsertBMObject()
 		guardianIds = append(guardianIds, v.Id)
 	}
-	for _,v := range tmp.Contacts {
+	for _, v := range tmp.Contacts {
 		v.InsertBMObject()
 		contactIds = append(contactIds, v.Id)
 	}
@@ -108,4 +108,3 @@ func (b *BMStudentRSPushBrick) Return(w http.ResponseWriter) {
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }
-

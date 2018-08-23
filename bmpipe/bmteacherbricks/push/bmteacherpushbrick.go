@@ -1,4 +1,4 @@
-package authpush
+package teacherpush
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
@@ -6,12 +6,13 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
-	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
+	"github.com/alfredyang1986/ddsaas/bmmodel/teacher"
 	"io"
 	"net/http"
+	"time"
 )
 
-type BMAuthPushBrick struct {
+type BMTeacherPushBrick struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -19,21 +20,24 @@ type BMAuthPushBrick struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BMAuthPushBrick) Exec() error {
-	var tmp auth.BMAuth = b.bk.Pr.(auth.BMAuth)
+func (b *BMTeacherPushBrick) Exec() error {
+	var tmp teacher.BMTeacher = b.bk.Pr.(teacher.BMTeacher)
+	//TODO： use type Timestamp
+	ts := time.Now().Unix()
+	tmp.Found = ts
 	tmp.InsertBMObject()
 	b.bk.Pr = tmp
 	return nil
 }
 
-func (b *BMAuthPushBrick) Prepare(pr interface{}) error {
-	req := pr.(auth.BMAuth)
+func (b *BMTeacherPushBrick) Prepare(pr interface{}) error {
+	req := pr.(teacher.BMTeacher)
 	//b.bk.Pr = req
 	b.BrickInstance().Pr = req
 	return nil
 }
 
-func (b *BMAuthPushBrick) Done(pkg string, idx int64, e error) error {
+func (b *BMTeacherPushBrick) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	if int(idx) < tmp-1 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)
@@ -41,26 +45,26 @@ func (b *BMAuthPushBrick) Done(pkg string, idx int64, e error) error {
 	return nil
 }
 
-func (b *BMAuthPushBrick) BrickInstance() *bmpipe.BMBrick {
+func (b *BMTeacherPushBrick) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BMAuthPushBrick) ResultTo(w io.Writer) error {
+func (b *BMTeacherPushBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	tmp := pr.(auth.BMAuth)
+	tmp := pr.(teacher.BMTeacher)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BMAuthPushBrick) Return(w http.ResponseWriter) {
+func (b *BMTeacherPushBrick) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval auth.BMAuth = b.BrickInstance().Pr.(auth.BMAuth)
+		var reval teacher.BMTeacher = b.BrickInstance().Pr.(teacher.BMTeacher)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }
