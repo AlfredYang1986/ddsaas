@@ -1,20 +1,19 @@
-package authfind
+package studentfind
 
 import (
 	"fmt"
-	//"github.com/alfredyang1986/ddsaas/bmcommon/bmsingleton/bmconf"
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
-	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
+	"github.com/alfredyang1986/ddsaas/bmmodel/student"
 	"io"
 	"net/http"
 )
 
-type BMPhone2AuthRSBrick struct {
+type BMStudent2StudentRSBrick struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -22,32 +21,32 @@ type BMPhone2AuthRSBrick struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BMPhone2AuthRSBrick) Exec() error {
-	var tmp auth.BMPhone = b.bk.Pr.(auth.BMPhone)
+func (b *BMStudent2StudentRSBrick) Exec() error {
+	var tmp student.BMStudent = b.bk.Pr.(student.BMStudent)
+
 	eq := request.EQCond{}
-	eq.Ky = "phone_id"
+	eq.Ky = "student_id"
 	eq.Vy = tmp.Id
 	req := request.Request{}
-	req.Res = "BMAuthProp"
+	req.Res = "BMStudentProp"
 	var condi []interface{}
 	condi = append(condi, eq)
 	c := req.SetConnect("conditions", condi)
 	fmt.Println(c)
 
-	var reval auth.BMAuthProp
+	var reval student.BMStudentProp
 	err := reval.FindOne(c.(request.Request))
 	b.bk.Pr = reval
 	return err
 }
 
-func (b *BMPhone2AuthRSBrick) Prepare(pr interface{}) error {
-	req := pr.(auth.BMPhone)
+func (b *BMStudent2StudentRSBrick) Prepare(pr interface{}) error {
+	req := pr.(student.BMStudent)
 	b.BrickInstance().Pr = req
-	//b.bk.Pr = req
 	return nil
 }
 
-func (b *BMPhone2AuthRSBrick) Done(pkg string, idx int64, e error) error {
+func (b *BMStudent2StudentRSBrick) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	if int(idx) < tmp-1 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)
@@ -55,26 +54,26 @@ func (b *BMPhone2AuthRSBrick) Done(pkg string, idx int64, e error) error {
 	return nil
 }
 
-func (b *BMPhone2AuthRSBrick) BrickInstance() *bmpipe.BMBrick {
+func (b *BMStudent2StudentRSBrick) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BMPhone2AuthRSBrick) ResultTo(w io.Writer) error {
+func (b *BMStudent2StudentRSBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	tmp := pr.(auth.BMAuthProp)
+	tmp := pr.(student.BMStudentProp)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BMPhone2AuthRSBrick) Return(w http.ResponseWriter) {
+func (b *BMStudent2StudentRSBrick) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval auth.BMAuth = b.BrickInstance().Pr.(auth.BMAuth)
+		var reval student.BMStudent = b.BrickInstance().Pr.(student.BMStudent)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }

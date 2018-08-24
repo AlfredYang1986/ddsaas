@@ -7,7 +7,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type BMWechat struct {
+type BMWeChat struct {
 	Id      string        `json:"id"`
 	Id_     bson.ObjectId `bson:"_id"`
 	Open_id string        `json:"openid" bson:"open_id"`
@@ -21,11 +21,11 @@ type BMWechat struct {
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BMWechat) ResetIdWithId_() {
+func (bd *BMWeChat) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BMWechat) ResetId_WithID() {
+func (bd *BMWeChat) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -33,30 +33,30 @@ func (bd *BMWechat) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BMWechat) QueryObjectId() bson.ObjectId {
+func (bd *BMWeChat) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BMWechat) QueryId() string {
+func (bd *BMWeChat) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BMWechat) SetObjectId(id_ bson.ObjectId) {
+func (bd *BMWeChat) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BMWechat) SetId(id string) {
+func (bd *BMWeChat) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BMWechat) SetConnect(tag string, v interface{}) interface{} {
+func (bd BMWeChat) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd BMWechat) QueryConnect(tag string) interface{} {
+func (bd BMWeChat) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -64,15 +64,15 @@ func (bd BMWechat) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BMWechat) InsertBMObject() error {
+func (bd *BMWeChat) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BMWechat) FindOne(req request.Request) error {
+func (bd *BMWeChat) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BMWechat) UpdateBMObject(req request.Request) error {
+func (bd *BMWeChat) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
@@ -80,14 +80,14 @@ func (bd *BMWechat) UpdateBMObject(req request.Request) error {
  * wechat interface
  *------------------------------------------------*/
 
-func (bd BMWechat) IsWechatRegisted() bool {
+func (bd BMWeChat) IsWechatRegisted() bool {
 	session, err := mgo.Dial("localhost:27017")
 	if err != nil {
 		panic("dial db error")
 	}
 	defer session.Close()
 
-	c := session.DB("test").C("BMWechat")
+	c := session.DB("test").C("BMWeChat")
 	n, err := c.Find(bson.M{"open_id": bd.Open_id}).Count()
 	if err != nil {
 		panic(err)
@@ -96,6 +96,6 @@ func (bd BMWechat) IsWechatRegisted() bool {
 	return n > 0
 }
 
-func (bd BMWechat) Valid() bool {
+func (bd BMWeChat) Valid() bool {
 	return bd.Open_id != ""
 }

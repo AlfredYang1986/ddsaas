@@ -28,8 +28,8 @@ func (b *BMStudentRSPushBrick) Exec() error {
 	eq.Ky = "student_id"
 	eq.Vy = tmp.Id
 
-	var guardianIds []string
-	var contactIds []string
+	var guardianIds []interface{}
+	var contactIds []interface{}
 	for _, v := range tmp.Guardians {
 		v.InsertBMObject()
 		guardianIds = append(guardianIds, v.Id)

@@ -6,22 +6,22 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type BMStudents struct {
+type BMStudentsProp struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Students []BMStudent `json:"students" jsonapi:"relationships"`
+	StudentsProp []BMStudentProp `json:"students" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BMStudents) ResetIdWithId_() {
+func (bd *BMStudentsProp) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BMStudents) ResetId_WithID() {
+func (bd *BMStudentsProp) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -29,30 +29,30 @@ func (bd *BMStudents) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BMStudents) QueryObjectId() bson.ObjectId {
+func (bd *BMStudentsProp) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BMStudents) QueryId() string {
+func (bd *BMStudentsProp) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BMStudents) SetObjectId(id_ bson.ObjectId) {
+func (bd *BMStudentsProp) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BMStudents) SetId(id string) {
+func (bd *BMStudentsProp) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BMStudents) SetConnect(tag string, v interface{}) interface{} {
+func (bd BMStudentsProp) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd BMStudents) QueryConnect(tag string) interface{} {
+func (bd BMStudentsProp) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -60,23 +60,14 @@ func (bd BMStudents) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BMStudents) InsertBMObject() error {
+func (bd *BMStudentsProp) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BMStudents) FindOne(req request.Request) error {
+func (bd *BMStudentsProp) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BMStudents) UpdateBMObject(req request.Request) error {
+func (bd *BMStudentsProp) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
-}
-
-func (bd *BMStudents) FindMulti(req request.Request) error {
-	err := bmmodel.FindMutil(req, &bd.Students)
-	for i, r := range bd.Students {
-		r.ResetIdWithId_()
-		bd.Students[i] = r
-	}
-	return err
 }

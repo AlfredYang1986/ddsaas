@@ -1,29 +1,28 @@
 package class
 
 import (
-	"gopkg.in/mgo.v2/bson"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type BMClass struct {
-	Id        string            `json:"id"`
-	Id_       bson.ObjectId     `bson:"_id"`
+	Id  string        `json:"id"`
+	Id_ bson.ObjectId `bson:"_id"`
 
-	ClassName	  	string 				`json:"classname" bson:"classname"`
-	CourseName	  	string 				`json:"coursename" bson:"coursename"`
-	Address	  		string 				`json:"address" bson:"address"`
-	Size	  		int 				`json:"size" bson:"size"`
-	Start	  		string 				`json:"start" bson:"start"`
-	End	  			string				`json:"end" bson:"end"`
+	ClassName  string `json:"classname" bson:"classname"`
+	CourseName string `json:"coursename" bson:"coursename"`
+	Address    string `json:"address" bson:"address"`
+	Size       int    `json:"size" bson:"size"`
+	Start      string `json:"start" bson:"start"`
+	End        string `json:"end" bson:"end"`
 
-	Lessons			int					`json:"lessons" bson:"lessons"`		//课节数
-	PeriodCount		int					`json:"periodcount" bson:"periodcount"`		//课时数
+	Lessons     int `json:"lessons" bson:"lessons"`         //课节数
+	PeriodCount int `json:"periodcount" bson:"periodcount"` //课时数
 
-	Teachers		[]interface{}		`json:"teachers" bson:"teachers"`
-	CourseDetail	interface{}			`json:"coursedetail" bson:"coursedetail"`
-	Students		[]interface{}		`json:"students" bson:"students"`
-
+	Teachers     []interface{}          `json:"teachers" bson:"teachers"`
+	CourseDetail map[string]interface{} `json:"coursedetail" bson:"coursedetail"`
+	Students     []interface{}          `json:"students" bson:"students"`
 }
 
 /*------------------------------------------------

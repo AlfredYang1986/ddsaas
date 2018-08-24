@@ -12,7 +12,7 @@ type BMAuth struct {
 	Id_ bson.ObjectId `bson:"_id"`
 
 	Phone   BMPhone           `json:"phone" jsonapi:"relationships"`
-	Wechat  BMWechat          `json:"wechat" jsonapi:"relationships"`
+	Wechat  BMWeChat          `json:"wechat" jsonapi:"relationships"`
 	Profile profile.BMProfile `json:"profile" jsonapi:"relationships"`
 
 	Token string `json:"token"`
@@ -58,7 +58,7 @@ func (bd BMAuth) SetConnect(tag string, v interface{}) interface{} {
 	case "phone":
 		bd.Phone = v.(BMPhone)
 	case "wechat":
-		bd.Wechat = v.(BMWechat)
+		bd.Wechat = v.(BMWeChat)
 	case "profile":
 		bd.Profile = v.(profile.BMProfile)
 	}

@@ -12,8 +12,8 @@ type BMStudentProp struct {
 
 	StudentID string `json:"student_id" bson:"student_id"`
 
-	GuardianIds []string `json:"guardianids" bson:"guardianids"`
-	ContactIds  []string `json:"contactids" bson:"contactids"`
+	GuardianIds []interface{} `json:"guardianids" bson:"guardianids"`
+	ContactIds  []interface{} `json:"contactids" bson:"contactids"`
 	//ContinuedCoursesIds   	[]string 		`json:"continued_courses_ids" bson:"continued_courses_ids"`
 	//CompletedCoursesIds   	[]string 		`json:"completed_courses_ids" bson:"completed_courses_ids"`
 

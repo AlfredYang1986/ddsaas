@@ -8,6 +8,7 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
+	"github.com/alfredyang1986/ddsaas/bmmodel/class"
 	"github.com/alfredyang1986/ddsaas/bmmodel/contact"
 	"github.com/alfredyang1986/ddsaas/bmmodel/course"
 	"github.com/alfredyang1986/ddsaas/bmmodel/location"
@@ -19,6 +20,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/others"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/update"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmclassbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcontactbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcontactbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcoursebricks/push"
@@ -26,10 +28,9 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmorderbricks/delete"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmorderbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmorderbricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmstudentbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmstudentbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/push"
-	"github.com/alfredyang1986/ddsaas/bmmodel/class"
-	"github.com/alfredyang1986/ddsaas/bmpipe/bmclassbricks/push"
 )
 
 func main() {
@@ -41,7 +42,7 @@ func main() {
 	 *------------------------------------------------*/
 	fac.RegisterModel("BMAuth", &auth.BMAuth{})
 	fac.RegisterModel("BMPhone", &auth.BMPhone{})
-	fac.RegisterModel("BMWechat", &auth.BMWechat{})
+	fac.RegisterModel("BMWeChat", &auth.BMWeChat{})
 	fac.RegisterModel("BMAuthProp", &auth.BMAuthProp{})
 	fac.RegisterModel("BMProfile", &profile.BMProfile{})
 	fac.RegisterModel("BMCompany", &profile.BMCompany{})
@@ -53,9 +54,11 @@ func main() {
 	fac.RegisterModel("fm_cond", &request.FMUCond{})
 	fac.RegisterModel("BMCourse", &course.BMCourse{})
 	fac.RegisterModel("BMStudent", &student.BMStudent{})
+	fac.RegisterModel("BMStudents", &student.BMStudents{})
 	fac.RegisterModel("BMGuardian", &student.BMGuardian{})
 	fac.RegisterModel("BMContacter", &student.BMContacter{})
 	fac.RegisterModel("BMStudentProp", &student.BMStudentProp{})
+	fac.RegisterModel("BMStudentsProp", &student.BMStudentsProp{})
 	fac.RegisterModel("BMTeacher", &teacher.BMTeacher{})
 	fac.RegisterModel("BMClass", &class.BMClass{})
 
@@ -69,6 +72,13 @@ func main() {
 	fac.RegisterModel("BMAuthPhoneFindBrick", &authfind.BMAuthPhoneFindBrick{})
 	fac.RegisterModel("BMAuthRS2AuthBrick", &authfind.BMAuthRS2AuthBrick{})
 	fac.RegisterModel("BMPhone2AuthRSBrick", &authfind.BMPhone2AuthRSBrick{})
+
+	fac.RegisterModel("BMStudentFindBrick", &studentfind.BMStudentFindBrick{})
+	fac.RegisterModel("BMStudent2StudentRSBrick", &studentfind.BMStudent2StudentRSBrick{})
+	fac.RegisterModel("BMStudentRS2StudentBrick", &studentfind.BMStudentRS2StudentBrick{})
+	fac.RegisterModel("BMStudentFindMultiBrick", &studentfind.BMStudentFindMultiBrick{})
+	fac.RegisterModel("BMStudents2StudentRSBrick", &studentfind.BMStudents2StudentRSBrick{})
+	fac.RegisterModel("BMStudentRS2StudentsBrick", &studentfind.BMStudentRS2StudentsBrick{})
 
 	fac.RegisterModel("BMContactFindBrick", &contactfind.BMContactFindBrick{})     //del
 	fac.RegisterModel("BMOrderFindBrick", &orderfind.BMOrderFindBrick{})           //del

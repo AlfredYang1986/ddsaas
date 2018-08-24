@@ -96,18 +96,18 @@ func findPhone(prop auth.BMAuthProp) (auth.BMPhone, error) {
 	return reval, err
 }
 
-func findWechat(prop auth.BMAuthProp) (auth.BMWechat, error) {
+func findWechat(prop auth.BMAuthProp) (auth.BMWeChat, error) {
 	eq := request.EQCond{}
 	eq.Ky = "_id"
 	eq.Vy = bson.ObjectIdHex(prop.Wechat_id)
 	req := request.Request{}
-	req.Res = "BMWechat"
+	req.Res = "BMWeChat"
 	var condi []interface{}
 	condi = append(condi, eq)
 	c := req.SetConnect("conditions", condi)
 	fmt.Println(c)
 
-	reval := auth.BMWechat{}
+	reval := auth.BMWeChat{}
 	err := reval.FindOne(c.(request.Request))
 
 	return reval, err

@@ -13,7 +13,7 @@ import (
 	"net/http"
 )
 
-type BMStudentFindMultiBrick struct {
+type BMStudents2StudentRSBrick struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -21,10 +21,10 @@ type BMStudentFindMultiBrick struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BMStudentFindMultiBrick) Exec() error {
-	var tmps student.BMStudents
-	err := tmps.FindMulti(*b.bk.Req)
-	var revals student.BMStudents
+func (b *BMStudents2StudentRSBrick) Exec() error {
+	var tmps student.BMStudents = b.bk.Pr.(student.BMStudents)
+	var revals student.BMStudentsProp
+
 	for _, v := range tmps.Students {
 		var tmp student.BMStudent = v
 		eq := request.EQCond{}
@@ -37,36 +37,25 @@ func (b *BMStudentFindMultiBrick) Exec() error {
 		c := req.SetConnect("conditions", condi)
 		fmt.Println(c)
 
-		var prop student.BMStudentProp
-		err := prop.FindOne(c.(request.Request))
+		var reval student.BMStudentProp
+		err := reval.FindOne(c.(request.Request))
 		if err != nil {
 			return err
 		}
-
-		reval, err := findStudent(prop)
-		guard, err := findGuardians(prop)
-		conta, err := findContacts(prop)
-		if err != nil {
-			return err
-		}
-		reval.Guardians = guard
-		reval.Contacts = conta
-		revals.Students = append(revals.Students, reval)
-
+		revals.StudentsProp = append(revals.StudentsProp, reval)
 	}
 
 	b.bk.Pr = revals
-	return err
-}
-
-func (b *BMStudentFindMultiBrick) Prepare(pr interface{}) error {
-	req := pr.(request.Request)
-	//b.bk.Pr = req
-	b.BrickInstance().Req = &req
 	return nil
 }
 
-func (b *BMStudentFindMultiBrick) Done(pkg string, idx int64, e error) error {
+func (b *BMStudents2StudentRSBrick) Prepare(pr interface{}) error {
+	req := pr.(student.BMStudents)
+	b.BrickInstance().Pr = req
+	return nil
+}
+
+func (b *BMStudents2StudentRSBrick) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	if int(idx) < tmp-1 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)
@@ -74,21 +63,21 @@ func (b *BMStudentFindMultiBrick) Done(pkg string, idx int64, e error) error {
 	return nil
 }
 
-func (b *BMStudentFindMultiBrick) BrickInstance() *bmpipe.BMBrick {
+func (b *BMStudents2StudentRSBrick) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BMStudentFindMultiBrick) ResultTo(w io.Writer) error {
+func (b *BMStudents2StudentRSBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	tmp := pr.(student.BMStudents)
+	tmp := pr.(student.BMStudentsProp)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BMStudentFindMultiBrick) Return(w http.ResponseWriter) {
+func (b *BMStudents2StudentRSBrick) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
