@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/alfredyang1986/ddsaas/bmmodel/activity"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmactivitybricks/push"
 	"net/http"
 
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton"
@@ -61,6 +63,7 @@ func main() {
 	fac.RegisterModel("BMStudentsProp", &student.BMStudentsProp{})
 	fac.RegisterModel("BMTeacher", &teacher.BMTeacher{})
 	fac.RegisterModel("BMClass", &class.BMClass{})
+	fac.RegisterModel("BMActivity", &activity.BMActivity{})
 
 	fac.RegisterModel("Contact", &contact.Contact{})             //del
 	fac.RegisterModel("BMContactProp", &contact.BMContactProp{}) //del
@@ -99,6 +102,7 @@ func main() {
 	fac.RegisterModel("BMStudentRSPushBrick", &studentpush.BMStudentRSPushBrick{})
 	fac.RegisterModel("BMTeacherPushBrick", &teacherpush.BMTeacherPushBrick{})
 	fac.RegisterModel("BMClassPushBrick", &classpush.BMClassPushBrick{})
+	fac.RegisterModel("BMActivityPushBrick", &activitypush.BMActivityPushBrick{})
 
 	fac.RegisterModel("BMOrderPushBrick", &orderpush.BMOrderPushBrick{})           //del
 	fac.RegisterModel("BMContactPushBrick", &contactpush.BMContactPushBrick{})     //del
