@@ -3,6 +3,7 @@ package profile
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -85,3 +86,24 @@ func (bd *BMCompany) FindOne(req request.Request) error {
 func (bd *BMCompany) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
+
+func (bd BMCompany) IsCompanyRegisted() bool {
+	session, err := mgo.Dial("localhost:27017")
+	if err != nil {
+		panic("dial db error")
+	}
+	defer session.Close()
+
+	c := session.DB("test").C("BMCompany")
+	n, err := c.Find(bson.M{"name": bd.Name}).Count()
+	if err != nil {
+		panic(err)
+	}
+
+	return n > 0
+}
+
+func (bd BMCompany) Valid() bool {
+	return bd.Name != ""
+}
+

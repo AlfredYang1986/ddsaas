@@ -7,7 +7,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type Brand struct {
+type BMBrand struct {
 	Id        string            `json:"id"`
 	Id_       bson.ObjectId     `bson:"_id"`
 	Name      string            `json:"name" bson:"name"`
@@ -17,7 +17,7 @@ type Brand struct {
 	Awards    map[string]string `json:"awards"`
 	Attends   map[string]string `json:"attends"`
 	Qualifier map[string]string `json:"qualifier"`
-	//Found     date.DDTime       `json:"found"`
+	Found 	  int64 			`json:"found"`
 
 	Locations []location.BMLocation `json:"locations" jsonapi:"relationships"`
 }
@@ -26,11 +26,11 @@ type Brand struct {
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *Brand) ResetIdWithId_() {
+func (bd *BMBrand) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *Brand) ResetId_WithID() {
+func (bd *BMBrand) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -38,26 +38,26 @@ func (bd *Brand) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *Brand) QueryObjectId() bson.ObjectId {
+func (bd *BMBrand) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *Brand) QueryId() string {
+func (bd *BMBrand) QueryId() string {
 	return bd.Id
 }
 
-func (bd *Brand) SetObjectId(id_ bson.ObjectId) {
+func (bd *BMBrand) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *Brand) SetId(id string) {
+func (bd *BMBrand) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd Brand) SetConnect(tag string, v interface{}) interface{} {
+func (bd BMBrand) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
 	case "locations":
 		var rst []location.BMLocation
@@ -69,7 +69,7 @@ func (bd Brand) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd Brand) QueryConnect(tag string) interface{} {
+func (bd BMBrand) QueryConnect(tag string) interface{} {
 	switch tag {
 	case "locations":
 		return bd.Locations
@@ -81,14 +81,14 @@ func (bd Brand) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *Brand) InsertBMObject() error {
+func (bd *BMBrand) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *Brand) FindOne(req request.Request) error {
+func (bd *BMBrand) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *Brand) UpdateBMObject(req request.Request) error {
+func (bd *BMBrand) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }

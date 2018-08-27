@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/activity"
+	"github.com/alfredyang1986/ddsaas/bmmodel/brand"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmactivitybricks/push"
 	"net/http"
 
@@ -42,18 +43,20 @@ func main() {
 	/*------------------------------------------------
 	 * model object
 	 *------------------------------------------------*/
+	fac.RegisterModel("request", &request.Request{})
+	fac.RegisterModel("eq_cond", &request.EQCond{})
+	fac.RegisterModel("up_cond", &request.UPCond{})
+	fac.RegisterModel("fm_cond", &request.FMUCond{})
+
 	fac.RegisterModel("BMAuth", &auth.BMAuth{})
 	fac.RegisterModel("BMPhone", &auth.BMPhone{})
 	fac.RegisterModel("BMWeChat", &auth.BMWeChat{})
 	fac.RegisterModel("BMAuthProp", &auth.BMAuthProp{})
 	fac.RegisterModel("BMProfile", &profile.BMProfile{})
 	fac.RegisterModel("BMCompany", &profile.BMCompany{})
+	fac.RegisterModel("BMBrand", &brand.BMBrand{})
 	fac.RegisterModel("BMLocation", &location.BMLocation{})
 	fac.RegisterModel("BMErrorNode", &bmerror.BMErrorNode{})
-	fac.RegisterModel("request", &request.Request{})
-	fac.RegisterModel("eq_cond", &request.EQCond{})
-	fac.RegisterModel("up_cond", &request.UPCond{})
-	fac.RegisterModel("fm_cond", &request.FMUCond{})
 	fac.RegisterModel("BMCourse", &course.BMCourse{})
 	fac.RegisterModel("BMStudent", &student.BMStudent{})
 	fac.RegisterModel("BMStudents", &student.BMStudents{})
@@ -93,6 +96,7 @@ func main() {
 	fac.RegisterModel("BMPhonePushBrick", &authpush.BMPhonePushBrick{})
 	fac.RegisterModel("BMWechatPushBrick", &authpush.BMWechatPushBrick{})
 	fac.RegisterModel("BMProfilePushBrick", &authpush.BMProfilePushBrick{})
+	fac.RegisterModel("BMAuthCompanyPushBrick", &authpush.BMAuthCompanyPushBrick{})
 	fac.RegisterModel("BMAuthRSPushBrick", &authpush.BMAuthRSPushBrick{})
 	fac.RegisterModel("BMAuthPushBrick", &authpush.BMAuthPushBrick{})
 
