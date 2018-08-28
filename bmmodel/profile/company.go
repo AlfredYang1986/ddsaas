@@ -87,7 +87,7 @@ func (bd *BMCompany) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
-func (bd BMCompany) IsCompanyRegisted() bool {
+func (bd BMCompany) IsCompanyRegistered() bool {
 	session, err := mgo.Dial("localhost:27017")
 	if err != nil {
 		panic("dial db error")

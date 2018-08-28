@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-type BMBrandPushBrick struct {
+type BMBrandPushLocationBrick struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -19,29 +19,24 @@ type BMBrandPushBrick struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BMBrandPushBrick) Exec() error {
+func (b *BMBrandPushLocationBrick) Exec() error {
 	var tmp brand.BMBrand = b.bk.Pr.(brand.BMBrand)
-
-	var err error
-	if tmp.Id != "" && tmp.Id_.Valid() {
-		if tmp.Valid() && tmp.IsBrandRegistered() {
-			b.bk.Err = -5
-		} else {
-			err = tmp.InsertBMObject()
-		}
+	locations := tmp.Locations
+	for _,l := range locations{
+		l.InsertBMObject()
 	}
 	b.bk.Pr = tmp
-	return err
+	return nil
 }
 
-func (b *BMBrandPushBrick) Prepare(pr interface{}) error {
+func (b *BMBrandPushLocationBrick) Prepare(pr interface{}) error {
 	req := pr.(brand.BMBrand)
 	//b.bk.Pr = req
 	b.BrickInstance().Pr = req
 	return nil
 }
 
-func (b *BMBrandPushBrick) Done(pkg string, idx int64, e error) error {
+func (b *BMBrandPushLocationBrick) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	if int(idx) < tmp-1 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)
@@ -49,21 +44,21 @@ func (b *BMBrandPushBrick) Done(pkg string, idx int64, e error) error {
 	return nil
 }
 
-func (b *BMBrandPushBrick) BrickInstance() *bmpipe.BMBrick {
+func (b *BMBrandPushLocationBrick) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BMBrandPushBrick) ResultTo(w io.Writer) error {
+func (b *BMBrandPushLocationBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
 	tmp := pr.(brand.BMBrand)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BMBrandPushBrick) Return(w http.ResponseWriter) {
+func (b *BMBrandPushLocationBrick) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
@@ -72,3 +67,4 @@ func (b *BMBrandPushBrick) Return(w http.ResponseWriter) {
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }
+

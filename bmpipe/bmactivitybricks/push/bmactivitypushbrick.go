@@ -23,8 +23,8 @@ func (b *BMActivityPushBrick) Exec() error {
 	var tmp activity.BMActivity = b.bk.Pr.(activity.BMActivity)
 	if tmp.Id != "" && tmp.Id_.Valid() {
 		if tmp.Valid() && tmp.IsRegistered() {
-			//b.bk.Err = -3
-			b.bk.Pr = tmp
+			b.bk.Err = -3
+			//b.bk.Pr = tmp
 		} else {
 			tmp.InsertBMObject()
 			b.bk.Pr = tmp

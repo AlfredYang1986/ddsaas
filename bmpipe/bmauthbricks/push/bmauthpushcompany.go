@@ -25,7 +25,7 @@ func (b *BMAuthCompanyPushBrick) Exec() error {
 	company := profile.Company
 	var err error
 	if company.Id != "" && company.Id_.Valid() {
-		if company.Valid() && company.IsCompanyRegisted() {
+		if company.Valid() && company.IsCompanyRegistered() {
 			b.bk.Err = -4
 		} else {
 			err = company.InsertBMObject()

@@ -4,22 +4,26 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/ddsaas/bmmodel/location"
+	"github.com/alfredyang1986/ddsaas/bmmodel/profile"
+	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
 type BMBrand struct {
-	Id        string            `json:"id"`
-	Id_       bson.ObjectId     `bson:"_id"`
-	Name      string            `json:"name" bson:"name"`
-	Slogan    string            `json:"slogan" bson:"slogan"`
-	Highlight []string          `json:"highlights" bson:"heighlights"`
-	About     string            `json:"about" bson:"about"`
-	Awards    map[string]string `json:"awards"`
-	Attends   map[string]string `json:"attends"`
-	Qualifier map[string]string `json:"qualifier"`
-	Found 	  int64 			`json:"found"`
+	Id        string            		`json:"id"`
+	Id_       bson.ObjectId     		`bson:"_id"`
+	Name      string            		`json:"name" bson:"name"`
+	Slogan    string            		`json:"slogan" bson:"slogan"`
+	Punchline string            		`json:"punchline" bson:"punchline"`
+	Highlight []string          		`json:"highlights" bson:"heighlights"`
+	About     string            		`json:"about" bson:"about"`
+	Awards    map[string]interface{} 	`json:"awards"`
+	Attends   map[string]interface{} 	`json:"attends"`
+	Qualifier map[string]interface{} 	`json:"qualifier"`
+	Found 	  int64 					`json:"found"`
 
-	Locations []location.BMLocation `json:"locations" jsonapi:"relationships"`
+	Locations []location.BMLocation 	`json:"locations" jsonapi:"relationships"`
+	Company   profile.BMCompany 		`json:"company" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
@@ -65,6 +69,8 @@ func (bd BMBrand) SetConnect(tag string, v interface{}) interface{} {
 			rst = append(rst, item.(location.BMLocation))
 		}
 		bd.Locations = rst
+	case "company":
+		bd.Company = v.(profile.BMCompany)
 	}
 	return bd
 }
@@ -73,6 +79,8 @@ func (bd BMBrand) QueryConnect(tag string) interface{} {
 	switch tag {
 	case "locations":
 		return bd.Locations
+	case "company":
+		return bd.Company
 	}
 	return bd
 }
@@ -91,4 +99,24 @@ func (bd *BMBrand) FindOne(req request.Request) error {
 
 func (bd *BMBrand) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
+}
+
+func (bd BMBrand) IsBrandRegistered() bool {
+	session, err := mgo.Dial("localhost:27017")
+	if err != nil {
+		panic("dial db error")
+	}
+	defer session.Close()
+
+	c := session.DB("test").C("BMBrand")
+	n, err := c.Find(bson.M{"name": bd.Name}).Count()
+	if err != nil {
+		panic(err)
+	}
+
+	return n > 0
+}
+
+func (bd BMBrand) Valid() bool {
+	return bd.Name != ""
 }

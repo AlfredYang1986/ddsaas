@@ -3,6 +3,7 @@ package activity
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"github.com/alfredyang1986/ddsaas/bmmodel/brand"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -28,6 +29,7 @@ type BMActivity struct {
 	StartTime      		string 				`json:"starttime" bson:"start_time"`
 	EndTime      		string 				`json:"endtime" bson:"end_time"`
 
+	Brand				brand.BMBrand		`json:"brand" jsonapi:"relationships"`
 
 	//experience_class info
 	ProcessDesign 		string        		`json:"processdesign" bson:"process_design"`
@@ -45,6 +47,7 @@ type BMActivity struct {
 	Mode         		[]interface{} 		`json:"mode" bson:"mode"`
 	Aims         		string        		`json:"aims" bson:"aims"`
 	Outline      		string        		`json:"outline" bson:"outline"`
+
 }
 
 /*------------------------------------------------
@@ -83,10 +86,18 @@ func (bd *BMActivity) SetId(id string) {
  * relationships interface
  *------------------------------------------------*/
 func (bd BMActivity) SetConnect(tag string, v interface{}) interface{} {
+	switch tag {
+	case "brand":
+		bd.Brand = v.(brand.BMBrand)
+	}
 	return bd
 }
 
 func (bd BMActivity) QueryConnect(tag string) interface{} {
+	switch tag {
+	case "brand":
+		return bd.Brand
+	}
 	return bd
 }
 
