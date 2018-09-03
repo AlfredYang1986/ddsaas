@@ -136,7 +136,7 @@ func findProfile(prop auth.BMAuthProp) (profile.BMProfile, error) {
 	eq.Ky = "_id"
 	eq.Vy = bson.ObjectIdHex(prop.Auth_id)
 	req := request.Request{}
-	req.Res = "BMPfile"
+	req.Res = "BMProfile"
 	var condi []interface{}
 	condi = append(condi, eq)
 	c := req.SetConnect("conditions", condi)
