@@ -1,8 +1,11 @@
 package main
 
 import (
+	"github.com/alfredyang1986/ddsaas/bmmodel/account"
 	"github.com/alfredyang1986/ddsaas/bmmodel/activity"
 	"github.com/alfredyang1986/ddsaas/bmmodel/brand"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmactivitybricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/push"
 	"net/http"
@@ -45,11 +48,13 @@ func main() {
 	 * model object
 	 *------------------------------------------------*/
 	fac.RegisterModel("request", &request.Request{})
-	fac.RegisterModel("eq_cond", &request.EQCond{})
-	fac.RegisterModel("up_cond", &request.UPCond{})
-	fac.RegisterModel("fm_cond", &request.FMUCond{})
+	fac.RegisterModel("eqcond", &request.EQCond{})
+	fac.RegisterModel("upcond", &request.UPCond{})
+	fac.RegisterModel("fmcond", &request.FMUCond{})
 
 	fac.RegisterModel("BMAuth", &auth.BMAuth{})
+	fac.RegisterModel("BMRsaKey", &auth.BMRsaKey{})
+	fac.RegisterModel("BMAccount", &account.BMAccount{})
 	fac.RegisterModel("BMPhone", &auth.BMPhone{})
 	fac.RegisterModel("BMWeChat", &auth.BMWeChat{})
 	fac.RegisterModel("BMAuthProp", &auth.BMAuthProp{})
@@ -82,6 +87,8 @@ func main() {
 	fac.RegisterModel("BMAuthPhoneFindBrick", &authfind.BMAuthPhoneFindBrick{})
 	fac.RegisterModel("BMAuthRS2AuthBrick", &authfind.BMAuthRS2AuthBrick{})
 	fac.RegisterModel("BMPhone2AuthRSBrick", &authfind.BMPhone2AuthRSBrick{})
+	fac.RegisterModel("BMGetPublicKeyBrick", &authfind.BMGetPublicKeyBrick{})
+	fac.RegisterModel("BMAccountFindBrick", &accountfind.BMAccountFindBrick{})
 
 	fac.RegisterModel("BMStudentFindBrick", &studentfind.BMStudentFindBrick{})
 	fac.RegisterModel("BMStudent2StudentRSBrick", &studentfind.BMStudent2StudentRSBrick{})
@@ -104,6 +111,8 @@ func main() {
 	fac.RegisterModel("BMProfileCompanyRSPushBrick", &authpush.BMProfileCompanyRSPushBrick{})
 	fac.RegisterModel("BMAuthRSPushBrick", &authpush.BMAuthRSPushBrick{})
 	fac.RegisterModel("BMAuthPushBrick", &authpush.BMAuthPushBrick{})
+	fac.RegisterModel("BMRsaKeyGenerateBrick", &authpush.BMRsaKeyGenerateBrick{})
+	fac.RegisterModel("BMAccountPushBrick", &accountpush.BMAccountPushBrick{})
 
 	fac.RegisterModel("BMBrandPushBrick", &brandpush.BMBrandPushBrick{})
 	fac.RegisterModel("BMBrandPushLocationBrick", &brandpush.BMBrandPushLocationBrick{})
