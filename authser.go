@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/alfredyang1986/blackmirror/bmconfighandle"
 	"github.com/alfredyang1986/ddsaas/bmmodel/account"
 	"github.com/alfredyang1986/ddsaas/bmmodel/activity"
 	"github.com/alfredyang1986/ddsaas/bmmodel/brand"
@@ -9,6 +10,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmactivitybricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/push"
 	"net/http"
+	"sync"
 
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton"
 	"github.com/alfredyang1986/blackmirror/bmerror"
@@ -148,5 +150,10 @@ func main() {
 	fac.RegisterModel("BMAuthGenerateToken", &authothers.BMAuthGenerateToken{})
 
 	r := bmrouter.BindRouter()
-	http.ListenAndServe(":8080", r)
+
+	var once sync.Once
+	var bmRouter bmconfig.BMRouterConfig
+	once.Do(bmRouter.GenerateConfig)
+
+	http.ListenAndServe(":" + bmRouter.Port, r)
 }

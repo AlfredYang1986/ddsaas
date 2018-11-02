@@ -35,25 +35,17 @@ func (b *BMAccountPushBrick) Exec() error {
 			}
 			tmp.Secret2MD5()
 			tmp.InsertBMObject()
+			tmp.SecretWord = ""
+			b.bk.Pr = tmp
 		}
 	}
-	tmp.SecretWord = ""
-	b.bk.Pr = tmp
+
 	return nil
 }
 
 func (b *BMAccountPushBrick) Prepare(pr interface{}) error {
 
 	req := pr.(account.BMAccount)
-
-	//var err error
-	////TODO: 配置参数化
-	//err = req.DecodeByCompanyDate("BlackMirror", "2018")
-	//if err != nil {
-	//	return err
-	//}
-	//req.Secret2MD5()
-
 	b.BrickInstance().Pr = req
 	return nil
 }
