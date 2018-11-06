@@ -34,10 +34,10 @@ func (b *BMStudentRSPushBrick) Exec() error {
 		v.InsertBMObject()
 		guardianIds = append(guardianIds, v.Id)
 	}
-	for _, v := range tmp.Contacts {
-		v.InsertBMObject()
-		contactIds = append(contactIds, v.Id)
-	}
+	//for _, v := range tmp.Contacts {
+	//	v.InsertBMObject()
+	//	contactIds = append(contactIds, v.Id)
+	//}
 
 	//設計邏輯還未明確
 	//var continuedCoursesIds []string

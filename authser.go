@@ -4,10 +4,17 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmconfighandle"
 	"github.com/alfredyang1986/ddsaas/bmmodel/account"
 	"github.com/alfredyang1986/ddsaas/bmmodel/activity"
+	"github.com/alfredyang1986/ddsaas/bmmodel/address"
+	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
 	"github.com/alfredyang1986/ddsaas/bmmodel/brand"
+	"github.com/alfredyang1986/ddsaas/bmmodel/guardian"
+	"github.com/alfredyang1986/ddsaas/bmmodel/payment"
+	"github.com/alfredyang1986/ddsaas/bmmodel/person"
+	"github.com/alfredyang1986/ddsaas/bmmodel/region"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmactivitybricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/push"
 	"net/http"
 	"sync"
@@ -54,12 +61,22 @@ func main() {
 	fac.RegisterModel("upcond", &request.UPCond{})
 	fac.RegisterModel("fmcond", &request.FMUCond{})
 
-	fac.RegisterModel("BMAuth", &auth.BMAuth{})
 	fac.RegisterModel("BMRsaKey", &auth.BMRsaKey{})
 	fac.RegisterModel("BMAccount", &account.BMAccount{})
+	fac.RegisterModel("BMAuth", &auth.BMAuth{})
 	fac.RegisterModel("BMPhone", &auth.BMPhone{})
 	fac.RegisterModel("BMWeChat", &auth.BMWeChat{})
 	fac.RegisterModel("BMAuthProp", &auth.BMAuthProp{})
+	fac.RegisterModel("BMAttendee", &attendee.BMAttendee{})
+	fac.RegisterModel("BMAttendeeProp", &attendee.BMAttendeeProp{})
+	fac.RegisterModel("BMAttendeeGuardianRS", &attendee.BMAttendeeGuardianRS{})
+	fac.RegisterModel("BMGuardian", &guardian.BMGuardian{})
+	fac.RegisterModel("BMGuardianProp", &guardian.BMGuardianProp{})
+	fac.RegisterModel("BMPerson", &person.BMPerson{})
+	fac.RegisterModel("BMAddress", &address.BMAddress{})
+	fac.RegisterModel("BMRegion", &region.BMRegion{})
+	fac.RegisterModel("BMPayment", &payment.BMPayment{})
+
 	fac.RegisterModel("BMProfile", &profile.BMProfile{})
 	fac.RegisterModel("BMProfileCompanyRS", &profile.BMProfileCompanyRS{})
 	fac.RegisterModel("BMCompany", &profile.BMCompany{})
@@ -70,7 +87,7 @@ func main() {
 	fac.RegisterModel("BMCourse", &course.BMCourse{})
 	fac.RegisterModel("BMStudent", &student.BMStudent{})
 	fac.RegisterModel("BMStudents", &student.BMStudents{})
-	fac.RegisterModel("BMGuardian", &student.BMGuardian{})
+	fac.RegisterModel("BMGuardian", &guardian.BMGuardian{})
 	fac.RegisterModel("BMContacter", &student.BMContacter{})
 	fac.RegisterModel("BMStudentProp", &student.BMStudentProp{})
 	fac.RegisterModel("BMStudentsProp", &student.BMStudentsProp{})
@@ -115,6 +132,15 @@ func main() {
 	fac.RegisterModel("BMAuthPushBrick", &authpush.BMAuthPushBrick{})
 	fac.RegisterModel("BMRsaKeyGenerateBrick", &authpush.BMRsaKeyGenerateBrick{})
 	fac.RegisterModel("BMAccountPushBrick", &accountpush.BMAccountPushBrick{})
+
+	/*------------------------------------------------
+	 * attendee push bricks object
+	 *------------------------------------------------*/
+	fac.RegisterModel("BMAttendeePushBrick", &attendeepush.BMAttendeePushBrick{})
+	fac.RegisterModel("BMAttendeePushPerson", &attendeepush.BMAttendeePushPerson{})
+	fac.RegisterModel("BMAttendeePushPersonRS", &attendeepush.BMAttendeePushPersonRS{})
+	fac.RegisterModel("BMAttendeePushGuardian", &attendeepush.BMAttendeePushGuardian{})
+	fac.RegisterModel("BMAttendeePushGuardianRS", &attendeepush.BMAttendeePushGuardianRS{})
 
 	fac.RegisterModel("BMBrandPushBrick", &brandpush.BMBrandPushBrick{})
 	fac.RegisterModel("BMBrandPushLocationBrick", &brandpush.BMBrandPushLocationBrick{})

@@ -1,16 +1,17 @@
-package teacher
+package sales
 
 import (
-	"github.com/alfredyang1986/blackmirror/bmmodel"
-	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/ddsaas/bmmodel/person"
 	"gopkg.in/mgo.v2/bson"
+	"github.com/alfredyang1986/blackmirror/bmmodel"
+	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 )
 
-type BMTeacher struct {
-	Id  string        `json:"id"`
-	Id_ bson.ObjectId `bson:"_id"`
+type BMSales struct {
+	Id        string            `json:"id"`
+	Id_       bson.ObjectId     `bson:"_id"`
 
+	UniqueId	  string 			`json:"uniqueId" bson:"uniqueId"`
 	Person person.BMPerson 	`json:"person" jsonapi:"relationships"`
 
 }
@@ -19,11 +20,11 @@ type BMTeacher struct {
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BMTeacher) ResetIdWithId_() {
+func (bd *BMSales) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BMTeacher) ResetId_WithID() {
+func (bd *BMSales) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -31,30 +32,30 @@ func (bd *BMTeacher) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BMTeacher) QueryObjectId() bson.ObjectId {
+func (bd *BMSales) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BMTeacher) QueryId() string {
+func (bd *BMSales) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BMTeacher) SetObjectId(id_ bson.ObjectId) {
+func (bd *BMSales) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BMTeacher) SetId(id string) {
+func (bd *BMSales) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BMTeacher) SetConnect(tag string, v interface{}) interface{} {
+func (bd BMSales) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd BMTeacher) QueryConnect(tag string) interface{} {
+func (bd BMSales) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -62,14 +63,14 @@ func (bd BMTeacher) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BMTeacher) InsertBMObject() error {
+func (bd *BMSales) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BMTeacher) FindOne(req request.Request) error {
+func (bd *BMSales) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BMTeacher) UpdateBMObject(req request.Request) error {
+func (bd *BMSales) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }

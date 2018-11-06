@@ -45,12 +45,10 @@ func (b *BMStudentFindMultiBrick) Exec() error {
 
 		reval, err := findStudent(prop)
 		guard, err := findGuardians(prop)
-		conta, err := findContacts(prop)
 		if err != nil {
 			return err
 		}
 		reval.Guardians = guard
-		reval.Contacts = conta
 		revals.Students = append(revals.Students, reval)
 
 	}

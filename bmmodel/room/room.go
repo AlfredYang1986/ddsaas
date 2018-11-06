@@ -1,4 +1,4 @@
-package student
+package room
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
@@ -6,27 +6,23 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type BMGuardian struct {
+type BMRoom struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Name         string `json:"name" bson:"name"`
-	NickName     string `json:"nickname" bson:"nickname"`
-	Relationship string `json:"relationship" bson:"relationship"`
-	Mobile       string `json:"mobile" bson:"mobile"`
-	WeChatId     string `json:"wechatid" bson:"wechatid"`
-	Address      string `json:"address" bson:"address"`
+	Title    string `json:"title" bson:"title"`
+	Capacity string `json:"capacity" bson:"capacity"`
 }
 
 /*------------------------------------------------
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BMGuardian) ResetIdWithId_() {
+func (bd *BMRoom) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BMGuardian) ResetId_WithID() {
+func (bd *BMRoom) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -34,30 +30,30 @@ func (bd *BMGuardian) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BMGuardian) QueryObjectId() bson.ObjectId {
+func (bd *BMRoom) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BMGuardian) QueryId() string {
+func (bd *BMRoom) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BMGuardian) SetObjectId(id_ bson.ObjectId) {
+func (bd *BMRoom) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BMGuardian) SetId(id string) {
+func (bd *BMRoom) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BMGuardian) SetConnect(tag string, v interface{}) interface{} {
+func (bd BMRoom) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd BMGuardian) QueryConnect(tag string) interface{} {
+func (bd BMRoom) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -65,14 +61,14 @@ func (bd BMGuardian) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BMGuardian) InsertBMObject() error {
+func (bd *BMRoom) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BMGuardian) FindOne(req request.Request) error {
+func (bd *BMRoom) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BMGuardian) UpdateBMObject(req request.Request) error {
+func (bd *BMRoom) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }

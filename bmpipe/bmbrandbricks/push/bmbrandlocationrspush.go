@@ -7,7 +7,6 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
-	"gopkg.in/mgo.v2/bson"
 	"io"
 	"net/http"
 )
@@ -22,15 +21,15 @@ type BMBrandLocationRSPush struct {
 
 func (b *BMBrandLocationRSPush) Exec() error {
 	var tmp brand.BMBrand = b.bk.Pr.(brand.BMBrand)
-	locations := tmp.Locations
-	for _,l := range locations{
-		var qr brand.BMBrandLocationRS
-		qr.Id_ = bson.NewObjectId()
-		qr.Id = qr.Id_.Hex()
-		qr.BrandId = tmp.Id
-		qr.LocationId = l.Id
-		qr.InsertBMObject()
-	}
+	//locations := tmp.Locations
+	//for _,l := range locations{
+	//	var qr brand.BMBrandLocationRS
+	//	qr.Id_ = bson.NewObjectId()
+	//	qr.Id = qr.Id_.Hex()
+	//	qr.BrandId = tmp.Id
+	//	qr.LocationId = l.Id
+	//	qr.InsertBMObject()
+	//}
 	b.bk.Pr = tmp
 	return nil
 }

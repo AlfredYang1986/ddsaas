@@ -1,18 +1,21 @@
 package auth
 
 import (
+	"github.com/alfredyang1986/blackmirror/bmconfighandle"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+	"sync"
 )
 
 type BMWeChat struct {
 	Id      string        `json:"id"`
 	Id_     bson.ObjectId `bson:"_id"`
-	Open_id string        `json:"openid" bson:"open_id"`
 	Name    string        `json:"name" bson:"name"`
 	Photo   string        `json:"photo" bson:"photo"`
+	Open_id string        `json:"open_id" bson:"open_id"`
+	Token string          `json:"token" bson:"token"`
 
 	//TODO: 其它微信信息
 }
@@ -81,13 +84,23 @@ func (bd *BMWeChat) UpdateBMObject(req request.Request) error {
  *------------------------------------------------*/
 
 func (bd BMWeChat) IsWechatRegisted() bool {
-	session, err := mgo.Dial("localhost:27017")
+
+	var once sync.Once
+	var bmMongo bmconfig.BMMongoConfig
+	once.Do(bmMongo.GenerateConfig)
+	host := bmMongo.Host
+	port := bmMongo.Port
+	dbName := bmMongo.Database
+
+	colName := "BMWeChat"
+
+	session, err := mgo.Dial(host + ":" + port)
 	if err != nil {
 		panic("dial db error")
 	}
 	defer session.Close()
 
-	c := session.DB("test").C("BMWeChat")
+	c := session.DB(dbName).C(colName)
 	n, err := c.Find(bson.M{"open_id": bd.Open_id}).Count()
 	if err != nil {
 		panic(err)

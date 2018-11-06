@@ -3,6 +3,8 @@ package student
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"github.com/alfredyang1986/ddsaas/bmmodel/guardian"
+	"github.com/alfredyang1986/ddsaas/bmmodel/person"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -10,22 +12,9 @@ type BMStudent struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Name     string `json:"name" bson:"name"`
-	NickName string `json:"nickname" bson:"nickname"`
-	Birthday string `json:"birthday" bson:"birthday"`
-	Age      int    `json:"age" bson:"age"`
-	Sex      string `json:"sex" bson:"sex"`
-	School   string `json:"school" bson:"school"`
-	Photo    string `json:"photo" bson:"photo"`
-
-	Guardians []BMGuardian  `json:"guardians" jsonapi:"relationships"`
-	Contacts  []BMContacter `json:"contacts" jsonapi:"relationships"`
-	Found     int64         `json:"found" bson:"found"`
-
-	//Patriarch 			map[string]interface{} 	`json:"patriarch" bson:"patriarch"`			//del
-
-	//ContinuedCourses 	[]course.BMCourse 	`json:"continuedcourses" jsonapi:"relationships"`	//設計邏輯還未明確
-	//CompletedCourses 	[]course.BMCourse 	`json:"completedcourses" jsonapi:"relationships"`	//設計邏輯還未明確
+	Person person.BMPerson 	`json:"person" jsonapi:"relationships"`
+	Guardians []guardian.BMGuardian  `json:"guardians" jsonapi:"relationships"`
+	//Contacts  []BMContacter `json:"contacts" jsonapi:"relationships"`
 
 }
 
@@ -65,20 +54,14 @@ func (bd *BMStudent) SetId(id string) {
  * relationships interface
  *------------------------------------------------*/
 func (bd BMStudent) SetConnect(tag string, v interface{}) interface{} {
-	switch tag {
-	case "guardians":
-		var guardians []BMGuardian
-		for _, item := range v.([]interface{}) {
-			guardians = append(guardians, item.(BMGuardian))
-		}
-		bd.Guardians = guardians
-	case "contacts":
-		var contacts []BMContacter
-		for _, item := range v.([]interface{}) {
-			contacts = append(contacts, item.(BMContacter))
-		}
-		bd.Contacts = contacts
-	}
+	//switch tag {
+	//case "guardians":
+	//	var guardians []BMGuardian
+	//	for _, item := range v.([]interface{}) {
+	//		guardians = append(guardians, item.(BMGuardian))
+	//	}
+	//	bd.Guardians = guardians
+	//}
 	return bd
 }
 

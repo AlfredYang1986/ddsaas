@@ -1,4 +1,4 @@
-package teacher
+package guardian
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
@@ -7,23 +7,23 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type BMTeacher struct {
+type BMGuardian struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
 	Person person.BMPerson 	`json:"person" jsonapi:"relationships"`
-
+	Relationship string `json:"relation_ship" bson:"relation_ship"`
 }
 
 /*------------------------------------------------
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BMTeacher) ResetIdWithId_() {
+func (bd *BMGuardian) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BMTeacher) ResetId_WithID() {
+func (bd *BMGuardian) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -31,30 +31,34 @@ func (bd *BMTeacher) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BMTeacher) QueryObjectId() bson.ObjectId {
+func (bd *BMGuardian) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BMTeacher) QueryId() string {
+func (bd *BMGuardian) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BMTeacher) SetObjectId(id_ bson.ObjectId) {
+func (bd *BMGuardian) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BMTeacher) SetId(id string) {
+func (bd *BMGuardian) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BMTeacher) SetConnect(tag string, v interface{}) interface{} {
+func (bd BMGuardian) SetConnect(tag string, v interface{}) interface{} {
+	switch tag {
+	case "person":
+		bd.Person = v.(person.BMPerson)
+	}
 	return bd
 }
 
-func (bd BMTeacher) QueryConnect(tag string) interface{} {
+func (bd BMGuardian) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -62,14 +66,14 @@ func (bd BMTeacher) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BMTeacher) InsertBMObject() error {
+func (bd *BMGuardian) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BMTeacher) FindOne(req request.Request) error {
+func (bd *BMGuardian) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BMTeacher) UpdateBMObject(req request.Request) error {
+func (bd *BMGuardian) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }

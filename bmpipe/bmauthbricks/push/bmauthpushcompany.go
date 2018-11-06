@@ -21,18 +21,18 @@ type BMAuthCompanyPushBrick struct {
 
 func (b *BMAuthCompanyPushBrick) Exec() error {
 	var tmp auth.BMAuth = b.bk.Pr.(auth.BMAuth)
-	profile := tmp.Profile
-	company := profile.Company
-	var err error
-	if company.Id != "" && company.Id_.Valid() {
-		if company.Valid() && company.IsCompanyRegistered() {
-			b.bk.Err = -4
-		} else {
-			err = company.InsertBMObject()
-		}
-	}
+	//profile := tmp.Profile
+	//company := profile.Company
+	//var err error
+	//if company.Id != "" && company.Id_.Valid() {
+	//	if company.Valid() && company.IsCompanyRegistered() {
+	//		b.bk.Err = -4
+	//	} else {
+	//		err = company.InsertBMObject()
+	//	}
+	//}
 	b.bk.Pr = tmp
-	return err
+	return nil
 }
 
 func (b *BMAuthCompanyPushBrick) Prepare(pr interface{}) error {

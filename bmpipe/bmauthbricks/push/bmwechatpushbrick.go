@@ -41,6 +41,10 @@ func (b *BMWechatPushBrick) Prepare(pr interface{}) error {
 }
 
 func (b *BMWechatPushBrick) Done(pkg string, idx int64, e error) error {
+	ec := b.BrickInstance().Err
+	if ec != 0 {
+		return nil
+	}
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	if int(idx) < tmp-1 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)

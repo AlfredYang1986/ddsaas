@@ -25,12 +25,10 @@ func (b *BMStudentRS2StudentsBrick) Exec() error {
 	for _, prop := range props.StudentsProp {
 		reval, err := findStudent(prop)
 		guard, err := findGuardians(prop)
-		conta, err := findContacts(prop)
 		if err != nil {
 			return err
 		}
 		reval.Guardians = guard
-		reval.Contacts = conta
 		revals.Students = append(revals.Students, reval)
 	}
 	b.bk.Pr = revals

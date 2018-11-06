@@ -21,10 +21,10 @@ type BMBrandPushLocationBrick struct {
 
 func (b *BMBrandPushLocationBrick) Exec() error {
 	var tmp brand.BMBrand = b.bk.Pr.(brand.BMBrand)
-	locations := tmp.Locations
-	for _,l := range locations{
-		l.InsertBMObject()
-	}
+	//locations := tmp.Locations
+	//for _,l := range locations{
+	//	l.InsertBMObject()
+	//}
 	b.bk.Pr = tmp
 	return nil
 }

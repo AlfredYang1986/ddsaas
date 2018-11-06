@@ -9,7 +9,6 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/student"
 	"io"
 	"net/http"
-	"time"
 )
 
 type BMStudentPushBrick struct {
@@ -23,8 +22,8 @@ type BMStudentPushBrick struct {
 func (b *BMStudentPushBrick) Exec() error {
 	var tmp student.BMStudent = b.bk.Pr.(student.BMStudent)
 	//TODO： use type Timestamp
-	ts := time.Now().Unix()
-	tmp.Found = ts
+	//ts := time.Now().Unix()
+	//tmp.Found = ts
 	tmp.InsertBMObject()
 	b.bk.Pr = tmp
 	return nil

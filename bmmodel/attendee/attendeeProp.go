@@ -1,29 +1,28 @@
-package teacher
+package attendee
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
-	"github.com/alfredyang1986/ddsaas/bmmodel/person"
 	"gopkg.in/mgo.v2/bson"
 )
 
-type BMTeacher struct {
+type BMAttendeeProp struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Person person.BMPerson 	`json:"person" jsonapi:"relationships"`
-
+	AttendeeId string `json:"attendeeId" bson:"attendeeId"`
+	PersonId   string `json:"personId" bson:"personId"`
 }
 
 /*------------------------------------------------
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BMTeacher) ResetIdWithId_() {
+func (bd *BMAttendeeProp) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BMTeacher) ResetId_WithID() {
+func (bd *BMAttendeeProp) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -31,30 +30,30 @@ func (bd *BMTeacher) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BMTeacher) QueryObjectId() bson.ObjectId {
+func (bd *BMAttendeeProp) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BMTeacher) QueryId() string {
+func (bd *BMAttendeeProp) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BMTeacher) SetObjectId(id_ bson.ObjectId) {
+func (bd *BMAttendeeProp) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BMTeacher) SetId(id string) {
+func (bd *BMAttendeeProp) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BMTeacher) SetConnect(tag string, v interface{}) interface{} {
+func (bd BMAttendeeProp) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd BMTeacher) QueryConnect(tag string) interface{} {
+func (bd BMAttendeeProp) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -62,14 +61,14 @@ func (bd BMTeacher) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BMTeacher) InsertBMObject() error {
+func (bd *BMAttendeeProp) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BMTeacher) FindOne(req request.Request) error {
+func (bd *BMAttendeeProp) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BMTeacher) UpdateBMObject(req request.Request) error {
+func (bd *BMAttendeeProp) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }

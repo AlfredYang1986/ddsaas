@@ -3,7 +3,6 @@ package auth
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
-	"github.com/alfredyang1986/ddsaas/bmmodel/profile"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -11,11 +10,11 @@ type BMAuth struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Phone   BMPhone           `json:"phone" jsonapi:"relationships"`
-	Wechat  BMWeChat          `json:"wechat" jsonapi:"relationships"`
-	Profile profile.BMProfile `json:"profile" jsonapi:"relationships"`
+	Phone   BMPhone           `json:"BMPhone" jsonapi:"relationships"`
+	Wechat  BMWeChat          `json:"BMWeChat" jsonapi:"relationships"`
+	//Profile profile.BMProfile `json:"profile" jsonapi:"relationships"`
 
-	Token string `json:"token"`
+	Token string
 }
 
 /*------------------------------------------------
@@ -55,24 +54,24 @@ func (bd *BMAuth) SetId(id string) {
  *------------------------------------------------*/
 func (bd BMAuth) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
-	case "phone":
+	case "BMPhone":
 		bd.Phone = v.(BMPhone)
-	case "wechat":
+	case "BMWeChat":
 		bd.Wechat = v.(BMWeChat)
-	case "profile":
-		bd.Profile = v.(profile.BMProfile)
+	//case "profile":
+	//	bd.Profile = v.(profile.BMProfile)
 	}
 	return bd
 }
 
 func (bd BMAuth) QueryConnect(tag string) interface{} {
 	switch tag {
-	case "phone":
+	case "BMPhone":
 		return bd.Phone
-	case "wechat":
+	case "BMWeChat":
 		return bd.Wechat
-	case "profile":
-		return bd.Profile
+	//case "profile":
+	//	return bd.Profile
 	}
 	return bd
 }

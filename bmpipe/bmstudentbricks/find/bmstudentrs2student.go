@@ -8,6 +8,7 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
+	"github.com/alfredyang1986/ddsaas/bmmodel/guardian"
 	"github.com/alfredyang1986/ddsaas/bmmodel/student"
 	"gopkg.in/mgo.v2/bson"
 	"io"
@@ -26,9 +27,7 @@ func (b *BMStudentRS2StudentBrick) Exec() error {
 	prop := b.bk.Pr.(student.BMStudentProp)
 	reval, err := findStudent(prop)
 	guard, err := findGuardians(prop)
-	conta, err := findContacts(prop)
 	reval.Guardians = guard
-	reval.Contacts = conta
 	b.bk.Pr = reval
 	return err
 }
@@ -89,9 +88,9 @@ func findStudent(prop student.BMStudentProp) (student.BMStudent, error) {
 
 }
 
-func findGuardians(prop student.BMStudentProp) ([]student.BMGuardian, error) {
+func findGuardians(prop student.BMStudentProp) ([]guardian.BMGuardian, error) {
 
-	var gs []student.BMGuardian
+	var gs []guardian.BMGuardian
 
 	for _, v := range prop.GuardianIds {
 		eq := request.EQCond{}
@@ -104,7 +103,7 @@ func findGuardians(prop student.BMStudentProp) ([]student.BMGuardian, error) {
 		c := req.SetConnect("conditions", condi)
 		fmt.Println(c)
 
-		reval := student.BMGuardian{}
+		reval := guardian.BMGuardian{}
 		err := reval.FindOne(c.(request.Request))
 		if err != nil {
 			return nil, err

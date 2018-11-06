@@ -99,7 +99,7 @@ func (b *BMActivityBrandRSPush) Return(w http.ResponseWriter) {
 func findBrand(a activity.BMActivity) (brand.BMBrand, error) {
 	eq := request.EQCond{}
 	eq.Ky = "name"
-	eq.Vy = a.Brand.Name
+	//eq.Vy = a.Brand.Name
 	req := request.Request{}
 	req.Res = "BMBrand"
 	var condi []interface{}

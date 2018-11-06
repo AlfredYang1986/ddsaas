@@ -22,21 +22,21 @@ type BMProfilePushBrick struct {
 func (b *BMProfilePushBrick) Exec() error {
 	var tmp auth.BMAuth = b.bk.Pr.(auth.BMAuth)
 
-	phone := tmp.Phone
-	wechat := tmp.Wechat
-	profile := tmp.Profile
+	//phone := tmp.Phone
+	//wechat := tmp.Wechat
+	//profile := tmp.Profile
 
-	if wechat.Valid() {
-		profile.ScreenName = wechat.Name
-		profile.ScreenPhoto = wechat.Photo
-	} else if phone.Valid() {
-		profile.ScreenName = phone.Phone
-		profile.ScreenPhoto = ""
-	}
-	tmp.Profile = profile
-	err := profile.InsertBMObject()
+	//if wechat.Valid() {
+	//	profile.ScreenName = wechat.Name
+	//	profile.ScreenPhoto = wechat.Photo
+	//} else if phone.Valid() {
+	//	profile.ScreenName = phone.PhoneNo
+	//	profile.ScreenPhoto = ""
+	//}
+	//tmp.Profile = profile
+	//err := profile.InsertBMObject()
 	b.bk.Pr = tmp
-	return err
+	return nil
 }
 
 func (b *BMProfilePushBrick) Prepare(pr interface{}) error {

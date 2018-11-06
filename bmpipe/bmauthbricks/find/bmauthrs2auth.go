@@ -29,10 +29,10 @@ func (b *BMAuthRS2AuthBrick) Exec() error {
 	reval, err := findAuth(prop)
 	phone, err := findPhone(prop)
 	wechat, err := findWechat(prop)
-	profile, err := findProfile(prop)
+	//profile, err := findProfile(prop)
 	reval.Phone = phone
 	reval.Wechat = wechat
-	reval.Profile = profile
+	//reval.Profile = profile
 	b.bk.Pr = reval
 	return err
 }

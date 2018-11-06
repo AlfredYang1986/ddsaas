@@ -10,7 +10,6 @@ import (
 	"github.com/alfredyang1986/blackmirror/jsonapi"
 	"github.com/alfredyang1986/ddsaas/bmmodel/brand"
 	"github.com/alfredyang1986/ddsaas/bmmodel/profile"
-	"gopkg.in/mgo.v2/bson"
 	"io"
 	"net/http"
 )
@@ -26,12 +25,12 @@ type BMBrandCompanyRSPush struct {
 func (b *BMBrandCompanyRSPush) Exec() error {
 	var tmp brand.BMBrand = b.bk.Pr.(brand.BMBrand)
 
-	company, err := findCompany(tmp)
-	if err != nil {
-		b.bk.Err = -6
-		return err
-	}
-	tmp.Company = company
+	//company, err := findCompany(tmp)
+	//if err != nil {
+	//	b.bk.Err = -6
+	//	return err
+	//}
+	//tmp.Company = company
 	eq := request.EQCond{}
 	eq.Ky = "brand_id"
 	eq.Vy = tmp.Id
@@ -43,14 +42,14 @@ func (b *BMBrandCompanyRSPush) Exec() error {
 	fmt.Println(c)
 
 	var qr brand.BMBrandCompanyRS
-	err = qr.FindOne(c.(request.Request))
-	if err != nil && err.Error() == "not found" {
-		qr.Id_ = bson.NewObjectId()
-		qr.Id = qr.Id_.Hex()
-		qr.BrandId = tmp.Id
-		qr.CompanyId = company.Id
-		qr.InsertBMObject()
-	}
+	//err = qr.FindOne(c.(request.Request))
+	//if err != nil && err.Error() == "not found" {
+	//	qr.Id_ = bson.NewObjectId()
+	//	qr.Id = qr.Id_.Hex()
+	//	qr.BrandId = tmp.Id
+	//	qr.CompanyId = company.Id
+	//	qr.InsertBMObject()
+	//}
 	fmt.Println(qr)
 	b.bk.Pr = tmp
 	return nil
@@ -98,7 +97,7 @@ func (b *BMBrandCompanyRSPush) Return(w http.ResponseWriter) {
 func findCompany(b brand.BMBrand) (profile.BMCompany, error) {
 	eq := request.EQCond{}
 	eq.Ky = "name"
-	eq.Vy = b.Company.Name
+	//eq.Vy = b.Company.Name
 	req := request.Request{}
 	req.Res = "BMCompany"
 	var condi []interface{}

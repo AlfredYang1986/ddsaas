@@ -3,27 +3,32 @@ package brand
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
-	"github.com/alfredyang1986/ddsaas/bmmodel/location"
-	"github.com/alfredyang1986/ddsaas/bmmodel/profile"
+	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
+	"github.com/alfredyang1986/ddsaas/bmmodel/reward"
+	"github.com/alfredyang1986/ddsaas/bmmodel/sales"
+	"github.com/alfredyang1986/ddsaas/bmmodel/teacher"
+	"github.com/alfredyang1986/ddsaas/bmmodel/yard"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
 type BMBrand struct {
-	Id        string            		`json:"id"`
-	Id_       bson.ObjectId     		`bson:"_id"`
-	Name      string            		`json:"name" bson:"name"`
-	Slogan    string            		`json:"slogan" bson:"slogan"`
-	Punchline string            		`json:"punchline" bson:"punchline"`
-	Highlight []string          		`json:"highlights" bson:"heighlights"`
-	About     string            		`json:"about" bson:"about"`
-	Awards    map[string]interface{} 	`json:"awards"`
-	Attends   map[string]interface{} 	`json:"attends"`
-	Qualifier map[string]interface{} 	`json:"qualifier"`
-	Found 	  int64 					`json:"found"`
+	Id  string        `json:"id"`
+	Id_ bson.ObjectId `bson:"_id"`
 
-	Locations []location.BMLocation 	`json:"locations" jsonapi:"relationships"`
-	Company   profile.BMCompany 		`json:"company" jsonapi:"relationships"`
+	Title      string   `json:"title" bson:"title"`
+	Subtitle   string   `json:"subtitle" bson:"subtitle"`
+	BrandTags  []string `json:"brand_tags" bson:"brand_tags"`
+	Found      int64    `json:"found"`
+	FoundStory string   `json:"FoundStory" bson:"FoundStory"`
+
+	Rewards  []reward.BMReward   `json:"rewards" jsonapi:"relationships"`
+	//Students []student.BMStudent `json:"students" jsonapi:"relationships"`
+	Attendees []attendee.BMAttendee `json:"attendees" jsonapi:"relationships"`
+	Teachers []teacher.BMTeacher `json:"teachers" jsonapi:"relationships"`
+	Sales    []sales.BMSales     `json:"sales" jsonapi:"relationships"`
+
+	Yard []yard.BMYard `json:"yard" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
@@ -63,25 +68,47 @@ func (bd *BMBrand) SetId(id string) {
  *------------------------------------------------*/
 func (bd BMBrand) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
-	case "locations":
-		var rst []location.BMLocation
+	case "rewards":
+		var rst []reward.BMReward
 		for _, item := range v.([]interface{}) {
-			rst = append(rst, item.(location.BMLocation))
+			rst = append(rst, item.(reward.BMReward))
 		}
-		bd.Locations = rst
-	case "company":
-		bd.Company = v.(profile.BMCompany)
+		bd.Rewards = rst
+	//case "students":
+	//	var rst []student.BMStudent
+	//	for _, item := range v.([]interface{}) {
+	//		rst = append(rst, item.(student.BMStudent))
+	//	}
+	//	bd.Students = rst
+	case "attendees":
+		var rst []attendee.BMAttendee
+		for _, item := range v.([]interface{}) {
+			rst = append(rst, item.(attendee.BMAttendee))
+		}
+		bd.Attendees = rst
+	case "teachers":
+		var rst []teacher.BMTeacher
+		for _, item := range v.([]interface{}) {
+			rst = append(rst, item.(teacher.BMTeacher))
+		}
+		bd.Teachers = rst
+	case "sales":
+		var rst []sales.BMSales
+		for _, item := range v.([]interface{}) {
+			rst = append(rst, item.(sales.BMSales))
+		}
+		bd.Sales = rst
+	case "yard":
+		var rst []yard.BMYard
+		for _, item := range v.([]interface{}) {
+			rst = append(rst, item.(yard.BMYard))
+		}
+		bd.Yard = rst
 	}
 	return bd
 }
 
 func (bd BMBrand) QueryConnect(tag string) interface{} {
-	switch tag {
-	case "locations":
-		return bd.Locations
-	case "company":
-		return bd.Company
-	}
 	return bd
 }
 
@@ -109,7 +136,7 @@ func (bd BMBrand) IsBrandRegistered() bool {
 	defer session.Close()
 
 	c := session.DB("test").C("BMBrand")
-	n, err := c.Find(bson.M{"name": bd.Name}).Count()
+	n, err := c.Find(bson.M{"title": bd.Title}).Count()
 	if err != nil {
 		panic(err)
 	}
@@ -118,5 +145,5 @@ func (bd BMBrand) IsBrandRegistered() bool {
 }
 
 func (bd BMBrand) Valid() bool {
-	return bd.Name != ""
+	return bd.Title != ""
 }

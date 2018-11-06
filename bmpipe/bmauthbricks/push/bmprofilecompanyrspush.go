@@ -1,16 +1,12 @@
 package authpush
 
 import (
-	"fmt"
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
-	"github.com/alfredyang1986/blackmirror/bmmodel/request"
-	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
-	"github.com/alfredyang1986/ddsaas/bmmodel/profile"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
-	"gopkg.in/mgo.v2/bson"
+	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
 	"io"
 	"net/http"
 )
@@ -24,30 +20,30 @@ type BMProfileCompanyRSPushBrick struct {
  *------------------------------------------------*/
 
 func (b *BMProfileCompanyRSPushBrick) Exec() error {
-	var tmp auth.BMAuth = b.bk.Pr.(auth.BMAuth)
+	//var tmp auth.BMAuth = b.bk.Pr.(auth.BMAuth)
 
-	p := tmp.Profile
-	company := p.Company
-	eq := request.EQCond{}
-	eq.Ky = "profile_id"
-	eq.Vy = p.Id
-	req := request.Request{}
-	req.Res = "BMProfileCompanyRS"
-	var condi []interface{}
-	condi = append(condi, eq)
-	c := req.SetConnect("conditions", condi)
-	fmt.Println(c)
-
-	var qr profile.BMProfileCompanyRS
-	err := qr.FindOne(c.(request.Request))
-	if err != nil && err.Error() == "not found" {
-		qr.Id_ = bson.NewObjectId()
-		qr.Id = qr.Id_.Hex()
-		qr.ProfileId = p.Id
-		qr.CompanyId = company.Id
-		qr.InsertBMObject()
-	}
-	fmt.Println(qr)
+	//p := tmp.Profile
+	//company := p.Company
+	//eq := request.EQCond{}
+	//eq.Ky = "profile_id"
+	//eq.Vy = p.Id
+	//req := request.Request{}
+	//req.Res = "BMProfileCompanyRS"
+	//var condi []interface{}
+	//condi = append(condi, eq)
+	//c := req.SetConnect("conditions", condi)
+	//fmt.Println(c)
+	//
+	//var qr profile.BMProfileCompanyRS
+	//err := qr.FindOne(c.(request.Request))
+	//if err != nil && err.Error() == "not found" {
+	//	qr.Id_ = bson.NewObjectId()
+	//	qr.Id = qr.Id_.Hex()
+	//	qr.ProfileId = p.Id
+	//	qr.CompanyId = company.Id
+	//	qr.InsertBMObject()
+	//}
+	//fmt.Println(qr)
 	return nil
 }
 
