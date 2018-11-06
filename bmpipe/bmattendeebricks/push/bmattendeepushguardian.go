@@ -22,7 +22,7 @@ type BMAttendeePushGuardian struct {
  *------------------------------------------------*/
 
 func (b *BMAttendeePushGuardian) Exec() error {
-	var tmp attendee.BMAttendee = b.bk.Pr.(attendee.BMAttendee)
+	var tmp attendee.BmAttendee = b.bk.Pr.(attendee.BmAttendee)
 	guardians := tmp.Guardians
 	for _,g := range guardians{
 		g.InsertBMObject()
@@ -43,7 +43,7 @@ func (b *BMAttendeePushGuardian) Exec() error {
 }
 
 func (b *BMAttendeePushGuardian) Prepare(pr interface{}) error {
-	req := pr.(attendee.BMAttendee)
+	req := pr.(attendee.BmAttendee)
 	//b.bk.Pr = req
 	b.BrickInstance().Pr = req
 	return nil
@@ -66,7 +66,7 @@ func (b *BMAttendeePushGuardian) BrickInstance() *bmpipe.BMBrick {
 
 func (b *BMAttendeePushGuardian) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	tmp := pr.(attendee.BMAttendee)
+	tmp := pr.(attendee.BmAttendee)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
@@ -76,7 +76,7 @@ func (b *BMAttendeePushGuardian) Return(w http.ResponseWriter) {
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval attendee.BMAttendee = b.BrickInstance().Pr.(attendee.BMAttendee)
+		var reval attendee.BmAttendee = b.BrickInstance().Pr.(attendee.BmAttendee)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }

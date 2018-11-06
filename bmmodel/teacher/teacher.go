@@ -11,7 +11,7 @@ type BMTeacher struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Person person.BMPerson 	`json:"person" jsonapi:"relationships"`
+	Person person.BmPerson `json:"person" jsonapi:"relationships"`
 
 }
 

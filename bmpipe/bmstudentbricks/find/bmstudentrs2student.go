@@ -88,22 +88,22 @@ func findStudent(prop student.BMStudentProp) (student.BMStudent, error) {
 
 }
 
-func findGuardians(prop student.BMStudentProp) ([]guardian.BMGuardian, error) {
+func findGuardians(prop student.BMStudentProp) ([]guardian.BmGuardian, error) {
 
-	var gs []guardian.BMGuardian
+	var gs []guardian.BmGuardian
 
 	for _, v := range prop.GuardianIds {
 		eq := request.EQCond{}
 		eq.Ky = "_id"
 		eq.Vy = bson.ObjectIdHex(v.(string))
 		req := request.Request{}
-		req.Res = "BMGuardian"
+		req.Res = "BmGuardian"
 		var condi []interface{}
 		condi = append(condi, eq)
 		c := req.SetConnect("conditions", condi)
 		fmt.Println(c)
 
-		reval := guardian.BMGuardian{}
+		reval := guardian.BmGuardian{}
 		err := reval.FindOne(c.(request.Request))
 		if err != nil {
 			return nil, err

@@ -11,8 +11,8 @@ type BMSales struct {
 	Id        string            `json:"id"`
 	Id_       bson.ObjectId     `bson:"_id"`
 
-	UniqueId	  string 			`json:"uniqueId" bson:"uniqueId"`
-	Person person.BMPerson 	`json:"person" jsonapi:"relationships"`
+	UniqueId	  string   `json:"uniqueId" bson:"uniqueId"`
+	Person person.BmPerson `json:"person" jsonapi:"relationships"`
 
 }
 

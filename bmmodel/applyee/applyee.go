@@ -13,8 +13,8 @@ type BMApplyee struct {
 	Id_ bson.ObjectId `bson:"_id"`
 
 	RelationShip string                `json:"relation_ship" bson:"relation_ship"`
-	Attendees    []attendee.BMAttendee `json:"attendees" bson:"relationships"`
-	Person       person.BMPerson       `json:"person" bson:"relationships"`
+	Attendees    []attendee.BmAttendee `json:"attendees" bson:"relationships"`
+	Person       person.BmPerson       `json:"person" bson:"relationships"`
 }
 
 /*-----------------------------------------------
@@ -55,11 +55,11 @@ func (bd *BMApplyee) SetId(id string) {
 func (bd BMApplyee) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
 	case "person":
-		bd.Person = v.(person.BMPerson)
+		bd.Person = v.(person.BmPerson)
 	case "attendee":
-		var rst []attendee.BMAttendee
+		var rst []attendee.BmAttendee
 		for _, item := range v.([]interface{}) {
-			rst = append(rst, item.(attendee.BMAttendee))
+			rst = append(rst, item.(attendee.BmAttendee))
 		}
 		bd.Attendees = rst
 	}

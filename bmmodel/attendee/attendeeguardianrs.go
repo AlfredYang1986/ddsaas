@@ -3,6 +3,7 @@ package attendee
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"github.com/alfredyang1986/ddsaas/bmmodel/guardian"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -71,4 +72,33 @@ func (bd *BMAttendeeGuardianRS) FindOne(req request.Request) error {
 
 func (bd *BMAttendeeGuardianRS) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
+}
+
+func (bd *BMAttendeeGuardianRS) GetAttendee() (error, BmAttendee) {
+	eq := request.EQCond{}
+	eq.Ky = "_id"
+	eq.Vy = bson.ObjectIdHex(bd.AttendeeId)
+	req := request.Request{}
+	req.Res = "BmAttendee"
+	var condi []interface{}
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+	var attendee BmAttendee
+	err := attendee.FindOne(c.(request.Request))
+	return err, attendee
+}
+
+func (bd *BMAttendeeGuardianRS) GetGuardian() (error, guardian.BmGuardian) {
+	eq := request.EQCond{}
+	eq.Ky = "_id"
+	eq.Vy = bson.ObjectIdHex(bd.GuardianId)
+	req := request.Request{}
+	req.Res = "BmGuardian"
+	var condi []interface{}
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+	var guardian guardian.BmGuardian
+	err := guardian.FindOne(c.(request.Request))
+	guardian.ReSetPerson()
+	return err, guardian
 }

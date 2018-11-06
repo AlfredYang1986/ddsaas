@@ -2,11 +2,11 @@ package attendeepush
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
-	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
+	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
 	"io"
 	"net/http"
 )
@@ -20,7 +20,7 @@ type BMAttendeePushPerson struct {
  *------------------------------------------------*/
 
 func (b *BMAttendeePushPerson) Exec() error {
-	var tmp attendee.BMAttendee = b.bk.Pr.(attendee.BMAttendee)
+	var tmp attendee.BmAttendee = b.bk.Pr.(attendee.BmAttendee)
 	ap := tmp.Person
 	ap.InsertBMObject()
 	b.bk.Pr = tmp
@@ -28,7 +28,7 @@ func (b *BMAttendeePushPerson) Exec() error {
 }
 
 func (b *BMAttendeePushPerson) Prepare(pr interface{}) error {
-	req := pr.(attendee.BMAttendee)
+	req := pr.(attendee.BmAttendee)
 	//b.bk.Pr = req
 	b.BrickInstance().Pr = req
 	return nil
@@ -51,7 +51,7 @@ func (b *BMAttendeePushPerson) BrickInstance() *bmpipe.BMBrick {
 
 func (b *BMAttendeePushPerson) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	tmp := pr.(attendee.BMAttendee)
+	tmp := pr.(attendee.BmAttendee)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
@@ -61,7 +61,7 @@ func (b *BMAttendeePushPerson) Return(w http.ResponseWriter) {
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval attendee.BMAttendee = b.BrickInstance().Pr.(attendee.BMAttendee)
+		var reval attendee.BmAttendee = b.BrickInstance().Pr.(attendee.BmAttendee)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }

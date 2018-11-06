@@ -14,6 +14,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmactivitybricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/push"
 	"net/http"
@@ -67,14 +68,16 @@ func main() {
 	fac.RegisterModel("BMPhone", &auth.BMPhone{})
 	fac.RegisterModel("BMWeChat", &auth.BMWeChat{})
 	fac.RegisterModel("BMAuthProp", &auth.BMAuthProp{})
-	fac.RegisterModel("BMAttendee", &attendee.BMAttendee{})
+	fac.RegisterModel("BmAttendee", &attendee.BmAttendee{})
+	fac.RegisterModel("BmAttendees", &attendee.BmAttendees{})
 	fac.RegisterModel("BMAttendeeProp", &attendee.BMAttendeeProp{})
 	fac.RegisterModel("BMAttendeeGuardianRS", &attendee.BMAttendeeGuardianRS{})
-	fac.RegisterModel("BMGuardian", &guardian.BMGuardian{})
+	fac.RegisterModel("BMAttendeeGuardianRSeS", &attendee.BMAttendeeGuardianRSeS{})
+	fac.RegisterModel("BmGuardian", &guardian.BmGuardian{})
 	fac.RegisterModel("BMGuardianProp", &guardian.BMGuardianProp{})
-	fac.RegisterModel("BMPerson", &person.BMPerson{})
-	fac.RegisterModel("BMAddress", &address.BMAddress{})
-	fac.RegisterModel("BMRegion", &region.BMRegion{})
+	fac.RegisterModel("BmPerson", &person.BmPerson{})
+	fac.RegisterModel("BmAddress", &address.BmAddress{})
+	fac.RegisterModel("BmRegion", &region.BmRegion{})
 	fac.RegisterModel("BMPayment", &payment.BMPayment{})
 
 	fac.RegisterModel("BMProfile", &profile.BMProfile{})
@@ -87,7 +90,7 @@ func main() {
 	fac.RegisterModel("BMCourse", &course.BMCourse{})
 	fac.RegisterModel("BMStudent", &student.BMStudent{})
 	fac.RegisterModel("BMStudents", &student.BMStudents{})
-	fac.RegisterModel("BMGuardian", &guardian.BMGuardian{})
+	fac.RegisterModel("BmGuardian", &guardian.BmGuardian{})
 	fac.RegisterModel("BMContacter", &student.BMContacter{})
 	fac.RegisterModel("BMStudentProp", &student.BMStudentProp{})
 	fac.RegisterModel("BMStudentsProp", &student.BMStudentsProp{})
@@ -108,6 +111,10 @@ func main() {
 	fac.RegisterModel("BMPhone2AuthRSBrick", &authfind.BMPhone2AuthRSBrick{})
 	fac.RegisterModel("BMGetPublicKeyBrick", &authfind.BMGetPublicKeyBrick{})
 	fac.RegisterModel("BMAccountFindBrick", &accountfind.BMAccountFindBrick{})
+
+	fac.RegisterModel("BMAttendeeFindBrick", &attendeefind.BMAttendeeFindBrick{})
+	fac.RegisterModel("BMAttendeeFindMulti", &attendeefind.BMAttendeeFindMulti{})
+	fac.RegisterModel("BMAttendeeRS2Attendee", &attendeefind.BMAttendeeRS2Attendee{})
 
 	fac.RegisterModel("BMStudentFindBrick", &studentfind.BMStudentFindBrick{})
 	fac.RegisterModel("BMStudent2StudentRSBrick", &studentfind.BMStudent2StudentRSBrick{})

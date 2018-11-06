@@ -3,6 +3,7 @@ package attendee
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"github.com/alfredyang1986/ddsaas/bmmodel/person"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -71,4 +72,32 @@ func (bd *BMAttendeeProp) FindOne(req request.Request) error {
 
 func (bd *BMAttendeeProp) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
+}
+
+func (bd *BMAttendeeProp) GetAttendee() (error, BmAttendee) {
+	eq := request.EQCond{}
+	eq.Ky = "_id"
+	eq.Vy = bson.ObjectIdHex(bd.AttendeeId)
+	req := request.Request{}
+	req.Res = "BmAttendee"
+	var condi []interface{}
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+	var attendee BmAttendee
+	err := attendee.FindOne(c.(request.Request))
+	return err, attendee
+}
+
+func (bd *BMAttendeeProp) GetPerson() (error, person.BmPerson) {
+	eq := request.EQCond{}
+	eq.Ky = "_id"
+	eq.Vy = bson.ObjectIdHex(bd.PersonId)
+	req := request.Request{}
+	req.Res = "BmPerson"
+	var condi []interface{}
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+	person := person.BmPerson{}
+	err := person.FindOne(c.(request.Request))
+	return err, person
 }

@@ -7,7 +7,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type BMPerson struct {
+type BmPerson struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
@@ -15,21 +15,21 @@ type BMPerson struct {
 	Nickname string `json:"nickname" bson:"nickname"`
 	Icon     string `json:"icon" bson:"icon"`
 	Dob      int64 `json:"dob" bson:"dob"`
-	Gender   string `json:"gender" bson:"gender"`
+	Gender   int64 `json:"gender" bson:"gender"`
 	RegDate  int64 `json:"reg_date" bson:"reg_date"`
 
-	Address address.BMAddress `json:"address" jsonapi:"relationships"`
+	Address address.BmAddress `json:"address" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BMPerson) ResetIdWithId_() {
+func (bd *BmPerson) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BMPerson) ResetId_WithID() {
+func (bd *BmPerson) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -37,34 +37,34 @@ func (bd *BMPerson) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BMPerson) QueryObjectId() bson.ObjectId {
+func (bd *BmPerson) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BMPerson) QueryId() string {
+func (bd *BmPerson) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BMPerson) SetObjectId(id_ bson.ObjectId) {
+func (bd *BmPerson) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BMPerson) SetId(id string) {
+func (bd *BmPerson) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BMPerson) SetConnect(tag string, v interface{}) interface{} {
+func (bd BmPerson) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
 	case "address":
-		bd.Address = v.(address.BMAddress)
+		bd.Address = v.(address.BmAddress)
 	}
 	return bd
 }
 
-func (bd BMPerson) QueryConnect(tag string) interface{} {
+func (bd BmPerson) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -72,14 +72,14 @@ func (bd BMPerson) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BMPerson) InsertBMObject() error {
+func (bd *BmPerson) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BMPerson) FindOne(req request.Request) error {
+func (bd *BmPerson) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BMPerson) UpdateBMObject(req request.Request) error {
+func (bd *BmPerson) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }

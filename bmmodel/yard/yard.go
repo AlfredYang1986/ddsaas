@@ -19,8 +19,8 @@ type BMYard struct {
 	Around      string `json:"around" bson:"around"`
 	Facilities  string `json:"facilities" bson:"facilities"`
 
-	Address address.BMAddress `json:"address" bson:"relationships"`
-	Rooms []room.BMRoom `json:"rooms" bson:"relationships"`
+	Address address.BmAddress `json:"address" bson:"relationships"`
+	Rooms []room.BMRoom       `json:"rooms" bson:"relationships"`
 	TagImgs []tagimg.BMTagImg `json:"tagimgs" bson:"relationships"`
 }
 

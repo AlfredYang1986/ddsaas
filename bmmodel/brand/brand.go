@@ -24,9 +24,9 @@ type BMBrand struct {
 
 	Rewards  []reward.BMReward   `json:"rewards" jsonapi:"relationships"`
 	//Students []student.BMStudent `json:"students" jsonapi:"relationships"`
-	Attendees []attendee.BMAttendee `json:"attendees" jsonapi:"relationships"`
-	Teachers []teacher.BMTeacher `json:"teachers" jsonapi:"relationships"`
-	Sales    []sales.BMSales     `json:"sales" jsonapi:"relationships"`
+	Attendees []attendee.BmAttendee `json:"attendees" jsonapi:"relationships"`
+	Teachers []teacher.BMTeacher    `json:"teachers" jsonapi:"relationships"`
+	Sales    []sales.BMSales        `json:"sales" jsonapi:"relationships"`
 
 	Yard []yard.BMYard `json:"yard" jsonapi:"relationships"`
 }
@@ -81,9 +81,9 @@ func (bd BMBrand) SetConnect(tag string, v interface{}) interface{} {
 	//	}
 	//	bd.Students = rst
 	case "attendees":
-		var rst []attendee.BMAttendee
+		var rst []attendee.BmAttendee
 		for _, item := range v.([]interface{}) {
-			rst = append(rst, item.(attendee.BMAttendee))
+			rst = append(rst, item.(attendee.BmAttendee))
 		}
 		bd.Attendees = rst
 	case "teachers":

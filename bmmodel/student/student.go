@@ -12,8 +12,8 @@ type BMStudent struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Person person.BMPerson 	`json:"person" jsonapi:"relationships"`
-	Guardians []guardian.BMGuardian  `json:"guardians" jsonapi:"relationships"`
+	Person person.BmPerson          `json:"person" jsonapi:"relationships"`
+	Guardians []guardian.BmGuardian `json:"guardians" jsonapi:"relationships"`
 	//Contacts  []BMContacter `json:"contacts" jsonapi:"relationships"`
 
 }
@@ -56,9 +56,9 @@ func (bd *BMStudent) SetId(id string) {
 func (bd BMStudent) SetConnect(tag string, v interface{}) interface{} {
 	//switch tag {
 	//case "guardians":
-	//	var guardians []BMGuardian
+	//	var guardians []BmGuardian
 	//	for _, item := range v.([]interface{}) {
-	//		guardians = append(guardians, item.(BMGuardian))
+	//		guardians = append(guardians, item.(BmGuardian))
 	//	}
 	//	bd.Guardians = guardians
 	//}

@@ -1,18 +1,18 @@
-package attendeepush
+package attendeefind
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
+	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
+	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
-	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
-	"gopkg.in/mgo.v2/bson"
-	"io"
 	"net/http"
+	"io"
 )
 
-type BMAttendeePushPersonRS struct {
+type BMAttendeeFindBrick struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -20,29 +20,21 @@ type BMAttendeePushPersonRS struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BMAttendeePushPersonRS) Exec() error {
-	var tmp attendee.BmAttendee = b.bk.Pr.(attendee.BmAttendee)
-
-	person := tmp.Person
-	var ap attendee.BMAttendeeProp
-	ap.Id_ = bson.NewObjectId()
-	ap.Id = ap.Id_.Hex()
-	ap.AttendeeId = tmp.Id
-	ap.PersonId = person.Id
-	ap.InsertBMObject()
-
+func (b *BMAttendeeFindBrick) Exec() error {
+	var tmp attendee.BmAttendee
+	err := tmp.FindOne(*b.bk.Req)
 	b.bk.Pr = tmp
-	return nil
+	return err
 }
 
-func (b *BMAttendeePushPersonRS) Prepare(pr interface{}) error {
-	req := pr.(attendee.BmAttendee)
+func (b *BMAttendeeFindBrick) Prepare(pr interface{}) error {
+	req := pr.(request.Request)
 	//b.bk.Pr = req
-	b.BrickInstance().Pr = req
+	b.BrickInstance().Req = &req
 	return nil
 }
 
-func (b *BMAttendeePushPersonRS) Done(pkg string, idx int64, e error) error {
+func (b *BMAttendeeFindBrick) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	if int(idx) < tmp-1 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)
@@ -50,21 +42,21 @@ func (b *BMAttendeePushPersonRS) Done(pkg string, idx int64, e error) error {
 	return nil
 }
 
-func (b *BMAttendeePushPersonRS) BrickInstance() *bmpipe.BMBrick {
+func (b *BMAttendeeFindBrick) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BMAttendeePushPersonRS) ResultTo(w io.Writer) error {
+func (b *BMAttendeeFindBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
 	tmp := pr.(attendee.BmAttendee)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BMAttendeePushPersonRS) Return(w http.ResponseWriter) {
+func (b *BMAttendeeFindBrick) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
@@ -73,3 +65,4 @@ func (b *BMAttendeePushPersonRS) Return(w http.ResponseWriter) {
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }
+

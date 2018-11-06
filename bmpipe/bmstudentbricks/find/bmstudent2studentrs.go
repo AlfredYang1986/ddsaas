@@ -1,7 +1,6 @@
 package studentfind
 
 import (
-	"fmt"
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
@@ -32,10 +31,9 @@ func (b *BMStudent2StudentRSBrick) Exec() error {
 	var condi []interface{}
 	condi = append(condi, eq)
 	c := req.SetConnect("conditions", condi)
-	fmt.Println(c)
-
 	var reval student.BMStudentProp
 	err := reval.FindOne(c.(request.Request))
+
 	b.bk.Pr = reval
 	return err
 }

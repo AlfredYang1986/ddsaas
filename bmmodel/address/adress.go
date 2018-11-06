@@ -7,11 +7,11 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type BMAddress struct {
+type BmAddress struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Region region.BMRegion `json:"region" jsonapi:"relationships"`
+	Region region.BmRegion `json:"region" jsonapi:"relationships"`
 	Detail string          `json:"detail" bson:"detail"`
 }
 
@@ -19,11 +19,11 @@ type BMAddress struct {
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BMAddress) ResetIdWithId_() {
+func (bd *BmAddress) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BMAddress) ResetId_WithID() {
+func (bd *BmAddress) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -31,30 +31,34 @@ func (bd *BMAddress) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BMAddress) QueryObjectId() bson.ObjectId {
+func (bd *BmAddress) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BMAddress) QueryId() string {
+func (bd *BmAddress) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BMAddress) SetObjectId(id_ bson.ObjectId) {
+func (bd *BmAddress) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BMAddress) SetId(id string) {
+func (bd *BmAddress) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BMAddress) SetConnect(tag string, v interface{}) interface{} {
+func (bd BmAddress) SetConnect(tag string, v interface{}) interface{} {
+	switch tag {
+	case "region":
+		bd.Region = v.(region.BmRegion)
+	}
 	return bd
 }
 
-func (bd BMAddress) QueryConnect(tag string) interface{} {
+func (bd BmAddress) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -62,14 +66,14 @@ func (bd BMAddress) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BMAddress) InsertBMObject() error {
+func (bd *BmAddress) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BMAddress) FindOne(req request.Request) error {
+func (bd *BmAddress) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BMAddress) UpdateBMObject(req request.Request) error {
+func (bd *BmAddress) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
