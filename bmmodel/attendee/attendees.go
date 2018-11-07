@@ -85,3 +85,34 @@ func (bd *BmAttendees) FindMulti(req request.Request) error {
 	}
 	return err
 }
+
+func (bd *BmAttendees) ReSetPerson() error {
+
+	var err error
+	for i, r := range bd.Attendees {
+		attendeeId := r.Id
+		eq := request.EqCond{}
+		eq.Ky = "attendeeId"
+		eq.Vy = attendeeId
+		req1 := request.Request{}
+		req1.Res = "BMAttendeeProp"
+		var condi1 []interface{}
+		condi1 = append(condi1, eq)
+		c1 := req1.SetConnect("conditions", condi1)
+		var attendeeProp BMAttendeeProp
+		err = attendeeProp.FindOne(c1.(request.Request))
+		if err != nil {
+			return err
+		}
+
+		err, person := attendeeProp.GetPerson()
+		if err != nil {
+			return err
+		}
+		r.Person = person
+
+		bd.Attendees[i] = r
+	}
+	return err
+}
+

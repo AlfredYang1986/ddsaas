@@ -78,10 +78,10 @@ func (bd *BMRsaKey) UpdateBMObject(req request.Request) error {
 
 func (bd *BMRsaKey) GetPrivateKey() (string, error) {
 
-	eq1 := request.EQCond{}
+	eq1 := request.EqCond{}
 	eq1.Ky = "company"
 	eq1.Vy = bd.Company
-	eq2 := request.EQCond{}
+	eq2 := request.EqCond{}
 	eq2.Ky = "date"
 	eq2.Vy = bd.Date
 	req := request.Request{}

@@ -30,7 +30,7 @@ func (b *BMAccountFindBrick) Exec() error {
 
 func (b *BMAccountFindBrick) Prepare(pr interface{}) error {
 	req := pr.(request.Request)
-	var eqCondArr []request.EQCond
+	var eqCondArr []request.EqCond
 	for _, e := range req.EqCond {
 		if e.Ky == "secretword" {
 			tmpAccount := account.BMAccount{

@@ -24,7 +24,7 @@ type BMAuthRSPushBrick struct {
 
 func (b *BMAuthRSPushBrick) Exec() error {
 	var tmp auth.BMAuth = b.bk.Pr.(auth.BMAuth)
-	eq := request.EQCond{}
+	eq := request.EqCond{}
 	eq.Ky = "auth_id"
 	eq.Vy = tmp.Id
 	req := request.Request{}

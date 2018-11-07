@@ -25,7 +25,7 @@ func (b *BMAttendeeRS2Attendee) Exec() error {
 	var tmp attendee.BmAttendee = b.bk.Pr.(attendee.BmAttendee)
 	var err error
 
-	eq := request.EQCond{}
+	eq := request.EqCond{}
 	eq.Ky = "attendeeId"
 	eq.Vy = tmp.Id
 	req1 := request.Request{}
@@ -42,7 +42,7 @@ func (b *BMAttendeeRS2Attendee) Exec() error {
 	err, person := attendeeProp.GetPerson()
 	tmp.Person = person
 
-	fm := request.FMUCond{}
+	fm := request.FmCond{}
 	fm.Ky = "attendeeId"
 	fm.Vy = tmp.Id
 	fm.Ct = "BMAttendeeGuardianRS"
@@ -51,7 +51,7 @@ func (b *BMAttendeeRS2Attendee) Exec() error {
 	req2.FmCond = append(req2.FmCond, fm)
 	var condi2 []interface{}
 	condi2 = append(condi2, fm)
-	c2 := req2.SetConnect("fmcond", condi2)
+	c2 := req2.SetConnect("FmCond", condi2)
 	var agrsarr attendee.BMAttendeeGuardianRSeS
 	err = agrsarr.FindMulti(c2.(request.Request))
 	if err != nil {

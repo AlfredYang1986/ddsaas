@@ -2,15 +2,14 @@ package attendeefind
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
-	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
-	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmerror"
+	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
-	"github.com/hashicorp/go-uuid"
-	"net/http"
+	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
 	"io"
+	"net/http"
 )
 
 type BMAttendeeFindMulti struct {
@@ -24,6 +23,7 @@ type BMAttendeeFindMulti struct {
 func (b *BMAttendeeFindMulti) Exec() error {
 	var tmp attendee.BmAttendees
 	err := tmp.FindMulti(*b.bk.Req)
+	tmp.ReSetPerson()
 	b.bk.Pr = tmp
 	return err
 }
@@ -62,18 +62,20 @@ func (b *BMAttendeeFindMulti) Return(w http.ResponseWriter) {
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		attendees := b.BrickInstance().Pr.(attendee.BmAttendees).Attendees
+		bmAttendees := b.BrickInstance().Pr.(attendee.BmAttendees)
 
-		var attendeeids []string
-		for _, att := range attendees {
-			attendeeids = append(attendeeids, att.Id)
-		}
-		tempUUID, _ := uuid.GenerateUUID()
-		var reval = attendee.BmAttendeesResult{
-			Id: tempUUID,
-			AttendeeIds: attendeeids,
-		}
-		jsonapi.ToJsonAPI(&reval, w)
+		//attendees := bmAttendees.Attendees
+		//var attendeeids []string
+		//for _, att := range attendees {
+		//	attendeeids = append(attendeeids, att.Id)
+		//}
+		//tempUUID, _ := uuid.GenerateUUID()
+		//var reval = attendee.BmAttendeesResult{
+		//	Id: tempUUID,
+		//	AttendeeIds: attendeeids,
+		//}
+		//jsonapi.ToJsonAPI(&reval, w)
+		jsonapi.ToJsonAPI(&bmAttendees, w)
 	}
 }
 

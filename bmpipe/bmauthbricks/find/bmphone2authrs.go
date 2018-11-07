@@ -24,7 +24,7 @@ type BMPhone2AuthRSBrick struct {
 
 func (b *BMPhone2AuthRSBrick) Exec() error {
 	var tmp auth.BMPhone = b.bk.Pr.(auth.BMPhone)
-	eq := request.EQCond{}
+	eq := request.EqCond{}
 	eq.Ky = "phone_id"
 	eq.Vy = tmp.Id
 	req := request.Request{}

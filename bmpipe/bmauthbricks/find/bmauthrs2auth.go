@@ -10,7 +10,6 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
 	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
-	"github.com/alfredyang1986/ddsaas/bmmodel/profile"
 	"gopkg.in/mgo.v2/bson"
 	"io"
 	"net/http"
@@ -80,7 +79,7 @@ func (b *BMAuthRS2AuthBrick) Return(w http.ResponseWriter) {
  *------------------------------------------------*/
 
 func findPhone(prop auth.BMAuthProp) (auth.BMPhone, error) {
-	eq := request.EQCond{}
+	eq := request.EqCond{}
 	eq.Ky = "_id"
 	eq.Vy = bson.ObjectIdHex(prop.Phone_id)
 	req := request.Request{}
@@ -97,7 +96,7 @@ func findPhone(prop auth.BMAuthProp) (auth.BMPhone, error) {
 }
 
 func findWechat(prop auth.BMAuthProp) (auth.BMWeChat, error) {
-	eq := request.EQCond{}
+	eq := request.EqCond{}
 	eq.Ky = "_id"
 	eq.Vy = bson.ObjectIdHex(prop.Wechat_id)
 	req := request.Request{}
@@ -114,7 +113,7 @@ func findWechat(prop auth.BMAuthProp) (auth.BMWeChat, error) {
 }
 
 func findAuth(prop auth.BMAuthProp) (auth.BMAuth, error) {
-	eq := request.EQCond{}
+	eq := request.EqCond{}
 	eq.Ky = "_id"
 	eq.Vy = bson.ObjectIdHex(prop.Auth_id)
 	req := request.Request{}
@@ -125,24 +124,6 @@ func findAuth(prop auth.BMAuthProp) (auth.BMAuth, error) {
 	fmt.Println(c)
 
 	reval := auth.BMAuth{}
-	err := reval.FindOne(c.(request.Request))
-
-	return reval, err
-
-}
-
-func findProfile(prop auth.BMAuthProp) (profile.BMProfile, error) {
-	eq := request.EQCond{}
-	eq.Ky = "_id"
-	eq.Vy = bson.ObjectIdHex(prop.Auth_id)
-	req := request.Request{}
-	req.Res = "BMProfile"
-	var condi []interface{}
-	condi = append(condi, eq)
-	c := req.SetConnect("conditions", condi)
-	fmt.Println(c)
-
-	reval := profile.BMProfile{}
 	err := reval.FindOne(c.(request.Request))
 
 	return reval, err

@@ -75,7 +75,7 @@ func (bd *BMAttendeeGuardianRS) UpdateBMObject(req request.Request) error {
 }
 
 func (bd *BMAttendeeGuardianRS) GetAttendee() (error, BmAttendee) {
-	eq := request.EQCond{}
+	eq := request.EqCond{}
 	eq.Ky = "_id"
 	eq.Vy = bson.ObjectIdHex(bd.AttendeeId)
 	req := request.Request{}
@@ -89,7 +89,7 @@ func (bd *BMAttendeeGuardianRS) GetAttendee() (error, BmAttendee) {
 }
 
 func (bd *BMAttendeeGuardianRS) GetGuardian() (error, guardian.BmGuardian) {
-	eq := request.EQCond{}
+	eq := request.EqCond{}
 	eq.Ky = "_id"
 	eq.Vy = bson.ObjectIdHex(bd.GuardianId)
 	req := request.Request{}
