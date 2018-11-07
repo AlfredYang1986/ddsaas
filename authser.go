@@ -37,6 +37,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/sessioninfo"
 	"github.com/alfredyang1986/ddsaas/bmmodel/category"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/findmulti"
 )
 
 func main() {
@@ -122,6 +123,7 @@ func main() {
 	 * session brick object
 	 *------------------------------------------------*/
 	fac.RegisterModel("BmSessionInfo", &sessioninfo.BmSessionInfo{})
+	fac.RegisterModel("BmSessionInfos", &sessioninfo.BmSessionInfos{})
 	fac.RegisterModel("BmCategory", &category.BmCategory{})
 
 	fac.RegisterModel("BmSessionInfoPushBrick", &courseinfopush.BmSessionInfoPushBrick{})
@@ -129,6 +131,8 @@ func main() {
 	fac.RegisterModel("BmBindSessionCatPushBrick", &courseinfopush.BmBindSessionCatPushBrick{})
 	fac.RegisterModel("BmFindSessionInfoBrick", &courseinfofind.BmFindSessionInfoBrick{})
 	fac.RegisterModel("BmBindFindSessionInfoCatBrick", &courseinfofind.BmBindFindSessionInfoCatBrick{})
+	fac.RegisterModel("BmFindSessionInfoMultiBrick", &courseinfofindmulti.BmFindSessionInfoMultiBrick{})
+	fac.RegisterModel("BmFindSessionInfoBindCatMultiBrick", &courseinfofindmulti.BmFindSessionInfoBindCatMultiBrick{})
 
 	/*------------------------------------------------
 	 * update bricks object
