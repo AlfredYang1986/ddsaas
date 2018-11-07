@@ -75,7 +75,7 @@ func (bd *BMTeacherProp) UpdateBMObject(req request.Request) error {
 }
 
 func (bd *BMTeacherProp) GetTeacher() (error, BmTeacher) {
-	eq := request.EqCond{}
+	eq := request.Eqcond{}
 	eq.Ky = "_id"
 	eq.Vy = bson.ObjectIdHex(bd.TeacherId)
 	req := request.Request{}
@@ -89,7 +89,7 @@ func (bd *BMTeacherProp) GetTeacher() (error, BmTeacher) {
 }
 
 func (bd *BMTeacherProp) GetPerson() (error, person.BmPerson) {
-	eq := request.EqCond{}
+	eq := request.Eqcond{}
 	eq.Ky = "_id"
 	eq.Vy = bson.ObjectIdHex(bd.PersonId)
 	req := request.Request{}

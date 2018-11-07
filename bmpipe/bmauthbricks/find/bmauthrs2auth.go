@@ -79,7 +79,7 @@ func (b *BMAuthRS2AuthBrick) Return(w http.ResponseWriter) {
  *------------------------------------------------*/
 
 func findPhone(prop auth.BMAuthProp) (auth.BMPhone, error) {
-	eq := request.EqCond{}
+	eq := request.Eqcond{}
 	eq.Ky = "_id"
 	eq.Vy = bson.ObjectIdHex(prop.Phone_id)
 	req := request.Request{}
@@ -96,7 +96,7 @@ func findPhone(prop auth.BMAuthProp) (auth.BMPhone, error) {
 }
 
 func findWechat(prop auth.BMAuthProp) (auth.BMWeChat, error) {
-	eq := request.EqCond{}
+	eq := request.Eqcond{}
 	eq.Ky = "_id"
 	eq.Vy = bson.ObjectIdHex(prop.Wechat_id)
 	req := request.Request{}
@@ -113,7 +113,7 @@ func findWechat(prop auth.BMAuthProp) (auth.BMWeChat, error) {
 }
 
 func findAuth(prop auth.BMAuthProp) (auth.BMAuth, error) {
-	eq := request.EqCond{}
+	eq := request.Eqcond{}
 	eq.Ky = "_id"
 	eq.Vy = bson.ObjectIdHex(prop.Auth_id)
 	req := request.Request{}

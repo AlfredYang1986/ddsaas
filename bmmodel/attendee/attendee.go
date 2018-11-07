@@ -17,9 +17,9 @@ type BmAttendee struct {
 	Status      string `json:"status" bson:"status"`
 	LessonCount int64 `json:"lesson_count" bson:"lesson_count"`
 
-	Person    person.BmPerson       `json:"person" jsonapi:"relationships"`
-	Guardians []guardian.BmGuardian `json:"guardians" jsonapi:"relationships"`
-	Payments  []payment.BMPayment   `json:"payments" jsonapi:"relationships"`
+	Person    person.BmPerson       `json:"Person" jsonapi:"relationships"`
+	Guardians []guardian.BmGuardian `json:"Guardians" jsonapi:"relationships"`
+	Payments  []payment.BMPayment   `json:"Payments" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------

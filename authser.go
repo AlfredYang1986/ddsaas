@@ -14,6 +14,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/push"
 	"net/http"
 	"sync"
@@ -40,9 +41,9 @@ func main() {
 	 * model object
 	 *------------------------------------------------*/
 	fac.RegisterModel("Request", &request.Request{})
-	fac.RegisterModel("EqCond", &request.EqCond{})
-	fac.RegisterModel("UpCond", &request.UpCond{})
-	fac.RegisterModel("FmCond", &request.FmCond{})
+	fac.RegisterModel("Eqcond", &request.Eqcond{})
+	fac.RegisterModel("Upcond", &request.Upcond{})
+	fac.RegisterModel("Fmcond", &request.Fmcond{})
 	fac.RegisterModel("BMErrorNode", &bmerror.BMErrorNode{})
 
 	fac.RegisterModel("BMRsaKey", &auth.BMRsaKey{})
@@ -67,7 +68,7 @@ func main() {
 	fac.RegisterModel("BmTeacher", &teacher.BmTeacher{})
 
 	/*------------------------------------------------
-	 * auth find bricks object
+	 * find bricks object
 	 *------------------------------------------------*/
 	fac.RegisterModel("BMAuthPhoneFindBrick", &authfind.BMAuthPhoneFindBrick{})
 	fac.RegisterModel("BMAuthRS2AuthBrick", &authfind.BMAuthRS2AuthBrick{})
@@ -106,13 +107,14 @@ func main() {
 	fac.RegisterModel("BmTeacherRS2Teacher", &teacherfind.BmTeacherRS2Teacher{})
 
 	/*------------------------------------------------
-	 * auth update bricks object
+	 * update bricks object
 	 *------------------------------------------------*/
 	fac.RegisterModel("BMAuthPhoneUpdateBrick", &authupdate.BMAuthPhoneUpdateBrick{})
 	fac.RegisterModel("BMAuthWechatUpdateBrick", &authupdate.BMAuthWechatUpdateBrick{})
+	fac.RegisterModel("BMAttendeeUpdate", &attendeeupdate.BmAttendeeUpdate{})
 
 	/*------------------------------------------------
-	 * auth delete bricks object
+	 * delete bricks object
 	 *------------------------------------------------*/
 
 	/*------------------------------------------------

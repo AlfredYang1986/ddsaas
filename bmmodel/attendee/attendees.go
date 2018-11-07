@@ -10,7 +10,7 @@ type BmAttendees struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Attendees []BmAttendee `json:"attendees" jsonapi:"relationships"`
+	Attendees []BmAttendee `json:"Attendees" jsonapi:"relationships"`
 }
 
 type BmAttendeesResult struct {
@@ -91,7 +91,7 @@ func (bd *BmAttendees) ReSetPerson() error {
 	var err error
 	for i, r := range bd.Attendees {
 		attendeeId := r.Id
-		eq := request.EqCond{}
+		eq := request.Eqcond{}
 		eq.Ky = "attendeeId"
 		eq.Vy = attendeeId
 		req1 := request.Request{}

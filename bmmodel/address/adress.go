@@ -11,7 +11,7 @@ type BmAddress struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Region region.BmRegion `json:"region" jsonapi:"relationships"`
+	Region region.BmRegion `json:"Region" jsonapi:"relationships"`
 	Detail string          `json:"detail" bson:"detail"`
 }
 

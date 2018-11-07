@@ -82,7 +82,7 @@ func (bd *BmGuardian) ReSetPerson() error {
 
 	var err error
 
-	eq1 := request.EqCond{}
+	eq1 := request.Eqcond{}
 	eq1.Ky = "guardianId"
 	eq1.Vy = bd.Id
 	req1 := request.Request{}
@@ -96,7 +96,7 @@ func (bd *BmGuardian) ReSetPerson() error {
 		return err
 	}
 
-	eq := request.EqCond{}
+	eq := request.Eqcond{}
 	eq.Ky = "_id"
 	eq.Vy = bson.ObjectIdHex(guardianProp.PersonId)
 	req := request.Request{}

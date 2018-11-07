@@ -18,7 +18,7 @@ type BmPerson struct {
 	Gender   int64 `json:"gender" bson:"gender"`
 	RegDate  int64 `json:"reg_date" bson:"reg_date"`
 
-	Address address.BmAddress `json:"address" jsonapi:"relationships"`
+	Address address.BmAddress `json:"Address" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
