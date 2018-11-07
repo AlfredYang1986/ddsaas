@@ -16,6 +16,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmpersonbricks/update"
 	"net/http"
 	"sync"
 
@@ -112,6 +113,7 @@ func main() {
 	fac.RegisterModel("BMAuthPhoneUpdateBrick", &authupdate.BMAuthPhoneUpdateBrick{})
 	fac.RegisterModel("BMAuthWechatUpdateBrick", &authupdate.BMAuthWechatUpdateBrick{})
 	fac.RegisterModel("BMAttendeeUpdate", &attendeeupdate.BmAttendeeUpdate{})
+	fac.RegisterModel("BmPersonUpdate", &personupdate.BmPersonUpdate{})
 
 	/*------------------------------------------------
 	 * delete bricks object
