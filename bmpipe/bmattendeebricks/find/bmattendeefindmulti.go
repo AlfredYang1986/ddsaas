@@ -75,7 +75,7 @@ func (b *BMAttendeeFindMulti) Return(w http.ResponseWriter) {
 		//	AttendeeIds: attendeeids,
 		//}
 		//jsonapi.ToJsonAPI(&reval, w)
-		jsonapi.ToJsonAPI(&bmAttendees, w)
+		jsonapi.ToJsonAPI(bmAttendees.Attendees, w)
 	}
 }
 

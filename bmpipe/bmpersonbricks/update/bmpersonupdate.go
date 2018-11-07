@@ -23,7 +23,7 @@ type BmPersonUpdate struct {
 func (b *BmPersonUpdate) Exec() error {
 	tmp := person.BmPerson{}
 	tmp.UpdateBMObject(*b.bk.Req)
-	b.bk.Pr = tmp
+	b.BrickInstance().Pr = tmp
 	return nil
 }
 

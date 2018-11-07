@@ -13,7 +13,7 @@ import (
 	"net/http"
 )
 
-type BmAttendeeUpdate struct {
+type BmAttendeePersonUpdate struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -21,31 +21,23 @@ type BmAttendeeUpdate struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BmAttendeeUpdate) Exec() error {
-
-	attendeeReq := b.bk.Req
-	personReq := b.bk.Req
-
+func (b *BmAttendeePersonUpdate) Exec() error {
 	attendee := attendee.BmAttendee{}
-	person := person.BmPerson{}
-
-	attendee.UpdateBMObject(*attendeeReq)
-
-	personReq.Res = "BmPerson"
-	person.UpdateBMObject(*personReq)
-	attendee.Person = person
-
+	tmp := person.BmPerson{}
+	tmp.UpdateBMObject(*b.bk.Req)
+	attendee.Person = tmp
 	b.BrickInstance().Pr = attendee
 	return nil
 }
 
-func (b *BmAttendeeUpdate) Prepare(pr interface{}) error {
+func (b *BmAttendeePersonUpdate) Prepare(pr interface{}) error {
 	req := pr.(request.Request)
+	//b.bk.Req = &req
 	b.BrickInstance().Req = &req
 	return nil
 }
 
-func (b *BmAttendeeUpdate) Done(pkg string, idx int64, e error) error {
+func (b *BmAttendeePersonUpdate) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	if int(idx) < tmp-1 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)
@@ -53,26 +45,21 @@ func (b *BmAttendeeUpdate) Done(pkg string, idx int64, e error) error {
 	return nil
 }
 
-func (b *BmAttendeeUpdate) BrickInstance() *bmpipe.BMBrick {
+func (b *BmAttendeePersonUpdate) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BmAttendeeUpdate) ResultTo(w io.Writer) error {
-	//pr := b.BrickInstance().Pr
-	//tmp := pr.(attendee.BmAttendee)
-	//err := jsonapi.ToJsonAPI(&tmp, w)
-
-	tmp := b.BrickInstance().Req
-	tmp.Res = "BmPerson"
-	err := jsonapi.ToJsonAPI(tmp, w)
-
+func (b *BmAttendeePersonUpdate) ResultTo(w io.Writer) error {
+	pr := b.BrickInstance().Pr
+	tmp := pr.(attendee.BmAttendee)
+	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BmAttendeeUpdate) Return(w http.ResponseWriter) {
+func (b *BmAttendeePersonUpdate) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
