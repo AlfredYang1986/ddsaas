@@ -12,7 +12,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/teacher"
 )
 
-type BmTeacherRS2Teacher struct {
+type BmTeacherMultiRS struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -20,38 +20,48 @@ type BmTeacherRS2Teacher struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BmTeacherRS2Teacher) Exec() error {
-	var tmp teacher.BmTeacher = b.bk.Pr.(teacher.BmTeacher)
+func (b *BmTeacherMultiRS) Exec() error {
+	var tmp teacher.BmTeachers = b.bk.Pr.(teacher.BmTeachers)
 	var err error
 
-	eq := request.Eqcond{}
-	eq.Ky = "teacherId"
-	eq.Vy = tmp.Id
 	req1 := request.Request{}
 	req1.Res = "BMTeacherProp"
 	var condi1 []interface{}
-	condi1 = append(condi1, eq)
+	for _, item := range tmp.Teachers {
+		eq := request.Eqcond{}
+		eq.Ky = "teacherId"
+		eq.Vy = item.Id
+		condi1 = append(condi1, eq)
+	}
+
 	c1 := req1.SetConnect("conditions", condi1)
-	var teacherProp teacher.BMTeacherProp
-	err = teacherProp.FindOne(c1.(request.Request))
+	var tp teacher.BmTeacherProps
+	err = tp.FindMulti(c1.(request.Request))
 	if err != nil {
 		return err
 	}
 
-	err, person := teacherProp.GetPerson()
-	tmp.Person = person
+	for _, item := range tmp.Teachers {
+		for i, p := range tp.TeacherProps {
+			if p.TeacherId == item.Id {
+				_, per := p.GetPerson()
+				rel := item.SetConnect("person", per)
+				tmp.Teachers[i] = rel.(teacher.BmTeacher)
+			}
+		}
+	}
 
 	b.bk.Pr = tmp
 	return err
 }
 
-func (b *BmTeacherRS2Teacher) Prepare(pr interface{}) error {
-	req := pr.(teacher.BmTeacher)
+func (b *BmTeacherMultiRS) Prepare(pr interface{}) error {
+	req := pr.(teacher.BmTeachers)
 	b.BrickInstance().Pr = req
 	return nil
 }
 
-func (b *BmTeacherRS2Teacher) Done(pkg string, idx int64, e error) error {
+func (b *BmTeacherMultiRS) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	if int(idx) < tmp-1 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)
@@ -59,21 +69,21 @@ func (b *BmTeacherRS2Teacher) Done(pkg string, idx int64, e error) error {
 	return nil
 }
 
-func (b *BmTeacherRS2Teacher) BrickInstance() *bmpipe.BMBrick {
+func (b *BmTeacherMultiRS) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BmTeacherRS2Teacher) ResultTo(w io.Writer) error {
+func (b *BmTeacherMultiRS) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
 	tmp := pr.(teacher.BmTeacher)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BmTeacherRS2Teacher) Return(w http.ResponseWriter) {
+func (b *BmTeacherMultiRS) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)

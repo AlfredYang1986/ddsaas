@@ -32,6 +32,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmpersonbricks/find/teather_person"
 )
 
 func main() {
@@ -61,12 +62,14 @@ func main() {
 	fac.RegisterModel("BmGuardian", &guardian.BmGuardian{})
 	fac.RegisterModel("BMGuardianProp", &guardian.BMGuardianProp{})
 	fac.RegisterModel("BmPerson", &person.BmPerson{})
+	fac.RegisterModel("BmPersons", &person.BmPersons{})
 	fac.RegisterModel("BmAddress", &address.BmAddress{})
 	fac.RegisterModel("BmRegion", &region.BmRegion{})
 	fac.RegisterModel("BMPayment", &payment.BMPayment{})
 
 	fac.RegisterModel("BMBrand", &brand.BMBrand{})
 	fac.RegisterModel("BmTeacher", &teacher.BmTeacher{})
+	fac.RegisterModel("BmTeachers", &teacher.BmTeachers{})
 
 	/*------------------------------------------------
 	 * find bricks object
@@ -106,6 +109,10 @@ func main() {
 	fac.RegisterModel("BmTeacherPushPersonRS", &teacherpush.BmTeacherPushPersonRS{})
 	fac.RegisterModel("BmTeacherFindBrick", &teacherfind.BmTeacherFindBrick{})
 	fac.RegisterModel("BmTeacherRS2Teacher", &teacherfind.BmTeacherRS2Teacher{})
+	fac.RegisterModel("BmPersonFindBrick", &teather_person.BmPersonTeacherFindBrick{})
+	fac.RegisterModel("BmPersonTeacherRS", &teather_person.BmPersonTeacherRS{})
+	fac.RegisterModel("BmTeacherFindMultiBrick", &teacherfind.BmTeacherFindMultiBrick{})
+	fac.RegisterModel("BmTeacherMultiRS", &teacherfind.BmTeacherMultiRS{})
 
 	/*------------------------------------------------
 	 * update bricks object
