@@ -63,7 +63,7 @@ func main() {
 	fac.RegisterModel("BMPayment", &payment.BMPayment{})
 
 	fac.RegisterModel("BMBrand", &brand.BMBrand{})
-	fac.RegisterModel("BMTeacher", &teacher.BMTeacher{})
+	fac.RegisterModel("BmTeacher", &teacher.BmTeacher{})
 
 	/*------------------------------------------------
 	 * auth find bricks object
@@ -98,7 +98,9 @@ func main() {
 	fac.RegisterModel("BMAttendeePushGuardianRS", &attendeepush.BMAttendeePushGuardianRS{})
 
 	fac.RegisterModel("BMBrandPushBrick", &brandpush.BMBrandPushBrick{})
-	fac.RegisterModel("BMTeacherPushBrick", &teacherpush.BMTeacherPushBrick{})
+	fac.RegisterModel("BmTeacherPushBrick", &teacherpush.BmTeacherPushBrick{})
+	fac.RegisterModel("BmTeacherPersonPushBrick", &teacherpush.BmTeacherPersonPushBrick{})
+	fac.RegisterModel("BmTeacherPushPersonRS", &teacherpush.BmTeacherPushPersonRS{})
 
 	/*------------------------------------------------
 	 * auth update bricks object
@@ -121,5 +123,5 @@ func main() {
 	var bmRouter bmconfig.BMRouterConfig
 	once.Do(bmRouter.GenerateConfig)
 
-	http.ListenAndServe(":" + bmRouter.Port, r)
+	http.ListenAndServe(":"+bmRouter.Port, r)
 }

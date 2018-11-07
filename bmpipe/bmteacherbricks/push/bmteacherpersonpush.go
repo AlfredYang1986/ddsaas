@@ -1,18 +1,17 @@
 package teacherpush
 
 import (
-	//"fmt"
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
-	"github.com/alfredyang1986/ddsaas/bmmodel/teacher"
 	"io"
 	"net/http"
+	"github.com/alfredyang1986/ddsaas/bmmodel/teacher"
 )
 
-type BmTeacherPushBrick struct {
+type BmTeacherPersonPushBrick struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -20,24 +19,22 @@ type BmTeacherPushBrick struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BmTeacherPushBrick) Exec() error {
-	var tmp teacher.BmTeacher = b.bk.Pr.(teacher.BmTeacher)
-	//TODO： use type Timestamp
-	//ts := time.Now().Unix()
-	//tmp.Found = ts
-	tmp.InsertBMObject()
+func (b *BmTeacherPersonPushBrick) Exec() error {
+	var tmp = b.bk.Pr.(teacher.BmTeacher)
+	ap := tmp.Person
+	ap.InsertBMObject()
 	b.bk.Pr = tmp
 	return nil
 }
 
-func (b *BmTeacherPushBrick) Prepare(pr interface{}) error {
+func (b *BmTeacherPersonPushBrick) Prepare(pr interface{}) error {
 	req := pr.(teacher.BmTeacher)
 	//b.bk.Pr = req
 	b.BrickInstance().Pr = req
 	return nil
 }
 
-func (b *BmTeacherPushBrick) Done(pkg string, idx int64, e error) error {
+func (b *BmTeacherPersonPushBrick) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	if int(idx) < tmp-1 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)
@@ -45,21 +42,21 @@ func (b *BmTeacherPushBrick) Done(pkg string, idx int64, e error) error {
 	return nil
 }
 
-func (b *BmTeacherPushBrick) BrickInstance() *bmpipe.BMBrick {
+func (b *BmTeacherPersonPushBrick) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BmTeacherPushBrick) ResultTo(w io.Writer) error {
+func (b *BmTeacherPersonPushBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
 	tmp := pr.(teacher.BmTeacher)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BmTeacherPushBrick) Return(w http.ResponseWriter) {
+func (b *BmTeacherPersonPushBrick) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
