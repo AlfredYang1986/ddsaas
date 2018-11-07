@@ -52,7 +52,7 @@ func (b *BMAttendeeRS2Attendee) Exec() error {
 	req2.Eqcond = append(eq2arr, eq2)
 	var condi2 []interface{}
 	condi2 = append(condi2, eq2)
-	c2 := req2.SetConnect("EqCond", condi2)
+	c2 := req2.SetConnect("Eqcond", condi2)
 	var agrsarr attendee.BMAttendeeGuardianRSeS
 	err = agrsarr.FindMulti(c2.(request.Request))
 	if err != nil {

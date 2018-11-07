@@ -29,7 +29,6 @@ func (b *BmAttendeeUpdate) Exec() error {
 
 func (b *BmAttendeeUpdate) Prepare(pr interface{}) error {
 	req := pr.(request.Request)
-	//b.bk.Req = &req
 	b.BrickInstance().Req = &req
 	return nil
 }
@@ -50,9 +49,14 @@ func (b *BmAttendeeUpdate) BrickInstance() *bmpipe.BMBrick {
 }
 
 func (b *BmAttendeeUpdate) ResultTo(w io.Writer) error {
-	pr := b.BrickInstance().Pr
-	tmp := pr.(attendee.BmAttendee)
-	err := jsonapi.ToJsonAPI(&tmp, w)
+	//pr := b.BrickInstance().Pr
+	//tmp := pr.(attendee.BmAttendee)
+	//err := jsonapi.ToJsonAPI(&tmp, w)
+
+	tmp := b.BrickInstance().Req
+	tmp.Res = "BmPerson"
+	err := jsonapi.ToJsonAPI(tmp, w)
+
 	return err
 }
 
