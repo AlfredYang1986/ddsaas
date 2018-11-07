@@ -29,6 +29,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/find"
 )
 
 func main() {
@@ -101,6 +102,8 @@ func main() {
 	fac.RegisterModel("BmTeacherPushBrick", &teacherpush.BmTeacherPushBrick{})
 	fac.RegisterModel("BmTeacherPersonPushBrick", &teacherpush.BmTeacherPersonPushBrick{})
 	fac.RegisterModel("BmTeacherPushPersonRS", &teacherpush.BmTeacherPushPersonRS{})
+	fac.RegisterModel("BmTeacherFindBrick", &teacherfind.BmTeacherFindBrick{})
+	fac.RegisterModel("BmTeacherRS2Teacher", &teacherfind.BmTeacherRS2Teacher{})
 
 	/*------------------------------------------------
 	 * auth update bricks object

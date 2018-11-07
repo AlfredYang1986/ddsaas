@@ -11,7 +11,7 @@ type BMTeacherProp struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	TeacherId string `json:"teacherId" bson:"attendeeId"`
+	TeacherId string `json:"teacherId" bson:"teacherId"`
 	PersonId   string `json:"personId" bson:"personId"`
 }
 
