@@ -24,7 +24,7 @@ func (b *BmTeacherRS2Teacher) Exec() error {
 	var tmp teacher.BmTeacher = b.bk.Pr.(teacher.BmTeacher)
 	var err error
 
-	eq := request.EqCond{}
+	eq := request.Eqcond{}
 	eq.Ky = "teacherId"
 	eq.Vy = tmp.Id
 	req1 := request.Request{}
