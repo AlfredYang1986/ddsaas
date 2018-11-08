@@ -9,7 +9,6 @@ import (
 	"io"
 	"github.com/alfredyang1986/ddsaas/bmmodel/teacher"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
-	"errors"
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
 )
 
@@ -22,16 +21,10 @@ type BmTeacherFindBrick struct {
  *------------------------------------------------*/
 
 func (b *BmTeacherFindBrick) Exec() error {
-	if b.bk.Req.Res == "BmTeacher" {
-		var tmp teacher.BmTeacher
-		err := tmp.FindOne(*b.bk.Req)
-		b.bk.Pr = tmp
-		return err
-	} else if b.bk.Req.Res == "BmPerson" {
-		return errors.New("query Person")
-	} else {
-		return errors.New("query condition error !")
-	}
+	var tmp teacher.BmTeacher
+	err := tmp.FindOne(*b.bk.Req)
+	b.bk.Pr = tmp
+	return err
 }
 
 func (b *BmTeacherFindBrick) Prepare(pr interface{}) error {
@@ -43,14 +36,9 @@ func (b *BmTeacherFindBrick) Prepare(pr interface{}) error {
 
 func (b *BmTeacherFindBrick) Done(pkg string, idx int64, e error) error {
 
-	if e != nil && e.Error() == "query Person" {
-		b.BrickInstance().Pr = *b.bk.Req
-		bmrouter.NextBrickRemote("findteacherprimary", 0, b)
-	} else {
-		tmp, _ := bmpkg.GetPkgLen(pkg)
-		if int(idx) < tmp-1 {
-			bmrouter.NextBrickRemote(pkg, idx+1, b)
-		}
+	tmp, _ := bmpkg.GetPkgLen(pkg)
+	if int(idx) < tmp-1 {
+		bmrouter.NextBrickRemote(pkg, idx+1, b)
 	}
 	return nil
 }
@@ -64,17 +52,10 @@ func (b *BmTeacherFindBrick) BrickInstance() *bmpipe.BMBrick {
 
 func (b *BmTeacherFindBrick) ResultTo(w io.Writer) error {
 
-	if b.bk.Req.Res == "BmTeacher" {
-		pr := b.BrickInstance().Pr
-		tmp := pr.(teacher.BmTeacher)
-		err := jsonapi.ToJsonAPI(&tmp, w)
-		return err
-	} else {
-		pr := b.BrickInstance().Pr
-		tmp := pr.(request.Request)
-		err := jsonapi.ToJsonAPI(&tmp, w)
-		return err
-	}
+	pr := b.BrickInstance().Pr
+	tmp := pr.(teacher.BmTeacher)
+	err := jsonapi.ToJsonAPI(&tmp, w)
+	return err
 }
 
 func (b *BmTeacherFindBrick) Return(w http.ResponseWriter) {
@@ -82,18 +63,8 @@ func (b *BmTeacherFindBrick) Return(w http.ResponseWriter) {
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		if b.bk.Req.Res == "BmTeacher" {
-			pr := b.BrickInstance().Pr
-			tmp := pr.(teacher.BmTeacher)
-			jsonapi.ToJsonAPI(&tmp, w)
-		} else if b.bk.Req.Res == "BmPerson" {
-			var reval teacher.BmTeachers = b.BrickInstance().Pr.(teacher.BmTeachers)
-			//jsonapi.ToJsonAPI(&reval, w)
-			if len(reval.Teachers) > 0 {
-				jsonapi.ToJsonAPI(&reval.Teachers[0], w)
-			} else {
-				bmerror.ErrInstance().ErrorReval(-9999, w)
-			}
-		}
+		pr := b.BrickInstance().Pr
+		tmp := pr.(teacher.BmTeacher)
+		jsonapi.ToJsonAPI(&tmp, w)
 	}
 }

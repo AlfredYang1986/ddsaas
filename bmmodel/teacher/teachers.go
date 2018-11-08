@@ -94,32 +94,32 @@ func (bd *BmTeachers) FindMulti(req request.Request) error {
 	return err
 }
 
-func (bd *BmTeachers) ReSetPerson() error {
-
-	var err error
-	for i, r := range bd.Teachers {
-		attendeeId := r.Id
-		eq := request.Eqcond{}
-		eq.Ky = "attendeeId"
-		eq.Vy = attendeeId
-		req1 := request.Request{}
-		req1.Res = "BMAttendeeProp"
-		var condi1 []interface{}
-		condi1 = append(condi1, eq)
-		c1 := req1.SetConnect("conditions", condi1)
-		var attendeeProp BMTeacherProp
-		err = attendeeProp.FindOne(c1.(request.Request))
-		if err != nil {
-			return err
-		}
-
-		err, person := attendeeProp.GetPerson()
-		if err != nil {
-			return err
-		}
-		r.Person = person
-
-		bd.Teachers[i] = r
-	}
-	return err
-}
+//func (bd *BmTeachers) ReSetPerson() error {
+//
+//	var err error
+//	for i, r := range bd.Teachers {
+//		attendeeId := r.Id
+//		eq := request.Eqcond{}
+//		eq.Ky = "attendeeId"
+//		eq.Vy = attendeeId
+//		req1 := request.Request{}
+//		req1.Res = "BMAttendeeProp"
+//		var condi1 []interface{}
+//		condi1 = append(condi1, eq)
+//		c1 := req1.SetConnect("conditions", condi1)
+//		var attendeeProp BMTeacherProp
+//		err = attendeeProp.FindOne(c1.(request.Request))
+//		if err != nil {
+//			return err
+//		}
+//
+//		err, person := attendeeProp.GetPerson()
+//		if err != nil {
+//			return err
+//		}
+//		r.Person = person
+//
+//		bd.Teachers[i] = r
+//	}
+//	return err
+//}

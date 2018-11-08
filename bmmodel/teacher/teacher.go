@@ -3,7 +3,6 @@ package teacher
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
-	"github.com/alfredyang1986/ddsaas/bmmodel/person"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -13,7 +12,16 @@ type BmTeacher struct {
 
 	Intro string `json:"intro" bson:"intro"`
 
-	Person person.BmPerson `json:"person" jsonapi:"relationships"`
+	BrandId string `json:"brandId" bson:"brandId"`
+
+	Name     string `json:"name" bson:"name"`
+	Nickname string `json:"nickname" bson:"nickname"`
+	Icon     string `json:"icon" bson:"icon"`
+	Dob      int64 `json:"dob" bson:"dob"`
+	Gender   int64 `json:"gender" bson:"gender"`
+	RegDate  int64 `json:"reg_date" bson:"reg_date"`
+
+	//Person person.BmPerson `json:"person" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
@@ -52,10 +60,10 @@ func (bd *BmTeacher) SetId(id string) {
  * relationships interface
  *------------------------------------------------*/
 func (bd BmTeacher) SetConnect(tag string, v interface{}) interface{} {
-	switch tag {
-	case "person":
-		bd.Person = v.(person.BmPerson)
-	}
+	//switch tag {
+	//case "person":
+	//	bd.Person = v.(person.BmPerson)
+	//}
 	return bd
 }
 

@@ -32,7 +32,6 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/find"
-	"github.com/alfredyang1986/ddsaas/bmpipe/bmpersonbricks/find/teather_person"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/push"
 	"github.com/alfredyang1986/ddsaas/bmmodel/sessioninfo"
 	"github.com/alfredyang1986/ddsaas/bmmodel/category"
@@ -112,15 +111,16 @@ func main() {
 	fac.RegisterModel("BMAttendeePushGuardianRS", &attendeepush.BMAttendeePushGuardianRS{})
 
 	fac.RegisterModel("BMBrandPushBrick", &brandpush.BMBrandPushBrick{})
+
 	fac.RegisterModel("BmTeacherPushBrick", &teacherpush.BmTeacherPushBrick{})
-	fac.RegisterModel("BmTeacherPersonPushBrick", &teacherpush.BmTeacherPersonPushBrick{})
-	fac.RegisterModel("BmTeacherPushPersonRS", &teacherpush.BmTeacherPushPersonRS{})
+	//fac.RegisterModel("BmTeacherPersonPushBrick", &teacherpush.BmTeacherPersonPushBrick{})
+	//fac.RegisterModel("BmTeacherPushPersonRS", &teacherpush.BmTeacherPushPersonRS{})
 	fac.RegisterModel("BmTeacherFindBrick", &teacherfind.BmTeacherFindBrick{})
-	fac.RegisterModel("BmTeacherRS2Teacher", &teacherfind.BmTeacherRS2Teacher{})
-	fac.RegisterModel("BmPersonFindBrick", &teather_person.BmPersonTeacherFindBrick{})
-	fac.RegisterModel("BmPersonTeacherRS", &teather_person.BmPersonTeacherRS{})
+	//fac.RegisterModel("BmTeacherRS2Teacher", &teacherfind.BmTeacherRS2Teacher{})
+	//fac.RegisterModel("BmPersonFindBrick", &teather_person.BmPersonTeacherFindBrick{})
+	//fac.RegisterModel("BmPersonTeacherRS", &teather_person.BmPersonTeacherRS{})
 	fac.RegisterModel("BmTeacherFindMultiBrick", &teacherfind.BmTeacherFindMultiBrick{})
-	fac.RegisterModel("BmTeacherMultiRS", &teacherfind.BmTeacherMultiRS{})
+	//fac.RegisterModel("BmTeacherMultiRS", &teacherfind.BmTeacherMultiRS{})
 
 	/*------------------------------------------------
 	 * session brick object
