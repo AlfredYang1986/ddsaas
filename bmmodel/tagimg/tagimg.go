@@ -6,7 +6,7 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 )
 
-type BMTagImg struct {
+type BmTagImg struct {
 	Id        string            `json:"id"`
 	Id_       bson.ObjectId     `bson:"_id"`
 
@@ -19,11 +19,11 @@ type BMTagImg struct {
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BMTagImg) ResetIdWithId_() {
+func (bd *BmTagImg) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BMTagImg) ResetId_WithID() {
+func (bd *BmTagImg) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -31,30 +31,30 @@ func (bd *BMTagImg) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BMTagImg) QueryObjectId() bson.ObjectId {
+func (bd *BmTagImg) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BMTagImg) QueryId() string {
+func (bd *BmTagImg) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BMTagImg) SetObjectId(id_ bson.ObjectId) {
+func (bd *BmTagImg) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BMTagImg) SetId(id string) {
+func (bd *BmTagImg) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BMTagImg) SetConnect(tag string, v interface{}) interface{} {
+func (bd BmTagImg) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd BMTagImg) QueryConnect(tag string) interface{} {
+func (bd BmTagImg) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -62,14 +62,14 @@ func (bd BMTagImg) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BMTagImg) InsertBMObject() error {
+func (bd *BmTagImg) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BMTagImg) FindOne(req request.Request) error {
+func (bd *BmTagImg) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BMTagImg) UpdateBMObject(req request.Request) error {
+func (bd *BmTagImg) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }

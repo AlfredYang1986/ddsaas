@@ -1,4 +1,4 @@
-package room
+package yard
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
@@ -6,23 +6,23 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type BmRoom struct {
+type BmBindYardRoom struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Title    string `json:"title" bson:"title"`
-	Capacity float64 `json:"capacity" bson:"capacity"`
+	YardId string `json:"yardId" bson:"yardId"`
+	RoomId string `json:"roomId" bson:"roomId"`
 }
 
 /*------------------------------------------------
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BmRoom) ResetIdWithId_() {
+func (bd *BmBindYardRoom) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BmRoom) ResetId_WithID() {
+func (bd *BmBindYardRoom) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -30,30 +30,30 @@ func (bd *BmRoom) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BmRoom) QueryObjectId() bson.ObjectId {
+func (bd *BmBindYardRoom) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BmRoom) QueryId() string {
+func (bd *BmBindYardRoom) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BmRoom) SetObjectId(id_ bson.ObjectId) {
+func (bd *BmBindYardRoom) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BmRoom) SetId(id string) {
+func (bd *BmBindYardRoom) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BmRoom) SetConnect(tag string, v interface{}) interface{} {
+func (bd BmBindYardRoom) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd BmRoom) QueryConnect(tag string) interface{} {
+func (bd BmBindYardRoom) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -61,14 +61,14 @@ func (bd BmRoom) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BmRoom) InsertBMObject() error {
+func (bd *BmBindYardRoom) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BmRoom) FindOne(req request.Request) error {
+func (bd *BmBindYardRoom) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BmRoom) UpdateBMObject(req request.Request) error {
+func (bd *BmBindYardRoom) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
