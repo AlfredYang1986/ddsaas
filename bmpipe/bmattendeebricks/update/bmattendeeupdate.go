@@ -21,10 +21,26 @@ type BmAttendeeUpdate struct {
  *------------------------------------------------*/
 
 func (b *BmAttendeeUpdate) Exec() error {
-	req := b.bk.Req
-	attendeeTemp := attendee.BmAttendee{}
-	attendeeTemp.UpdateBMObject(*req)
-	b.BrickInstance().Pr = attendeeTemp
+
+	attendeeReq := b.bk.Req
+	attendee := attendee.BmAttendee{}
+	attendee.UpdateBMObject(*attendeeReq)
+
+	//guardianReq := b.bk.Req
+	//err, attendeeGuardianRSes := attendee.GetAttendeeGuardianRSes()
+	//guardianReq.Res = "BmGuardian"
+	//guardians := []guardian.BmGuardian{}
+	//for _,v := range attendeeGuardianRSes {
+	//	errtmp, g := v.GetGuardian()
+	//	if errtmp != nil {
+	//		return errtmp
+	//	}
+	//	g.UpdateBMObject(*guardianReq)
+	//	guardians = append(guardians, g)
+	//}
+	//attendee.Guardians = guardians
+
+	b.BrickInstance().Pr = attendee
 	return nil
 }
 

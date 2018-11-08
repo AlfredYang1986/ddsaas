@@ -152,6 +152,7 @@ func main() {
 	fac.RegisterModel("BMAuthPhoneUpdateBrick", &authupdate.BMAuthPhoneUpdateBrick{})
 	fac.RegisterModel("BMAuthWechatUpdateBrick", &authupdate.BMAuthWechatUpdateBrick{})
 	fac.RegisterModel("BMAttendeeUpdate", &attendeeupdate.BmAttendeeUpdate{})
+	fac.RegisterModel("BmGuardianUpdate", &attendeeupdate.BmGuardianUpdate{})
 
 	/*------------------------------------------------
 	 * delete bricks object
