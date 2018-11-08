@@ -15,6 +15,10 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/update"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/update"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/update"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmyardbricks/update"
 	"net/http"
 	"sync"
 
@@ -66,14 +70,13 @@ func main() {
 	fac.RegisterModel("BMAttendeeGuardianRS", &attendee.BMAttendeeGuardianRS{})
 	fac.RegisterModel("BMAttendeeGuardianRSeS", &attendee.BMAttendeeGuardianRSeS{})
 	fac.RegisterModel("BmGuardian", &guardian.BmGuardian{})
-	fac.RegisterModel("BMGuardianProp", &guardian.BMGuardianProp{})
 	//fac.RegisterModel("BmPerson", &person.BmPerson{})
 	//fac.RegisterModel("BmPersons", &person.BmPersons{})
 	fac.RegisterModel("BmAddress", &address.BmAddress{})
 	fac.RegisterModel("BmRegion", &region.BmRegion{})
 	fac.RegisterModel("BMPayment", &payment.BMPayment{})
 
-	fac.RegisterModel("BMBrand", &brand.BMBrand{})
+	fac.RegisterModel("BmBrand", &brand.BmBrand{})
 	fac.RegisterModel("BmTeacher", &teacher.BmTeacher{})
 	fac.RegisterModel("BmTeachers", &teacher.BmTeachers{})
 
@@ -151,8 +154,12 @@ func main() {
 	 *------------------------------------------------*/
 	fac.RegisterModel("BMAuthPhoneUpdateBrick", &authupdate.BMAuthPhoneUpdateBrick{})
 	fac.RegisterModel("BMAuthWechatUpdateBrick", &authupdate.BMAuthWechatUpdateBrick{})
-	fac.RegisterModel("BMAttendeeUpdate", &attendeeupdate.BmAttendeeUpdate{})
-	fac.RegisterModel("BmGuardianUpdate", &attendeeupdate.BmGuardianUpdate{})
+	fac.RegisterModel("BmAttendeeUpdateBrick", &attendeeupdate.BmAttendeeUpdateBrick{})
+	fac.RegisterModel("BmGuardianUpdateBrick", &attendeeupdate.BmGuardianUpdateBrick{})
+	fac.RegisterModel("BmTeacherUpdateBrick", &teacherupdate.BmTeacherUpdateBrick{})
+	fac.RegisterModel("BmYardUpdateBrick", &yardupdate.BmYardUpdateBrick{})
+	fac.RegisterModel("BmSessionInfoUpdateBrick", &courseinfoupdate.BmSessionInfoUpdateBrick{})
+	fac.RegisterModel("BmBrandUpdateBrick", &brandupdate.BmBrandUpdateBrick{})
 
 	/*------------------------------------------------
 	 * delete bricks object

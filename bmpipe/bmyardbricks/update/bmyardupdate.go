@@ -1,4 +1,4 @@
-package attendeeupdate
+package yardupdate
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
@@ -7,12 +7,12 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
-	"github.com/alfredyang1986/ddsaas/bmmodel/guardian"
+	"github.com/alfredyang1986/ddsaas/bmmodel/yard"
 	"io"
 	"net/http"
 )
 
-type BmGuardianUpdateBrick struct {
+type BmYardUpdateBrick struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -20,22 +20,22 @@ type BmGuardianUpdateBrick struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BmGuardianUpdateBrick) Exec() error {
+func (b *BmYardUpdateBrick) Exec() error {
 
 	req := b.bk.Req
-	tmp := guardian.BmGuardian{}
+	tmp := yard.BmYard{}
 	tmp.UpdateBMObject(*req)
 	b.BrickInstance().Pr = tmp
 	return nil
 }
 
-func (b *BmGuardianUpdateBrick) Prepare(pr interface{}) error {
+func (b *BmYardUpdateBrick) Prepare(pr interface{}) error {
 	req := pr.(request.Request)
 	b.BrickInstance().Req = &req
 	return nil
 }
 
-func (b *BmGuardianUpdateBrick) Done(pkg string, idx int64, e error) error {
+func (b *BmYardUpdateBrick) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	if int(idx) < tmp-1 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)
@@ -43,26 +43,26 @@ func (b *BmGuardianUpdateBrick) Done(pkg string, idx int64, e error) error {
 	return nil
 }
 
-func (b *BmGuardianUpdateBrick) BrickInstance() *bmpipe.BMBrick {
+func (b *BmYardUpdateBrick) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BmGuardianUpdateBrick) ResultTo(w io.Writer) error {
+func (b *BmYardUpdateBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	tmp := pr.(guardian.BmGuardian)
+	tmp := pr.(yard.BmYard)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BmGuardianUpdateBrick) Return(w http.ResponseWriter) {
+func (b *BmYardUpdateBrick) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		reval := b.BrickInstance().Pr.(guardian.BmGuardian)
+		reval := b.BrickInstance().Pr.(yard.BmYard)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }

@@ -12,7 +12,7 @@ import (
 	"net/http"
 )
 
-type BmAttendeeUpdate struct {
+type BmAttendeeUpdateBrick struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -20,7 +20,7 @@ type BmAttendeeUpdate struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BmAttendeeUpdate) Exec() error {
+func (b *BmAttendeeUpdateBrick) Exec() error {
 
 	attendeeReq := b.bk.Req
 	attendee := attendee.BmAttendee{}
@@ -44,13 +44,13 @@ func (b *BmAttendeeUpdate) Exec() error {
 	return nil
 }
 
-func (b *BmAttendeeUpdate) Prepare(pr interface{}) error {
+func (b *BmAttendeeUpdateBrick) Prepare(pr interface{}) error {
 	req := pr.(request.Request)
 	b.BrickInstance().Req = &req
 	return nil
 }
 
-func (b *BmAttendeeUpdate) Done(pkg string, idx int64, e error) error {
+func (b *BmAttendeeUpdateBrick) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	if int(idx) < tmp-1 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)
@@ -58,21 +58,21 @@ func (b *BmAttendeeUpdate) Done(pkg string, idx int64, e error) error {
 	return nil
 }
 
-func (b *BmAttendeeUpdate) BrickInstance() *bmpipe.BMBrick {
+func (b *BmAttendeeUpdateBrick) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BmAttendeeUpdate) ResultTo(w io.Writer) error {
+func (b *BmAttendeeUpdateBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
 	tmp := pr.(attendee.BmAttendee)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BmAttendeeUpdate) Return(w http.ResponseWriter) {
+func (b *BmAttendeeUpdateBrick) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)

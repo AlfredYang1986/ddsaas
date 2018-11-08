@@ -1,17 +1,18 @@
-package brandpush
+package brandupdate
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
-	"github.com/alfredyang1986/ddsaas/bmmodel/brand"
 	"github.com/alfredyang1986/blackmirror/bmerror"
+	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
+	"github.com/alfredyang1986/ddsaas/bmmodel/brand"
 	"io"
 	"net/http"
 )
 
-type BMBrandPushBrick struct {
+type BmBrandUpdateBrick struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -19,29 +20,22 @@ type BMBrandPushBrick struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BMBrandPushBrick) Exec() error {
-	var tmp brand.BmBrand = b.bk.Pr.(brand.BmBrand)
+func (b *BmBrandUpdateBrick) Exec() error {
 
-	var err error
-	if tmp.Id != "" && tmp.Id_.Valid() {
-		if tmp.Valid() && tmp.IsBrandRegistered() {
-			b.bk.Err = -5
-		} else {
-			err = tmp.InsertBMObject()
-		}
-	}
-	b.bk.Pr = tmp
-	return err
-}
-
-func (b *BMBrandPushBrick) Prepare(pr interface{}) error {
-	req := pr.(brand.BmBrand)
-	//b.bk.Pr = req
-	b.BrickInstance().Pr = req
+	req := b.bk.Req
+	tmp := brand.BmBrand{}
+	tmp.UpdateBMObject(*req)
+	b.BrickInstance().Pr = tmp
 	return nil
 }
 
-func (b *BMBrandPushBrick) Done(pkg string, idx int64, e error) error {
+func (b *BmBrandUpdateBrick) Prepare(pr interface{}) error {
+	req := pr.(request.Request)
+	b.BrickInstance().Req = &req
+	return nil
+}
+
+func (b *BmBrandUpdateBrick) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	if int(idx) < tmp-1 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)
@@ -49,26 +43,26 @@ func (b *BMBrandPushBrick) Done(pkg string, idx int64, e error) error {
 	return nil
 }
 
-func (b *BMBrandPushBrick) BrickInstance() *bmpipe.BMBrick {
+func (b *BmBrandUpdateBrick) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BMBrandPushBrick) ResultTo(w io.Writer) error {
+func (b *BmBrandUpdateBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
 	tmp := pr.(brand.BmBrand)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BMBrandPushBrick) Return(w http.ResponseWriter) {
+func (b *BmBrandUpdateBrick) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval brand.BmBrand = b.BrickInstance().Pr.(brand.BmBrand)
+		reval := b.BrickInstance().Pr.(brand.BmBrand)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }

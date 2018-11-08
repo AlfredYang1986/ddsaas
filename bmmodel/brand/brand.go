@@ -8,7 +8,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type BMBrand struct {
+type BmBrand struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
@@ -31,11 +31,11 @@ type BMBrand struct {
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BMBrand) ResetIdWithId_() {
+func (bd *BmBrand) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BMBrand) ResetId_WithID() {
+func (bd *BmBrand) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -43,26 +43,26 @@ func (bd *BMBrand) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BMBrand) QueryObjectId() bson.ObjectId {
+func (bd *BmBrand) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BMBrand) QueryId() string {
+func (bd *BmBrand) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BMBrand) SetObjectId(id_ bson.ObjectId) {
+func (bd *BmBrand) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BMBrand) SetId(id string) {
+func (bd *BmBrand) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BMBrand) SetConnect(tag string, v interface{}) interface{} {
+func (bd BmBrand) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
 	case "rewards":
 		var rst []reward.BMReward
@@ -104,7 +104,7 @@ func (bd BMBrand) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd BMBrand) QueryConnect(tag string) interface{} {
+func (bd BmBrand) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -112,26 +112,26 @@ func (bd BMBrand) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BMBrand) InsertBMObject() error {
+func (bd *BmBrand) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BMBrand) FindOne(req request.Request) error {
+func (bd *BmBrand) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BMBrand) UpdateBMObject(req request.Request) error {
+func (bd *BmBrand) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
-func (bd BMBrand) IsBrandRegistered() bool {
+func (bd BmBrand) IsBrandRegistered() bool {
 	session, err := mgo.Dial("localhost:27017")
 	if err != nil {
 		panic("dial db error")
 	}
 	defer session.Close()
 
-	c := session.DB("test").C("BMBrand")
+	c := session.DB("test").C("BmBrand")
 	n, err := c.Find(bson.M{"title": bd.Title}).Count()
 	if err != nil {
 		panic(err)
@@ -140,6 +140,6 @@ func (bd BMBrand) IsBrandRegistered() bool {
 	return n > 0
 }
 
-func (bd BMBrand) Valid() bool {
+func (bd BmBrand) Valid() bool {
 	return bd.Title != ""
 }

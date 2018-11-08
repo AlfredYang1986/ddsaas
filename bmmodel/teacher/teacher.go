@@ -20,6 +20,8 @@ type BmTeacher struct {
 	Dob      int64 `json:"dob" bson:"dob"`
 	Gender   int64 `json:"gender" bson:"gender"`
 	RegDate  int64 `json:"reg_date" bson:"reg_date"`
+	Contact  string `json:"contact" bson:"contact"`
+	WeChat  string `json:"wechat" bson:"wechat"`
 
 	//Person person.BmPerson `json:"person" jsonapi:"relationships"`
 }
