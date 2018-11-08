@@ -43,6 +43,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmyardbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmmodel/tagimg"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmyardbricks/find"
 )
 
 func main() {
@@ -133,6 +134,8 @@ func main() {
 	fac.RegisterModel("BmTagImgYardPushBrick", &yardpush.BmTagImgYardPushBrick{})
 	fac.RegisterModel("BmYardRoomPushBrick", &yardpush.BmYardRoomPushBrick{})
 	fac.RegisterModel("BmBindYardPropBrick", &yardpush.BmBindYardPropBrick{})
+	fac.RegisterModel("BmYardFindBrick", &yardfind.BmYardFindBrick{})
+	fac.RegisterModel("BmYardFindBindBrick", &yardfind.BmYardFindBindBrick{})
 
 	/*------------------------------------------------
 	 * session brick object
