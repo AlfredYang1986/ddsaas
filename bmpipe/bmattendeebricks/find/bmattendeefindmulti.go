@@ -30,7 +30,6 @@ func (b *BMAttendeeFindMulti) Exec() error {
 
 func (b *BMAttendeeFindMulti) Prepare(pr interface{}) error {
 	req := pr.(request.Request)
-	//b.bk.Pr = req
 	b.BrickInstance().Req = &req
 	return nil
 }
@@ -63,18 +62,6 @@ func (b *BMAttendeeFindMulti) Return(w http.ResponseWriter) {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
 		bmAttendees := b.BrickInstance().Pr.(attendee.BmAttendees)
-
-		//attendees := bmAttendees.Attendees
-		//var attendeeids []string
-		//for _, att := range attendees {
-		//	attendeeids = append(attendeeids, att.Id)
-		//}
-		//tempUUID, _ := uuid.GenerateUUID()
-		//var reval = attendee.BmAttendeesResult{
-		//	Id: tempUUID,
-		//	AttendeeIds: attendeeids,
-		//}
-		//jsonapi.ToJsonAPI(&reval, w)
 		jsonapi.ToJsonAPI(bmAttendees.Attendees, w)
 	}
 }

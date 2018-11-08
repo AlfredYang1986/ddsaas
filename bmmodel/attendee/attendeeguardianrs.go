@@ -99,6 +99,6 @@ func (bd *BMAttendeeGuardianRS) GetGuardian() (error, guardian.BmGuardian) {
 	c := req.SetConnect("conditions", condi)
 	var guardian guardian.BmGuardian
 	err := guardian.FindOne(c.(request.Request))
-	guardian.ReSetPerson()
+	//guardian.ReSetPerson()
 	return err, guardian
 }

@@ -5,7 +5,6 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/ddsaas/bmmodel/guardian"
 	"github.com/alfredyang1986/ddsaas/bmmodel/payment"
-	"github.com/alfredyang1986/ddsaas/bmmodel/person"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -17,7 +16,16 @@ type BmAttendee struct {
 	Status      string `json:"status" bson:"status"`
 	LessonCount int64 `json:"lesson_count" bson:"lesson_count"`
 
-	Person    person.BmPerson       `json:"Person" jsonapi:"relationships"`
+	Name     string `json:"name" bson:"name"`
+	Nickname string `json:"nickname" bson:"nickname"`
+	Icon     string `json:"icon" bson:"icon"`
+	Dob      int64 `json:"dob" bson:"dob"`
+	Gender   int64 `json:"gender" bson:"gender"`
+	RegDate  int64 `json:"reg_date" bson:"reg_date"`
+	Contact  string `json:"contact" bson:"contact"`
+	WeChat  string `json:"wechat" bson:"wechat"`
+
+	//Person    person.BmPerson       `json:"Person" jsonapi:"relationships"`
 	Guardians []guardian.BmGuardian `json:"Guardians" jsonapi:"relationships"`
 	Payments  []payment.BMPayment   `json:"Payments" jsonapi:"relationships"`
 }
@@ -59,15 +67,15 @@ func (bd *BmAttendee) SetId(id string) {
  *------------------------------------------------*/
 func (bd BmAttendee) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
-	case "person":
-		bd.Person = v.(person.BmPerson)
-	case "guardians":
+	//case "Person":
+	//	bd.Person = v.(person.BmPerson)
+	case "Guardians":
 		var rst []guardian.BmGuardian
 		for _, item := range v.([]interface{}) {
 			rst = append(rst, item.(guardian.BmGuardian))
 		}
 		bd.Guardians = rst
-	case "payments":
+	case "Payments":
 		var rst []payment.BMPayment
 		for _, item := range v.([]interface{}) {
 			rst = append(rst, item.(payment.BMPayment))
@@ -95,4 +103,20 @@ func (bd *BmAttendee) FindOne(req request.Request) error {
 
 func (bd *BmAttendee) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
+}
+
+func (bd *BmAttendee) GetAttendeeProp() (error, BMAttendeeProp) {
+
+	eq := request.Eqcond{}
+	eq.Ky = "attendeeId"
+	eq.Vy = bd.Id
+	req1 := request.Request{}
+	req1.Res = "BMAttendeeProp"
+	var condi1 []interface{}
+	condi1 = append(condi1, eq)
+	c1 := req1.SetConnect("conditions", condi1)
+	attendeeProp := BMAttendeeProp{}
+	err := attendeeProp.FindOne(c1.(request.Request))
+	return err, attendeeProp
+
 }

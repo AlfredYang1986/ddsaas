@@ -105,11 +105,11 @@ func (bd *BmAttendees) ReSetPerson() error {
 			return err
 		}
 
-		err, person := attendeeProp.GetPerson()
-		if err != nil {
-			return err
-		}
-		r.Person = person
+		//err, person := attendeeProp.GetPerson()
+		//if err != nil {
+		//	return err
+		//}
+		//r.Person = person
 
 		bd.Attendees[i] = r
 	}

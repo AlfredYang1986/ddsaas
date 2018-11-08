@@ -39,8 +39,8 @@ func (b *BMAttendeeRS2Attendee) Exec() error {
 		return err
 	}
 
-	err, person := attendeeProp.GetPerson()
-	tmp.Person = person
+	//err, person := attendeeProp.GetPerson()
+	//tmp.Person = person
 
 	eq2 := request.Eqcond{}
 	var eq2arr []request.Eqcond

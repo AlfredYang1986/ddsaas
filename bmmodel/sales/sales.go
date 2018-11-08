@@ -1,10 +1,9 @@
 package sales
 
 import (
-	"github.com/alfredyang1986/ddsaas/bmmodel/person"
-	"gopkg.in/mgo.v2/bson"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type BMSales struct {
@@ -12,7 +11,7 @@ type BMSales struct {
 	Id_       bson.ObjectId     `bson:"_id"`
 
 	UniqueId	  string   `json:"uniqueId" bson:"uniqueId"`
-	Person person.BmPerson `json:"person" jsonapi:"relationships"`
+	//Person person.BmPerson `json:"person" jsonapi:"relationships"`
 
 }
 

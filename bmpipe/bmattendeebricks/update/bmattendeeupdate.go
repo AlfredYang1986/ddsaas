@@ -8,7 +8,6 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
 	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
-	"github.com/alfredyang1986/ddsaas/bmmodel/person"
 	"io"
 	"net/http"
 )
@@ -24,16 +23,9 @@ type BmAttendeeUpdate struct {
 func (b *BmAttendeeUpdate) Exec() error {
 
 	attendeeReq := b.bk.Req
-	personReq := b.bk.Req
 
 	attendee := attendee.BmAttendee{}
-	person := person.BmPerson{}
-
 	attendee.UpdateBMObject(*attendeeReq)
-
-	personReq.Res = "BmPerson"
-	person.UpdateBMObject(*personReq)
-	attendee.Person = person
 
 	b.BrickInstance().Pr = attendee
 	return nil

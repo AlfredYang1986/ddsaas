@@ -2,13 +2,11 @@ package attendeepush
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
-	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
-	"github.com/alfredyang1986/ddsaas/bmmodel/guardian"
-	"gopkg.in/mgo.v2/bson"
+	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
 	"io"
 	"net/http"
 )
@@ -27,15 +25,15 @@ func (b *BMAttendeePushGuardian) Exec() error {
 	for _,g := range guardians{
 		g.InsertBMObject()
 
-		gp := g.Person
-		gp.InsertBMObject()
+		//gp := g.Person
+		//gp.InsertBMObject()
 
-		var gpr guardian.BMGuardianProp
-		gpr.Id_ = bson.NewObjectId()
-		gpr.Id = gpr.Id_.Hex()
-		gpr.PersonId = gp.Id
-		gpr.GuardianId = g.Id
-		gpr.InsertBMObject()
+		//var gpr guardian.BMGuardianProp
+		//gpr.Id_ = bson.NewObjectId()
+		//gpr.Id = gpr.Id_.Hex()
+		//gpr.PersonId = gp.Id
+		//gpr.GuardianId = g.Id
+		//gpr.InsertBMObject()
 
 	}
 	b.bk.Pr = tmp

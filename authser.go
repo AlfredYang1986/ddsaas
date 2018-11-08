@@ -8,7 +8,6 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/brand"
 	"github.com/alfredyang1986/ddsaas/bmmodel/guardian"
 	"github.com/alfredyang1986/ddsaas/bmmodel/payment"
-	"github.com/alfredyang1986/ddsaas/bmmodel/person"
 	"github.com/alfredyang1986/ddsaas/bmmodel/region"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/push"
@@ -16,7 +15,6 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/push"
-	"github.com/alfredyang1986/ddsaas/bmpipe/bmpersonbricks/update"
 	"net/http"
 	"sync"
 
@@ -25,21 +23,21 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
+	"github.com/alfredyang1986/ddsaas/bmmodel/category"
+	"github.com/alfredyang1986/ddsaas/bmmodel/room"
+	"github.com/alfredyang1986/ddsaas/bmmodel/sessioninfo"
 	"github.com/alfredyang1986/ddsaas/bmmodel/teacher"
+	"github.com/alfredyang1986/ddsaas/bmmodel/yard"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/others"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/update"
-	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/push"
-	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/find"
-	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/push"
-	"github.com/alfredyang1986/ddsaas/bmmodel/sessioninfo"
-	"github.com/alfredyang1986/ddsaas/bmmodel/category"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/findmulti"
-	"github.com/alfredyang1986/ddsaas/bmmodel/yard"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmyardbricks/push"
-	"github.com/alfredyang1986/ddsaas/bmmodel/room"
 )
 
 func main() {
@@ -68,8 +66,8 @@ func main() {
 	fac.RegisterModel("BMAttendeeGuardianRSeS", &attendee.BMAttendeeGuardianRSeS{})
 	fac.RegisterModel("BmGuardian", &guardian.BmGuardian{})
 	fac.RegisterModel("BMGuardianProp", &guardian.BMGuardianProp{})
-	fac.RegisterModel("BmPerson", &person.BmPerson{})
-	fac.RegisterModel("BmPersons", &person.BmPersons{})
+	//fac.RegisterModel("BmPerson", &person.BmPerson{})
+	//fac.RegisterModel("BmPersons", &person.BmPersons{})
 	fac.RegisterModel("BmAddress", &address.BmAddress{})
 	fac.RegisterModel("BmRegion", &region.BmRegion{})
 	fac.RegisterModel("BMPayment", &payment.BMPayment{})
@@ -105,8 +103,6 @@ func main() {
 	 * attendee push bricks object
 	 *------------------------------------------------*/
 	fac.RegisterModel("BMAttendeePushBrick", &attendeepush.BMAttendeePushBrick{})
-	fac.RegisterModel("BMAttendeePushPerson", &attendeepush.BMAttendeePushPerson{})
-	fac.RegisterModel("BMAttendeePushPersonRS", &attendeepush.BMAttendeePushPersonRS{})
 	fac.RegisterModel("BMAttendeePushGuardian", &attendeepush.BMAttendeePushGuardian{})
 	fac.RegisterModel("BMAttendeePushGuardianRS", &attendeepush.BMAttendeePushGuardianRS{})
 
@@ -151,8 +147,6 @@ func main() {
 	fac.RegisterModel("BMAuthPhoneUpdateBrick", &authupdate.BMAuthPhoneUpdateBrick{})
 	fac.RegisterModel("BMAuthWechatUpdateBrick", &authupdate.BMAuthWechatUpdateBrick{})
 	fac.RegisterModel("BMAttendeeUpdate", &attendeeupdate.BmAttendeeUpdate{})
-	fac.RegisterModel("BmAttendeePersonUpdate", &attendeeupdate.BmAttendeePersonUpdate{})
-	fac.RegisterModel("BmPersonUpdate", &personupdate.BmPersonUpdate{})
 
 	/*------------------------------------------------
 	 * delete bricks object
