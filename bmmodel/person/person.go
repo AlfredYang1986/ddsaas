@@ -3,7 +3,6 @@ package person
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
-	"github.com/alfredyang1986/ddsaas/bmmodel/address"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -18,7 +17,7 @@ type BmPerson struct {
 	Gender   int64 `json:"gender" bson:"gender"`
 	RegDate  int64 `json:"reg_date" bson:"reg_date"`
 
-	Address address.BmAddress `json:"Address" jsonapi:"relationships"`
+	//Address address.BmAddress `json:"Address" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
@@ -57,10 +56,10 @@ func (bd *BmPerson) SetId(id string) {
  * relationships interface
  *------------------------------------------------*/
 func (bd BmPerson) SetConnect(tag string, v interface{}) interface{} {
-	switch tag {
-	case "address":
-		bd.Address = v.(address.BmAddress)
-	}
+	//switch tag {
+	//case "address":
+	//	bd.Address = v.(address.BmAddress)
+	//}
 	return bd
 }
 

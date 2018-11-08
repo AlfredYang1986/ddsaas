@@ -38,6 +38,9 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/category"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/findmulti"
+	"github.com/alfredyang1986/ddsaas/bmmodel/yard"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmyardbricks/push"
+	"github.com/alfredyang1986/ddsaas/bmmodel/room"
 )
 
 func main() {
@@ -118,6 +121,14 @@ func main() {
 	fac.RegisterModel("BmPersonTeacherRS", &teather_person.BmPersonTeacherRS{})
 	fac.RegisterModel("BmTeacherFindMultiBrick", &teacherfind.BmTeacherFindMultiBrick{})
 	fac.RegisterModel("BmTeacherMultiRS", &teacherfind.BmTeacherMultiRS{})
+
+	/*------------------------------------------------
+	 * session brick object
+	 *------------------------------------------------*/
+	fac.RegisterModel("BmYard", &yard.BmYard{})
+	fac.RegisterModel("BmRoom", &room.BMRoom{})
+
+	fac.RegisterModel("BmYardPushBrick", &yardpush.BmYardPushBrick{})
 
 	/*------------------------------------------------
 	 * session brick object

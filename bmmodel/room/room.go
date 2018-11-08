@@ -11,7 +11,7 @@ type BMRoom struct {
 	Id_ bson.ObjectId `bson:"_id"`
 
 	Title    string `json:"title" bson:"title"`
-	Capacity string `json:"capacity" bson:"capacity"`
+	Capacity float64 `json:"capacity" bson:"capacity"`
 }
 
 /*------------------------------------------------

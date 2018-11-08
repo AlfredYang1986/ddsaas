@@ -3,11 +3,7 @@ package brand
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
-	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
 	"github.com/alfredyang1986/ddsaas/bmmodel/reward"
-	"github.com/alfredyang1986/ddsaas/bmmodel/sales"
-	"github.com/alfredyang1986/ddsaas/bmmodel/teacher"
-	"github.com/alfredyang1986/ddsaas/bmmodel/yard"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -24,11 +20,11 @@ type BMBrand struct {
 
 	Rewards  []reward.BMReward   `json:"rewards" jsonapi:"relationships"`
 	//Students []student.BMStudent `json:"students" jsonapi:"relationships"`
-	Attendees []attendee.BmAttendee `json:"attendees" jsonapi:"relationships"`
-	Teachers []teacher.BmTeacher    `json:"teachers" jsonapi:"relationships"`
-	Sales    []sales.BMSales        `json:"sales" jsonapi:"relationships"`
+	//Attendees []attendee.BmAttendee `json:"attendees" jsonapi:"relationships"`
+	//Teachers []teacher.BmTeacher    `json:"teachers" jsonapi:"relationships"`
+	//Sales    []sales.BMSales        `json:"sales" jsonapi:"relationships"`
 
-	Yard []yard.BMYard `json:"yard" jsonapi:"relationships"`
+	//Yard []yard.BMYard `json:"yard" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
@@ -80,30 +76,30 @@ func (bd BMBrand) SetConnect(tag string, v interface{}) interface{} {
 	//		rst = append(rst, item.(student.BMStudent))
 	//	}
 	//	bd.Students = rst
-	case "attendees":
-		var rst []attendee.BmAttendee
-		for _, item := range v.([]interface{}) {
-			rst = append(rst, item.(attendee.BmAttendee))
-		}
-		bd.Attendees = rst
-	case "teachers":
-		var rst []teacher.BmTeacher
-		for _, item := range v.([]interface{}) {
-			rst = append(rst, item.(teacher.BmTeacher))
-		}
-		bd.Teachers = rst
-	case "sales":
-		var rst []sales.BMSales
-		for _, item := range v.([]interface{}) {
-			rst = append(rst, item.(sales.BMSales))
-		}
-		bd.Sales = rst
-	case "yard":
-		var rst []yard.BMYard
-		for _, item := range v.([]interface{}) {
-			rst = append(rst, item.(yard.BMYard))
-		}
-		bd.Yard = rst
+	//case "attendees":
+	//	var rst []attendee.BmAttendee
+	//	for _, item := range v.([]interface{}) {
+	//		rst = append(rst, item.(attendee.BmAttendee))
+	//	}
+	//	bd.Attendees = rst
+	//case "teachers":
+	//	var rst []teacher.BmTeacher
+	//	for _, item := range v.([]interface{}) {
+	//		rst = append(rst, item.(teacher.BmTeacher))
+	//	}
+	//	bd.Teachers = rst
+	//case "sales":
+	//	var rst []sales.BMSales
+	//	for _, item := range v.([]interface{}) {
+	//		rst = append(rst, item.(sales.BMSales))
+	//	}
+	//	bd.Sales = rst
+	//case "yard":
+	//	var rst []yard.BMYard
+	//	for _, item := range v.([]interface{}) {
+	//		rst = append(rst, item.(yard.BMYard))
+	//	}
+	//	bd.Yard = rst
 	}
 	return bd
 }
