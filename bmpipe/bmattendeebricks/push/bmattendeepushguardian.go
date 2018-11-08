@@ -24,17 +24,6 @@ func (b *BMAttendeePushGuardian) Exec() error {
 	guardians := tmp.Guardians
 	for _,g := range guardians{
 		g.InsertBMObject()
-
-		//gp := g.Person
-		//gp.InsertBMObject()
-
-		//var gpr guardian.BMGuardianProp
-		//gpr.Id_ = bson.NewObjectId()
-		//gpr.Id = gpr.Id_.Hex()
-		//gpr.PersonId = gp.Id
-		//gpr.GuardianId = g.Id
-		//gpr.InsertBMObject()
-
 	}
 	b.bk.Pr = tmp
 	return nil

@@ -21,13 +21,10 @@ type BmAttendeeUpdate struct {
  *------------------------------------------------*/
 
 func (b *BmAttendeeUpdate) Exec() error {
-
-	attendeeReq := b.bk.Req
-
-	attendee := attendee.BmAttendee{}
-	attendee.UpdateBMObject(*attendeeReq)
-
-	b.BrickInstance().Pr = attendee
+	req := b.bk.Req
+	attendeeTemp := attendee.BmAttendee{}
+	attendeeTemp.UpdateBMObject(*req)
+	b.BrickInstance().Pr = attendeeTemp
 	return nil
 }
 
@@ -53,14 +50,9 @@ func (b *BmAttendeeUpdate) BrickInstance() *bmpipe.BMBrick {
 }
 
 func (b *BmAttendeeUpdate) ResultTo(w io.Writer) error {
-	//pr := b.BrickInstance().Pr
-	//tmp := pr.(attendee.BmAttendee)
-	//err := jsonapi.ToJsonAPI(&tmp, w)
-
-	tmp := b.BrickInstance().Req
-	tmp.Res = "BmPerson"
-	err := jsonapi.ToJsonAPI(tmp, w)
-
+	pr := b.BrickInstance().Pr
+	tmp := pr.(attendee.BmAttendee)
+	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 

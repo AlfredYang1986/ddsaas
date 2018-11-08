@@ -22,25 +22,8 @@ type BMAttendeeRS2Attendee struct {
  *------------------------------------------------*/
 
 func (b *BMAttendeeRS2Attendee) Exec() error {
-	var tmp attendee.BmAttendee = b.bk.Pr.(attendee.BmAttendee)
+	tmp := b.bk.Pr.(attendee.BmAttendee)
 	var err error
-
-	eq := request.Eqcond{}
-	eq.Ky = "attendeeId"
-	eq.Vy = tmp.Id
-	req1 := request.Request{}
-	req1.Res = "BMAttendeeProp"
-	var condi1 []interface{}
-	condi1 = append(condi1, eq)
-	c1 := req1.SetConnect("conditions", condi1)
-	var attendeeProp attendee.BMAttendeeProp
-	err = attendeeProp.FindOne(c1.(request.Request))
-	if err != nil {
-		return err
-	}
-
-	//err, person := attendeeProp.GetPerson()
-	//tmp.Person = person
 
 	eq2 := request.Eqcond{}
 	var eq2arr []request.Eqcond
@@ -58,6 +41,7 @@ func (b *BMAttendeeRS2Attendee) Exec() error {
 	if err != nil {
 		return err
 	}
+
 	var guardians []guardian.BmGuardian
 	for _, agr := range agrsarr.AgRsArr {
 		err, g := agr.GetGuardian()
@@ -105,7 +89,7 @@ func (b *BMAttendeeRS2Attendee) Return(w http.ResponseWriter) {
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval attendee.BmAttendee = b.BrickInstance().Pr.(attendee.BmAttendee)
+		reval := b.BrickInstance().Pr.(attendee.BmAttendee)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }

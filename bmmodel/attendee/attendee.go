@@ -105,18 +105,21 @@ func (bd *BmAttendee) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
-func (bd *BmAttendee) GetAttendeeProp() (error, BMAttendeeProp) {
+func (bd *BmAttendee) GetAttendeeGuardianRSes() (error, []BMAttendeeGuardianRS) {
 
-	eq := request.Eqcond{}
-	eq.Ky = "attendeeId"
-	eq.Vy = bd.Id
-	req1 := request.Request{}
-	req1.Res = "BMAttendeeProp"
-	var condi1 []interface{}
-	condi1 = append(condi1, eq)
-	c1 := req1.SetConnect("conditions", condi1)
-	attendeeProp := BMAttendeeProp{}
-	err := attendeeProp.FindOne(c1.(request.Request))
-	return err, attendeeProp
+	eq2 := request.Eqcond{}
+	var eq2arr []request.Eqcond
+	eq2.Ky = "attendeeId"
+	eq2.Vy = bd.Id
+	eq2.Ct = "BMAttendeeGuardianRS"
+	req2 := request.Request{}
+	req2.Res = "BMAttendeeGuardianRS"
+	req2.Eqcond = append(eq2arr, eq2)
+	var condi2 []interface{}
+	condi2 = append(condi2, eq2)
+	c2 := req2.SetConnect("Eqcond", condi2)
+	agrsarr := BMAttendeeGuardianRSeS{}
+	err := agrsarr.FindMulti(c2.(request.Request))
+	return err, agrsarr.AgRsArr
 
 }
