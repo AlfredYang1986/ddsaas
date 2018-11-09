@@ -31,8 +31,8 @@ type BmYard struct {
 	/**
 	 * 在构建过程中，除了排课逻辑，不会通过query到Room
 	 */
-	Rooms []room.BmRoom       `json:"rooms" jsonapi:"relationships"`
-	TagImgs []tagimg.BmTagImg `json:"tagimgs" jsonapi:"relationships"`
+	Rooms []room.BmRoom       `json:"Rooms" jsonapi:"relationships"`
+	TagImgs []tagimg.BmTagImg `json:"Tagimgs" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
@@ -72,7 +72,7 @@ func (bd *BmYard) SetId(id string) {
  *------------------------------------------------*/
 func (bd BmYard) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
-	case "rooms":
+	case "Rooms":
 		var rst []room.BmRoom
 		for _, item := range v.([]interface{}) {
 			tmp := item.(room.BmRoom)
@@ -81,7 +81,7 @@ func (bd BmYard) SetConnect(tag string, v interface{}) interface{} {
 			}
 		}
 		bd.Rooms = rst
-	case "tagimgs":
+	case "Tagimgs":
 		var rst []tagimg.BmTagImg
 		for _, item := range v.([]interface{}) {
 			tmp := item.(tagimg.BmTagImg)

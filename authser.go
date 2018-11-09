@@ -30,6 +30,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/category"
 	"github.com/alfredyang1986/ddsaas/bmmodel/room"
 	"github.com/alfredyang1986/ddsaas/bmmodel/sessioninfo"
+	"github.com/alfredyang1986/ddsaas/bmmodel/tagimg"
 	"github.com/alfredyang1986/ddsaas/bmmodel/teacher"
 	"github.com/alfredyang1986/ddsaas/bmmodel/yard"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmauthbricks/find"
@@ -41,9 +42,8 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/push"
-	"github.com/alfredyang1986/ddsaas/bmpipe/bmyardbricks/push"
-	"github.com/alfredyang1986/ddsaas/bmmodel/tagimg"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmyardbricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmyardbricks/push"
 )
 
 func main() {
@@ -127,6 +127,7 @@ func main() {
 	 * session brick object
 	 *------------------------------------------------*/
 	fac.RegisterModel("BmYard", &yard.BmYard{})
+	fac.RegisterModel("BmYards", &yard.BmYards{})
 	fac.RegisterModel("BmRoom", &room.BmRoom{})
 	fac.RegisterModel("BmTagImg", &tagimg.BmTagImg{})
 
@@ -136,6 +137,7 @@ func main() {
 	fac.RegisterModel("BmBindYardPropBrick", &yardpush.BmBindYardPropBrick{})
 	fac.RegisterModel("BmYardFindBrick", &yardfind.BmYardFindBrick{})
 	fac.RegisterModel("BmYardFindBindBrick", &yardfind.BmYardFindBindBrick{})
+	fac.RegisterModel("BmYardFindMulti", &yardfind.BmYardFindMulti{})
 
 	/*------------------------------------------------
 	 * session brick object
@@ -180,4 +182,5 @@ func main() {
 	once.Do(bmRouter.GenerateConfig)
 
 	http.ListenAndServe(":"+bmRouter.Port, r)
+
 }

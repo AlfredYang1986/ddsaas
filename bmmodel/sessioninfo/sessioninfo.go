@@ -18,7 +18,7 @@ type BmSessionInfo struct {
 	Count float64 `json:"count" bson:"count"`
 	Length float64 `json:"length" bson:"length"`
 
-	Cat category.BmCategory `json:"cat" jsonapi:"relationships"`
+	Cat category.BmCategory `json:"Cat" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
@@ -58,7 +58,7 @@ func (bd *BmSessionInfo) SetId(id string) {
  *------------------------------------------------*/
 func (bd BmSessionInfo) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
-	case "cat":
+	case "Cat":
 		bd.Cat = v.(category.BmCategory)
 	}
 	return bd

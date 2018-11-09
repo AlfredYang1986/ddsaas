@@ -3,14 +3,15 @@ package courseinfofindmulti
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
 	"github.com/alfredyang1986/blackmirror/bmerror"
+	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
+	"github.com/alfredyang1986/ddsaas/bmmodel/category"
+	"github.com/alfredyang1986/ddsaas/bmmodel/sessioninfo"
+	"gopkg.in/mgo.v2/bson"
 	"io"
 	"net/http"
-	"github.com/alfredyang1986/ddsaas/bmmodel/sessioninfo"
-	"github.com/alfredyang1986/blackmirror/bmmodel/request"
-	"github.com/alfredyang1986/ddsaas/bmmodel/category"
 )
 
 type BmFindSessionInfoBindCatMultiBrick struct {
@@ -23,42 +24,40 @@ type BmFindSessionInfoBindCatMultiBrick struct {
 
 func (b *BmFindSessionInfoBindCatMultiBrick) Exec() error {
 	tmp := b.BrickInstance().Pr.(sessioninfo.BmSessionInfos)
-	//err := tmp.FindMulti(b.BrickInstance().Pr.(request.Request))
 
-	req := request.Request{}
-	req.Res = "BmSessionBindCat"
-	var condi []interface{}
+	var sessionIds []string
 	for _, item := range tmp.Sessions {
-		eq := request.Eqcond{}
-		eq.Ky = "sessionId"
-		eq.Vy = item.Id
-		condi = append(condi, eq)
+		sessionIds = append(sessionIds, item.Id)
 	}
-	c := req.SetConnect("conditions", condi)
+	multiCondBind := make(map[string]interface{})
+	multiCondBind["$in"] = sessionIds
 
-	var reval sessioninfo.BmSessionInfoBindCats
-	err := reval.FindMulti(c.(request.Request))
+	var sessionCatBinds []sessioninfo.BmSessionBindCat
+	or_condi := bson.M{"sessionId": multiCondBind}
+	err := bmmodel.FindMutilWithBson("BmSessionBindCat", or_condi, &sessionCatBinds)
 
-	req0 := request.Request{}
-	req0.Res = "BmCategory"
 	var condi0 []interface{}
-	for _, item := range reval.Binds {
-		eq := request.Eqcond{}
-		eq.Ky = "id"
-		eq.Vy = item.CategoryId
-		condi0 = append(condi0, eq)
+	for _, item := range sessionCatBinds {
+		condi0 = append(condi0, bson.ObjectIdHex(item.CategoryId))
 	}
-	c0 := req0.SetConnect("conditions", condi0)
+	multiCatCond := make(map[string]interface{})
+	multiCatCond["$in"] = condi0
 
-	var cats category.BmCategories
-	err = cats.FindMulti(c0.(request.Request))
+	var cats []category.BmCategory
+	or_condi0 := bson.M{"_id": multiCatCond}
+	err = bmmodel.FindMutilWithBson("BmCategory", or_condi0, &cats)
+
+	for i, c := range cats {
+		c.ResetIdWithId_()
+		cats[i] = c
+	}
 
 	for i, session := range tmp.Sessions {
 		sid := session.Id
 		var cat category.BmCategory
-		for _, sbc := range reval.Binds {
+		for _, sbc := range sessionCatBinds {
 			if sbc.SessionId == sid {
-				for _, ct := range cats.Cats {
+				for _, ct := range cats {
 					if ct.Id == sbc.CategoryId {
 						cat = ct
 					}
@@ -75,7 +74,6 @@ func (b *BmFindSessionInfoBindCatMultiBrick) Exec() error {
 
 func (b *BmFindSessionInfoBindCatMultiBrick) Prepare(pr interface{}) error {
 	req := pr.(sessioninfo.BmSessionInfos)
-	//b.bk.Pr = req
 	b.BrickInstance().Pr = req
 	return nil
 }
