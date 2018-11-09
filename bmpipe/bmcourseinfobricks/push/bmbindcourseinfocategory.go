@@ -22,7 +22,7 @@ type BmBindSessionCatPushBrick struct {
 
 func (b *BmBindSessionCatPushBrick) Exec() error {
 	tmp := b.bk.Pr.(sessioninfo.BmSessionInfo)
-	cat := tmp.Cat
+	cat := tmp.Cate
 
 	sbc := sessioninfo.BmSessionBindCat{}
 	sbc.CategoryId = cat.Id

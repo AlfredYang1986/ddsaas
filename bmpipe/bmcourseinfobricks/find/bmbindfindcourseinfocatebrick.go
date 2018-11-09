@@ -48,7 +48,7 @@ func (b *BmBindFindSessionInfoCatBrick) Exec() error {
 	result := category.BmCategory{}
 	err = result.FindOne(c0.(request.Request))
 
-	tmp.Cat = result
+	tmp.Cate = result
 	b.BrickInstance().Pr = tmp
 	return err
 }

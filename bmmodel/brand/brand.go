@@ -3,7 +3,9 @@ package brand
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
-	"github.com/alfredyang1986/ddsaas/bmmodel/reward"
+	"github.com/alfredyang1986/ddsaas/bmmodel/category"
+	"github.com/alfredyang1986/ddsaas/bmmodel/certification"
+	"github.com/alfredyang1986/ddsaas/bmmodel/honor"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -12,13 +14,21 @@ type BmBrand struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Title      string   `json:"title" bson:"title"`
-	Subtitle   string   `json:"subtitle" bson:"subtitle"`
-	BrandTags  []string `json:"brand_tags" bson:"brand_tags"`
-	Found      int64    `json:"found"`
-	FoundStory string   `json:"FoundStory" bson:"FoundStory"`
+	Title      string `json:"title" bson:"title"`
+	Subtitle   string `json:"subtitle" bson:"subtitle"`
+	Found      int64  `json:"found"`
+	FoundStory string `json:"FoundStory" bson:"FoundStory"`
 
-	Rewards  []reward.BMReward   `json:"rewards" jsonapi:"relationships"`
+	//TODO:20181109新增的
+	Cate      category.BmCategory `json:"Cate" jsonapi:"relationships"` //类别
+	Logo      string              `json:"logo" bson:"logo"`             //品牌logo
+	BrandTags []string            `json:"brand_tags" bson:"brand_tags"` //HightLight[与众不同],3-5条,一条5个字
+	EduIdea   string              `json:"edu_idea" bson:"edu_idea"`     //教育理念
+	AboutUs   string              `json:"about_us" bson:"about_us"`     //团队
+	//TODO:Honors和Certifications合并成TagImgs,添加category做区分.
+	Honors         []honor.BmHonor                 `json:"Honors" jsonapi:"relationships"`
+	Certifications []certification.BmCertification `json:"Certifications" jsonapi:"relationships"`
+
 	//Students []student.BMStudent `json:"students" jsonapi:"relationships"`
 	//Attendees []attendee.BmAttendee `json:"attendees" jsonapi:"relationships"`
 	//Teachers []teacher.BmTeacher    `json:"teachers" jsonapi:"relationships"`
@@ -64,42 +74,50 @@ func (bd *BmBrand) SetId(id string) {
  *------------------------------------------------*/
 func (bd BmBrand) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
-	case "rewards":
-		var rst []reward.BMReward
+	case "Cate":
+		bd.Cate = v.(category.BmCategory)
+	case "Honors":
+		var rst []honor.BmHonor
 		for _, item := range v.([]interface{}) {
-			rst = append(rst, item.(reward.BMReward))
+			rst = append(rst, item.(honor.BmHonor))
 		}
-		bd.Rewards = rst
-	//case "students":
-	//	var rst []student.BMStudent
-	//	for _, item := range v.([]interface{}) {
-	//		rst = append(rst, item.(student.BMStudent))
-	//	}
-	//	bd.Students = rst
-	//case "attendees":
-	//	var rst []attendee.BmAttendee
-	//	for _, item := range v.([]interface{}) {
-	//		rst = append(rst, item.(attendee.BmAttendee))
-	//	}
-	//	bd.Attendees = rst
-	//case "teachers":
-	//	var rst []teacher.BmTeacher
-	//	for _, item := range v.([]interface{}) {
-	//		rst = append(rst, item.(teacher.BmTeacher))
-	//	}
-	//	bd.Teachers = rst
-	//case "sales":
-	//	var rst []sales.BMSales
-	//	for _, item := range v.([]interface{}) {
-	//		rst = append(rst, item.(sales.BMSales))
-	//	}
-	//	bd.Sales = rst
-	//case "yard":
-	//	var rst []yard.BMYard
-	//	for _, item := range v.([]interface{}) {
-	//		rst = append(rst, item.(yard.BMYard))
-	//	}
-	//	bd.Yard = rst
+		bd.Honors = rst
+	case "Certifications":
+		var rst []certification.BmCertification
+		for _, item := range v.([]interface{}) {
+			rst = append(rst, item.(certification.BmCertification))
+		}
+		bd.Certifications = rst
+		//case "students":
+		//	var rst []student.BMStudent
+		//	for _, item := range v.([]interface{}) {
+		//		rst = append(rst, item.(student.BMStudent))
+		//	}
+		//	bd.Students = rst
+		//case "attendees":
+		//	var rst []attendee.BmAttendee
+		//	for _, item := range v.([]interface{}) {
+		//		rst = append(rst, item.(attendee.BmAttendee))
+		//	}
+		//	bd.Attendees = rst
+		//case "teachers":
+		//	var rst []teacher.BmTeacher
+		//	for _, item := range v.([]interface{}) {
+		//		rst = append(rst, item.(teacher.BmTeacher))
+		//	}
+		//	bd.Teachers = rst
+		//case "sales":
+		//	var rst []sales.BMSales
+		//	for _, item := range v.([]interface{}) {
+		//		rst = append(rst, item.(sales.BMSales))
+		//	}
+		//	bd.Sales = rst
+		//case "yard":
+		//	var rst []yard.BMYard
+		//	for _, item := range v.([]interface{}) {
+		//		rst = append(rst, item.(yard.BMYard))
+		//	}
+		//	bd.Yard = rst
 	}
 	return bd
 }
@@ -130,13 +148,12 @@ func (bd BmBrand) IsBrandRegistered() bool {
 		panic("dial db error")
 	}
 	defer session.Close()
-
 	c := session.DB("test").C("BmBrand")
+
 	n, err := c.Find(bson.M{"title": bd.Title}).Count()
 	if err != nil {
 		panic(err)
 	}
-
 	return n > 0
 }
 

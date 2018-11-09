@@ -12,11 +12,11 @@ type BmAttendee struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
+	BrandId string `json:"brandId" bson:"brandId"`
+
 	Intro       string `json:"intro" bson:"intro"`
 	Status      string `json:"status" bson:"status"`
 	LessonCount int64 `json:"lesson_count" bson:"lesson_count"`
-
-	BrandId string `json:"brandId" bson:"brandId"`
 
 	Name     string `json:"name" bson:"name"`
 	Nickname string `json:"nickname" bson:"nickname"`

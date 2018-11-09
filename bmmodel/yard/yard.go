@@ -3,36 +3,45 @@ package yard
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"github.com/alfredyang1986/ddsaas/bmmodel/certification"
+	"github.com/alfredyang1986/ddsaas/bmmodel/room"
 	"github.com/alfredyang1986/ddsaas/bmmodel/tagimg"
 	"gopkg.in/mgo.v2/bson"
-	"github.com/alfredyang1986/ddsaas/bmmodel/room"
 )
 
 type BmYard struct {
-	Id  string        `json:"id"`
-	Id_ bson.ObjectId `bson:"_id"`
-
-	Title       string `json:"title" bson:"title"`
-	Cover       string `json:"cover" bson:"cover"`
-	Description string `json:"description" bson:"description"`
-	Around      string `json:"around" bson:"around"`
-	Facilities  string `json:"facilities" bson:"facilities"`
+	Id          string        `json:"id"`
+	Id_         bson.ObjectId `bson:"_id"`
+	BrandId     string        `json:"brandId" bson:"brandId"`
+	Title       string        `json:"title" bson:"title"`
+	Cover       string        `json:"cover" bson:"cover"`
+	Description string        `json:"description" bson:"description"`
+	Around      string        `json:"around" bson:"around"`
 
 	//Address address.BmAddress `json:"address" bson:"relationships"`
 	/**
 	 * 在构建过程中，yard可能成为地址搜索的条件
 	 */
 	Province string `json:"province" bson:"province"`
-	City string `json:"city" bson:"city"`
+	City     string `json:"city" bson:"city"`
 	District string `json:"district" bson:"district"`
-	Detail string `json:"detail" bson:"detail"`
+	Detail   string `json:"detail" bson:"detail"`
 
 	//RoomCount float64 `json:"room_count"`
 	/**
 	 * 在构建过程中，除了排课逻辑，不会通过query到Room
 	 */
-	Rooms []room.BmRoom       `json:"Rooms" jsonapi:"relationships"`
+	Rooms   []room.BmRoom     `json:"Rooms" jsonapi:"relationships"`
 	TagImgs []tagimg.BmTagImg `json:"Tagimgs" jsonapi:"relationships"`
+
+	//TODO:20181109新增的
+	Attribute string `json:"attribute" bson:"attribute"`
+	Scenario  string `json:"scenario" bson:"scenario"`
+	Address   string `json:"address" bson:"address"`
+	//TODO:Certifications合并成TagImgs,添加category做区分.
+	Certifications []certification.BmCertification `json:"Certifications" jsonapi:"relationships"`
+	Facilities     []interface{}                   `json:"facilities" bson:"facilities"`
+	Friendly       []interface{}                   `json:"friendly" bson:"friendly"`
 }
 
 /*------------------------------------------------
@@ -90,6 +99,15 @@ func (bd BmYard) SetConnect(tag string, v interface{}) interface{} {
 			}
 		}
 		bd.TagImgs = rst
+	case "Certifications":
+		var rst []certification.BmCertification
+		for _, item := range v.([]interface{}) {
+			tmp := item.(certification.BmCertification)
+			if len(tmp.Id) > 0 {
+				rst = append(rst, tmp)
+			}
+		}
+		bd.Certifications = rst
 	}
 	return bd
 }

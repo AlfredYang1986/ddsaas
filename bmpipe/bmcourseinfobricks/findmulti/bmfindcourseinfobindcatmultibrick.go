@@ -64,7 +64,7 @@ func (b *BmFindSessionInfoBindCatMultiBrick) Exec() error {
 				}
 			}
 		}
-		session.Cat = cat
+		session.Cate = cat
 		tmp.Sessions[i] = session
 	}
 

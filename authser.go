@@ -6,9 +6,11 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/address"
 	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
 	"github.com/alfredyang1986/ddsaas/bmmodel/brand"
+	"github.com/alfredyang1986/ddsaas/bmmodel/certification"
 	"github.com/alfredyang1986/ddsaas/bmmodel/guardian"
 	"github.com/alfredyang1986/ddsaas/bmmodel/payment"
 	"github.com/alfredyang1986/ddsaas/bmmodel/region"
+	"github.com/alfredyang1986/ddsaas/bmmodel/honor"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/find"
@@ -78,6 +80,7 @@ func main() {
 	fac.RegisterModel("BMPayment", &payment.BMPayment{})
 
 	fac.RegisterModel("BmBrand", &brand.BmBrand{})
+	fac.RegisterModel("BmHonor", &honor.BmHonor{})
 	fac.RegisterModel("BmTeacher", &teacher.BmTeacher{})
 	fac.RegisterModel("BmTeachers", &teacher.BmTeachers{})
 
@@ -124,16 +127,18 @@ func main() {
 	//fac.RegisterModel("BmTeacherMultiRS", &teacherfind.BmTeacherMultiRS{})
 
 	/*------------------------------------------------
-	 * session brick object
+	 * yard brick object
 	 *------------------------------------------------*/
 	fac.RegisterModel("BmYard", &yard.BmYard{})
 	fac.RegisterModel("BmYards", &yard.BmYards{})
 	fac.RegisterModel("BmRoom", &room.BmRoom{})
 	fac.RegisterModel("BmTagImg", &tagimg.BmTagImg{})
+	fac.RegisterModel("BmCertification", &certification.BmCertification{})
 
 	fac.RegisterModel("BmYardPushBrick", &yardpush.BmYardPushBrick{})
 	fac.RegisterModel("BmTagImgYardPushBrick", &yardpush.BmTagImgYardPushBrick{})
 	fac.RegisterModel("BmYardRoomPushBrick", &yardpush.BmYardRoomPushBrick{})
+	fac.RegisterModel("BmYardPushCertificationBrick", &yardpush.BmYardPushCertificationBrick{})
 	fac.RegisterModel("BmBindYardPropBrick", &yardpush.BmBindYardPropBrick{})
 	fac.RegisterModel("BmYardFindBrick", &yardfind.BmYardFindBrick{})
 	fac.RegisterModel("BmYardFindBindBrick", &yardfind.BmYardFindBindBrick{})

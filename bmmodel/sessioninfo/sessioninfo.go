@@ -1,24 +1,33 @@
 package sessioninfo
 
 import (
-	"gopkg.in/mgo.v2/bson"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/ddsaas/bmmodel/category"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type BmSessionInfo struct {
-	Id        string            `json:"id"`
-	Id_       bson.ObjectId     `bson:"_id"`
+	Id      string        `json:"id"`
+	Id_     bson.ObjectId `bson:"_id"`
+	BrandId string        `json:"brandId" bson:"brandId"`
+	Title   string        `json:"title" bson:"title"`
+	Alb     float64       `json:"alb" bson:"alb"`
+	Aub     float64       `json:"aub" bson:"aub"`
+	Level   string        `json:"level" bson:"level"`
+	Count   float64       `json:"count" bson:"count"`
+	Length  float64       `json:"length" bson:"length"`
 
-	Title string `json:"title" bson:"title"`
-	Alb float64 `json:"alb" bson:"alb"`
-	Aub float64 `json:"aub" bson:"aub"`
-	Level string `json:"level" bson:"level"`
-	Count float64 `json:"count" bson:"count"`
-	Length float64 `json:"length" bson:"length"`
+	Cate category.BmCategory `json:"Cate" jsonapi:"relationships"`
 
-	Cat category.BmCategory `json:"Cat" jsonapi:"relationships"`
+	//TODO:20181109新增的
+	Description string `json:"description" bson:"description"`
+	Harvest     string `json:"harvest" bson:"harvest"`
+	Acquisition string `json:"acquisition" bson:"acquisition"`
+	Accompany   int64  `json:"accompany" bson:"accompany"`
+	Including   string `json:"including" bson:"including"`
+	Carrying    string `json:"carrying" bson:"carrying"`
+	Notice      string `json:"notice" bson:"notice"`
 }
 
 /*------------------------------------------------
@@ -58,8 +67,8 @@ func (bd *BmSessionInfo) SetId(id string) {
  *------------------------------------------------*/
 func (bd BmSessionInfo) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
-	case "Cat":
-		bd.Cat = v.(category.BmCategory)
+	case "Cate":
+		bd.Cate = v.(category.BmCategory)
 	}
 	return bd
 }

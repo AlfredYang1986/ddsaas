@@ -1,29 +1,28 @@
-package reward
+package honor
 
 import (
-	"gopkg.in/mgo.v2/bson"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"gopkg.in/mgo.v2/bson"
 )
 
-type BMReward struct {
-	Id        string            `json:"id"`
-	Id_       bson.ObjectId     `bson:"_id"`
+type BmHonor struct {
+	Id  string        `json:"id"`
+	Id_ bson.ObjectId `bson:"_id"`
 
-	ImgSrc	  string 			`json:"img_src" bson:"img_src"`
-	RewardDes	  string 			`json:"reward_des" bson:"reward_des"`
-
+	Img string `json:"img" bson:"img"`
+	Tag string `json:"tag" bson:"tag"`
 }
 
 /*------------------------------------------------
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BMReward) ResetIdWithId_() {
+func (bd *BmHonor) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BMReward) ResetId_WithID() {
+func (bd *BmHonor) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -31,30 +30,30 @@ func (bd *BMReward) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BMReward) QueryObjectId() bson.ObjectId {
+func (bd *BmHonor) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BMReward) QueryId() string {
+func (bd *BmHonor) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BMReward) SetObjectId(id_ bson.ObjectId) {
+func (bd *BmHonor) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BMReward) SetId(id string) {
+func (bd *BmHonor) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BMReward) SetConnect(tag string, v interface{}) interface{} {
+func (bd BmHonor) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd BMReward) QueryConnect(tag string) interface{} {
+func (bd BmHonor) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -62,14 +61,14 @@ func (bd BMReward) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BMReward) InsertBMObject() error {
+func (bd *BmHonor) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BMReward) FindOne(req request.Request) error {
+func (bd *BmHonor) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BMReward) UpdateBMObject(req request.Request) error {
+func (bd *BmHonor) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
