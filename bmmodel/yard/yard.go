@@ -3,7 +3,6 @@ package yard
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
-	"github.com/alfredyang1986/ddsaas/bmmodel/certification"
 	"github.com/alfredyang1986/ddsaas/bmmodel/room"
 	"github.com/alfredyang1986/ddsaas/bmmodel/tagimg"
 	"gopkg.in/mgo.v2/bson"
@@ -25,7 +24,8 @@ type BmYard struct {
 	Province string `json:"province" bson:"province"`
 	City     string `json:"city" bson:"city"`
 	District string `json:"district" bson:"district"`
-	Detail   string `json:"detail" bson:"detail"`
+	Address   string `json:"address" bson:"address"`
+	TrafficInfo   string `json:"traffic_info" bson:"traffic_info"`
 
 	//RoomCount float64 `json:"room_count"`
 	/**
@@ -37,9 +37,8 @@ type BmYard struct {
 	//TODO:20181109新增的
 	Attribute string `json:"attribute" bson:"attribute"`
 	Scenario  string `json:"scenario" bson:"scenario"`
-	Address   string `json:"address" bson:"address"`
 	//TODO:Certifications合并成TagImgs,添加category做区分.
-	Certifications []certification.BmCertification `json:"Certifications" jsonapi:"relationships"`
+	//Certifications []certification.BmCertification `json:"Certifications" jsonapi:"relationships"`
 	Facilities     []interface{}                   `json:"facilities" bson:"facilities"`
 	Friendly       []interface{}                   `json:"friendly" bson:"friendly"`
 }
@@ -99,15 +98,15 @@ func (bd BmYard) SetConnect(tag string, v interface{}) interface{} {
 			}
 		}
 		bd.TagImgs = rst
-	case "Certifications":
-		var rst []certification.BmCertification
-		for _, item := range v.([]interface{}) {
-			tmp := item.(certification.BmCertification)
-			if len(tmp.Id) > 0 {
-				rst = append(rst, tmp)
-			}
-		}
-		bd.Certifications = rst
+	//case "Certifications":
+	//	var rst []certification.BmCertification
+	//	for _, item := range v.([]interface{}) {
+	//		tmp := item.(certification.BmCertification)
+	//		if len(tmp.Id) > 0 {
+	//			rst = append(rst, tmp)
+	//		}
+	//	}
+	//	bd.Certifications = rst
 	}
 	return bd
 }

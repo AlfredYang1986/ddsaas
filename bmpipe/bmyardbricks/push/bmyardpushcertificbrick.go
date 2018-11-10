@@ -21,9 +21,9 @@ type BmYardPushCertificationBrick struct {
 
 func (b *BmYardPushCertificationBrick) Exec() error {
 	tmp := b.bk.Pr.(yard.BmYard)
-	for _, item := range tmp.Certifications {
-		item.InsertBMObject()
-	}
+	//for _, item := range tmp.Certifications {
+	//	item.InsertBMObject()
+	//}
 	b.bk.Pr = tmp
 	return nil
 }

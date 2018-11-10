@@ -43,14 +43,14 @@ func (b *BmBindYardPropBrick) Exec() error {
 		ist.InsertBMObject()
 	}
 
-	for _, item := range tmp.Certifications {
-		ist := yard.BmBindYardCertific{}
-		ist.Id_ = bson.NewObjectId()
-		ist.Id = ist.Id_.Hex()
-		ist.YardId = tmp.Id
-		ist.CertificationId = item.Id
-		ist.InsertBMObject()
-	}
+	//for _, item := range tmp.Certifications {
+	//	ist := yard.BmBindYardCertific{}
+	//	ist.Id_ = bson.NewObjectId()
+	//	ist.Id = ist.Id_.Hex()
+	//	ist.YardId = tmp.Id
+	//	ist.CertificationId = item.Id
+	//	ist.InsertBMObject()
+	//}
 
 	b.bk.Pr = tmp
 	return nil
