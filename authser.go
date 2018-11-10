@@ -187,5 +187,4 @@ func main() {
 	once.Do(bmRouter.GenerateConfig)
 
 	http.ListenAndServe(":"+bmRouter.Port, r)
-
 }
