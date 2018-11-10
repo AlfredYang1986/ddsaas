@@ -17,12 +17,13 @@ type BmBrand struct {
 	Title      string `json:"title" bson:"title"`
 	Subtitle   string `json:"subtitle" bson:"subtitle"`
 	Found      int64  `json:"found"`
-	FoundStory string `json:"FoundStory" bson:"FoundStory"`
+	FoundStory string `json:"foundStory" bson:"foundStory"`
 
 	//TODO:20181109新增的
 	Cate      category.BmCategory `json:"Cate" jsonapi:"relationships"` //类别
 	Logo      string              `json:"logo" bson:"logo"`             //品牌logo
-	BrandTags []string            `json:"brand_tags" bson:"brand_tags"` //HightLight[与众不同],3-5条,一条5个字
+	Slogan    string              `json:"slogan" bson:"slogan"`         //一句话介绍
+	BrandTags []interface{}       `json:"brand_tags" bson:"brand_tags"` //HightLight[与众不同],3-5条,一条5个字
 	EduIdea   string              `json:"edu_idea" bson:"edu_idea"`     //教育理念
 	AboutUs   string              `json:"about_us" bson:"about_us"`     //团队
 	//TODO:Honors和Certifications合并成TagImgs,添加category做区分.
@@ -159,4 +160,117 @@ func (bd BmBrand) IsBrandRegistered() bool {
 
 func (bd BmBrand) Valid() bool {
 	return bd.Title != ""
+}
+
+func (bd *BmBrand) ReSetProp() error {
+
+	bd.reSetCate()
+	bd.reSetHonor()
+	bd.reSetCertification()
+
+	return nil
+}
+
+func (bd *BmBrand) reSetCate() error {
+
+	eq := request.Eqcond{}
+	eq.Ky = "brandId"
+	eq.Vy = bd.Id
+	req := request.Request{}
+	req.Res = "BmBindBrandCategory"
+	var condi []interface{}
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	reval := BmBindBrandCategory{}
+	err := reval.FindOne(c.(request.Request))
+
+	eq0 := request.Eqcond{}
+	eq0.Ky = "id"
+	eq0.Vy = reval.CategoryId
+	req0 := request.Request{}
+	req0.Res = "BmCategory"
+	var condi0 []interface{}
+	condi0 = append(condi0, eq0)
+	c0 := req0.SetConnect("conditions", condi0)
+
+	result := category.BmCategory{}
+	err = result.FindOne(c0.(request.Request))
+	bd.Cate = result
+
+	return err
+}
+func (bd *BmBrand) reSetHonor() error {
+
+	req := request.Request{}
+	req.Res = "BmBindBrandHonor"
+	var condi []interface{}
+	eq := request.Eqcond{}
+	eq.Ky = "brandId"
+	eq.Vy = bd.Id
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	var reval []BmBindBrandHonor
+	err := bmmodel.FindMutil(c.(request.Request), &reval)
+	if err != nil {
+		return err
+	}
+
+	var condi0 []bson.ObjectId
+	for _, item := range reval {
+		condi0 = append(condi0, bson.ObjectIdHex(item.HonorId))
+	}
+
+	tt := make(map[string]interface{})
+	tt["$in"] = condi0
+	or_condi := bson.M{"_id": tt}
+
+	var resultArr []honor.BmHonor
+	err = bmmodel.FindMutilWithBson("BmHonor", or_condi, &resultArr)
+
+	for i, ir := range resultArr {
+		ir.ResetIdWithId_()
+		resultArr[i] = ir
+	}
+	bd.Honors = resultArr
+
+	return nil
+}
+func (bd *BmBrand) reSetCertification() error {
+
+	req := request.Request{}
+	req.Res = "BmBindBrandCertific"
+	var condi []interface{}
+	eq := request.Eqcond{}
+	eq.Ky = "brandId"
+	eq.Vy = bd.Id
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	var reval []BmBindBrandCertific
+	err := bmmodel.FindMutil(c.(request.Request), &reval)
+	if err != nil {
+		return err
+	}
+
+	var condi0 []bson.ObjectId
+	for _, item := range reval {
+		condi0 = append(condi0, bson.ObjectIdHex(item.CertificationId))
+	}
+
+	tt := make(map[string]interface{})
+	tt["$in"] = condi0
+	or_condi := bson.M{"_id": tt}
+
+	var resultArr []certification.BmCertification
+	err = bmmodel.FindMutilWithBson("BmCertification", or_condi, &resultArr)
+
+	for i, ir := range resultArr {
+		ir.ResetIdWithId_()
+		resultArr[i] = ir
+	}
+	bd.Certifications = resultArr
+
+	return nil
 }

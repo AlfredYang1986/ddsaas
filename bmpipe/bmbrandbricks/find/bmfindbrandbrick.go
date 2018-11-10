@@ -1,17 +1,18 @@
-package brandpush
+package brandfind
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
 	"github.com/alfredyang1986/ddsaas/bmmodel/brand"
+	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
-	"io"
 	"net/http"
+	"io"
 )
 
-type BmBrandPushBrick struct {
+type BmBrandFindBrick struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -19,29 +20,21 @@ type BmBrandPushBrick struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BmBrandPushBrick) Exec() error {
-	tmp := b.bk.Pr.(brand.BmBrand)
-
-	var err error
-	if tmp.Id != "" && tmp.Id_.Valid() {
-		if tmp.Valid() && tmp.IsBrandRegistered() {
-			b.bk.Err = -5
-		} else {
-			err = tmp.InsertBMObject()
-		}
-	}
+func (b *BmBrandFindBrick) Exec() error {
+	var tmp brand.BmBrand
+	err := tmp.FindOne(*b.bk.Req)
+	tmp.ReSetProp()
 	b.bk.Pr = tmp
 	return err
 }
 
-func (b *BmBrandPushBrick) Prepare(pr interface{}) error {
-	req := pr.(brand.BmBrand)
-	//b.bk.Pr = req
-	b.BrickInstance().Pr = req
+func (b *BmBrandFindBrick) Prepare(pr interface{}) error {
+	req := pr.(request.Request)
+	b.BrickInstance().Req = &req
 	return nil
 }
 
-func (b *BmBrandPushBrick) Done(pkg string, idx int64, e error) error {
+func (b *BmBrandFindBrick) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	if int(idx) < tmp-1 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)
@@ -49,21 +42,21 @@ func (b *BmBrandPushBrick) Done(pkg string, idx int64, e error) error {
 	return nil
 }
 
-func (b *BmBrandPushBrick) BrickInstance() *bmpipe.BMBrick {
+func (b *BmBrandFindBrick) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BmBrandPushBrick) ResultTo(w io.Writer) error {
+func (b *BmBrandFindBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
 	tmp := pr.(brand.BmBrand)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BmBrandPushBrick) Return(w http.ResponseWriter) {
+func (b *BmBrandFindBrick) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
@@ -72,3 +65,4 @@ func (b *BmBrandPushBrick) Return(w http.ResponseWriter) {
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }
+

@@ -6,16 +6,18 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/address"
 	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
 	"github.com/alfredyang1986/ddsaas/bmmodel/brand"
+	"github.com/alfredyang1986/ddsaas/bmmodel/category"
 	"github.com/alfredyang1986/ddsaas/bmmodel/certification"
 	"github.com/alfredyang1986/ddsaas/bmmodel/guardian"
+	"github.com/alfredyang1986/ddsaas/bmmodel/honor"
 	"github.com/alfredyang1986/ddsaas/bmmodel/payment"
 	"github.com/alfredyang1986/ddsaas/bmmodel/region"
-	"github.com/alfredyang1986/ddsaas/bmmodel/honor"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/update"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/update"
@@ -29,7 +31,6 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
-	"github.com/alfredyang1986/ddsaas/bmmodel/category"
 	"github.com/alfredyang1986/ddsaas/bmmodel/room"
 	"github.com/alfredyang1986/ddsaas/bmmodel/sessioninfo"
 	"github.com/alfredyang1986/ddsaas/bmmodel/tagimg"
@@ -67,6 +68,7 @@ func main() {
 	fac.RegisterModel("BMPhone", &auth.BMPhone{})
 	fac.RegisterModel("BMWeChat", &auth.BMWeChat{})
 	fac.RegisterModel("BMAuthProp", &auth.BMAuthProp{})
+
 	fac.RegisterModel("BmAttendee", &attendee.BmAttendee{})
 	fac.RegisterModel("BmAttendees", &attendee.BmAttendees{})
 	fac.RegisterModel("BMAttendeeProp", &attendee.BMAttendeeProp{})
@@ -81,6 +83,9 @@ func main() {
 
 	fac.RegisterModel("BmBrand", &brand.BmBrand{})
 	fac.RegisterModel("BmHonor", &honor.BmHonor{})
+	fac.RegisterModel("BmCategory", &category.BmCategory{})
+	fac.RegisterModel("BmCertification", &certification.BmCertification{})
+
 	fac.RegisterModel("BmTeacher", &teacher.BmTeacher{})
 	fac.RegisterModel("BmTeachers", &teacher.BmTeachers{})
 
@@ -114,7 +119,13 @@ func main() {
 	fac.RegisterModel("BMAttendeePushGuardian", &attendeepush.BMAttendeePushGuardian{})
 	fac.RegisterModel("BMAttendeePushGuardianRS", &attendeepush.BMAttendeePushGuardianRS{})
 
-	fac.RegisterModel("BMBrandPushBrick", &brandpush.BMBrandPushBrick{})
+	/*------------------------------------------------
+	 * brand bricks object
+	 *------------------------------------------------*/
+	fac.RegisterModel("BmBrandPushBrick", &brandpush.BmBrandPushBrick{})
+	fac.RegisterModel("BmBrandPushProp", &brandpush.BmBrandPushProp{})
+	fac.RegisterModel("BmBrandBindProp", &brandpush.BmBrandBindProp{})
+	fac.RegisterModel("BmBrandFindBrick", &brandfind.BmBrandFindBrick{})
 
 	fac.RegisterModel("BmTeacherPushBrick", &teacherpush.BmTeacherPushBrick{})
 	//fac.RegisterModel("BmTeacherPersonPushBrick", &teacherpush.BmTeacherPersonPushBrick{})
@@ -133,7 +144,6 @@ func main() {
 	fac.RegisterModel("BmYards", &yard.BmYards{})
 	fac.RegisterModel("BmRoom", &room.BmRoom{})
 	fac.RegisterModel("BmTagImg", &tagimg.BmTagImg{})
-	fac.RegisterModel("BmCertification", &certification.BmCertification{})
 
 	fac.RegisterModel("BmYardPushBrick", &yardpush.BmYardPushBrick{})
 	fac.RegisterModel("BmTagImgYardPushBrick", &yardpush.BmTagImgYardPushBrick{})
@@ -149,7 +159,6 @@ func main() {
 	 *------------------------------------------------*/
 	fac.RegisterModel("BmSessionInfo", &sessioninfo.BmSessionInfo{})
 	fac.RegisterModel("BmSessionInfos", &sessioninfo.BmSessionInfos{})
-	fac.RegisterModel("BmCategory", &category.BmCategory{})
 
 	fac.RegisterModel("BmSessionInfoPushBrick", &courseinfopush.BmSessionInfoPushBrick{})
 	fac.RegisterModel("BmSessionCatPushBrick", &courseinfopush.BmSessionCatPushBrick{})

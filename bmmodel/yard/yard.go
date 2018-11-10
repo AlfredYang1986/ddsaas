@@ -130,3 +130,5 @@ func (bd *BmYard) FindOne(req request.Request) error {
 func (bd *BmYard) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
+
+

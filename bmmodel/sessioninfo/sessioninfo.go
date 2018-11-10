@@ -8,15 +8,16 @@ import (
 )
 
 type BmSessionInfo struct {
-	Id      string        `json:"id"`
-	Id_     bson.ObjectId `bson:"_id"`
-	BrandId string        `json:"brandId" bson:"brandId"`
-	Title   string        `json:"title" bson:"title"`
-	Alb     float64       `json:"alb" bson:"alb"`
-	Aub     float64       `json:"aub" bson:"aub"`
-	Level   string        `json:"level" bson:"level"`
-	Count   float64       `json:"count" bson:"count"`
-	Length  float64       `json:"length" bson:"length"`
+	Id       string        `json:"id"`
+	Id_      bson.ObjectId `bson:"_id"`
+	BrandId  string        `json:"brandId" bson:"brandId"`
+	Title    string        `json:"title" bson:"title"`
+	Subtitle string        `json:"subtitle" bson:"subtitle"`
+	Alb      float64       `json:"alb" bson:"alb"`
+	Aub      float64       `json:"aub" bson:"aub"`
+	Level    string        `json:"level" bson:"level"`
+	Count    float64       `json:"count" bson:"count"`
+	Length   float64       `json:"length" bson:"length"`
 
 	Cate category.BmCategory `json:"Cate" jsonapi:"relationships"`
 
