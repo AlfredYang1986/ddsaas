@@ -21,6 +21,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/update"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmtagimgsbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmyardbricks/update"
 	"net/http"
@@ -143,6 +144,7 @@ func main() {
 	 * yard brick object
 	 *------------------------------------------------*/
 	fac.RegisterModel("BmYard", &yard.BmYard{})
+	fac.RegisterModel("BmBindYardImg", &yard.BmBindYardImg{})
 	fac.RegisterModel("BmYards", &yard.BmYards{})
 	fac.RegisterModel("BmRoom", &room.BmRoom{})
 	fac.RegisterModel("BmTagImg", &tagimg.BmTagImg{})
@@ -155,6 +157,8 @@ func main() {
 	fac.RegisterModel("BmYardFindBrick", &yardfind.BmYardFindBrick{})
 	fac.RegisterModel("BmYardFindBindBrick", &yardfind.BmYardFindBindBrick{})
 	fac.RegisterModel("BmYardFindMulti", &yardfind.BmYardFindMulti{})
+	fac.RegisterModel("BmTagImgPushBrick", &tagimgpush.BmTagImgPushBrick{})
+	fac.RegisterModel("BmTagImgBindYard", &tagimgpush.BmTagImgBindYard{})
 
 	/*------------------------------------------------
 	 * session brick object

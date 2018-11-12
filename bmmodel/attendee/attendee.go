@@ -30,6 +30,7 @@ type BmAttendee struct {
 	//Person    person.BmPerson       `json:"Person" jsonapi:"relationships"`
 	Guardians []guardian.BmGuardian `json:"Guardians" jsonapi:"relationships"`
 	Payments  []payment.BMPayment   `json:"Payments" jsonapi:"relationships"`
+	Address   string `json:"address" bson:"address"`
 }
 
 /*------------------------------------------------

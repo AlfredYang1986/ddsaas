@@ -40,7 +40,7 @@ type BmYard struct {
 	//TODO:Certifications合并成TagImgs,添加category做区分.
 	//Certifications []certification.BmCertification `json:"Certifications" jsonapi:"relationships"`
 	Facilities     []interface{}                   `json:"facilities" bson:"facilities"`
-	Friendly       []interface{}                   `json:"friendly" bson:"friendly"`
+	//Friendly       []interface{}                   `json:"friendly" bson:"friendly"`
 }
 
 /*------------------------------------------------

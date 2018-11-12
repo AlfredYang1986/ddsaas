@@ -14,16 +14,18 @@ type BmTeacher struct {
 
 	BrandId string `json:"brandId" bson:"brandId"`
 
-	Name     string `json:"name" bson:"name"`
-	Nickname string `json:"nickname" bson:"nickname"`
-	Icon     string `json:"icon" bson:"icon"`
+	Name     string  `json:"name" bson:"name"`
+	Nickname string  `json:"nickname" bson:"nickname"`
+	Icon     string  `json:"icon" bson:"icon"`
 	Dob      float64 `json:"dob" bson:"dob"`
 	Gender   float64 `json:"gender" bson:"gender"`
 	RegDate  float64 `json:"reg_date" bson:"reg_date"`
-	Contact  string `json:"contact" bson:"contact"`
-	WeChat  string `json:"wechat" bson:"wechat"`
+	Contact  string  `json:"contact" bson:"contact"`
+	WeChat   string  `json:"wechat" bson:"wechat"`
 
 	//Person person.BmPerson `json:"person" jsonapi:"relationships"`
+	Address     string `json:"address" bson:"address"`
+	NativePlace string `json:"nativePlace" bson:"nativePlace"`
 }
 
 /*------------------------------------------------
