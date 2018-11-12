@@ -6,12 +6,12 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type BMAuth struct {
+type BmAuth struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Phone   BMPhone           `json:"BMPhone" jsonapi:"relationships"`
-	Wechat  BMWeChat          `json:"BMWeChat" jsonapi:"relationships"`
+	Phone  BmPhone  `json:"BmPhone" jsonapi:"relationships"`
+	Wechat BmWeChat `json:"BmWeChat" jsonapi:"relationships"`
 	//Profile profile.BMProfile `json:"profile" jsonapi:"relationships"`
 
 	Token string
@@ -21,11 +21,11 @@ type BMAuth struct {
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BMAuth) ResetIdWithId_() {
+func (bd *BmAuth) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BMAuth) ResetId_WithID() {
+func (bd *BmAuth) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -33,42 +33,42 @@ func (bd *BMAuth) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BMAuth) QueryObjectId() bson.ObjectId {
+func (bd *BmAuth) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BMAuth) QueryId() string {
+func (bd *BmAuth) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BMAuth) SetObjectId(id_ bson.ObjectId) {
+func (bd *BmAuth) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BMAuth) SetId(id string) {
+func (bd *BmAuth) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BMAuth) SetConnect(tag string, v interface{}) interface{} {
+func (bd BmAuth) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
-	case "BMPhone":
-		bd.Phone = v.(BMPhone)
-	case "BMWeChat":
-		bd.Wechat = v.(BMWeChat)
+	case "BmPhone":
+		bd.Phone = v.(BmPhone)
+	case "BmWeChat":
+		bd.Wechat = v.(BmWeChat)
 	//case "profile":
 	//	bd.Profile = v.(profile.BMProfile)
 	}
 	return bd
 }
 
-func (bd BMAuth) QueryConnect(tag string) interface{} {
+func (bd BmAuth) QueryConnect(tag string) interface{} {
 	switch tag {
-	case "BMPhone":
+	case "BmPhone":
 		return bd.Phone
-	case "BMWeChat":
+	case "BmWeChat":
 		return bd.Wechat
 	//case "profile":
 	//	return bd.Profile
@@ -80,14 +80,14 @@ func (bd BMAuth) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BMAuth) InsertBMObject() error {
+func (bd *BmAuth) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BMAuth) FindOne(req request.Request) error {
+func (bd *BmAuth) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BMAuth) UpdateBMObject(req request.Request) error {
+func (bd *BmAuth) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }

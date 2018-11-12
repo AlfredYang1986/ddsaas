@@ -24,7 +24,7 @@ type BMAuthPhoneFindBrick struct {
  *------------------------------------------------*/
 
 func (b *BMAuthPhoneFindBrick) Exec() error {
-	var tmp auth.BMPhone
+	var tmp auth.BmPhone
 	err := tmp.FindOne(*b.bk.Req)
 	b.bk.Pr = tmp
 	return err
@@ -40,9 +40,9 @@ func (b *BMAuthPhoneFindBrick) Prepare(pr interface{}) error {
 
 func (b *BMAuthPhoneFindBrick) Done(pkg string, idx int64, e error) error {
 	if e != nil && e.Error() == "not found" {
-		reval := auth.BMAuth{}
-		reval.Phone = auth.BMPhone{}
-		reval.Phone.PhoneNo = b.BrickInstance().Req.CondiQueryVal("phone", "BMPhone").(string)
+		reval := auth.BmAuth{}
+		reval.Phone = auth.BmPhone{}
+		reval.Phone.PhoneNo = b.BrickInstance().Req.CondiQueryVal("phone", "BmPhone").(string)
 		b.BrickInstance().Pr = reval
 
 		bmrouter.NextBrickRemote("insertauth", 0, b)
@@ -62,12 +62,12 @@ func (b *BMAuthPhoneFindBrick) BrickInstance() *bmpipe.BMBrick {
 
 func (b *BMAuthPhoneFindBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	if reflect.ValueOf(pr).Type().Name() == "BMPhone" {
-		tmp := pr.(auth.BMPhone)
+	if reflect.ValueOf(pr).Type().Name() == "BmPhone" {
+		tmp := pr.(auth.BmPhone)
 		err := jsonapi.ToJsonAPI(&tmp, w)
 		return err
 	} else {
-		tmp := pr.(auth.BMAuth)
+		tmp := pr.(auth.BmAuth)
 		err := jsonapi.ToJsonAPI(&tmp, w)
 		return err
 	}
@@ -78,7 +78,7 @@ func (b *BMAuthPhoneFindBrick) Return(w http.ResponseWriter) {
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval auth.BMAuth = b.BrickInstance().Pr.(auth.BMAuth)
+		var reval auth.BmAuth = b.BrickInstance().Pr.(auth.BmAuth)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }

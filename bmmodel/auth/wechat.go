@@ -9,7 +9,7 @@ import (
 	"sync"
 )
 
-type BMWeChat struct {
+type BmWeChat struct {
 	Id      string        `json:"id"`
 	Id_     bson.ObjectId `bson:"_id"`
 	Name    string        `json:"name" bson:"name"`
@@ -24,11 +24,11 @@ type BMWeChat struct {
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BMWeChat) ResetIdWithId_() {
+func (bd *BmWeChat) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BMWeChat) ResetId_WithID() {
+func (bd *BmWeChat) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -36,30 +36,30 @@ func (bd *BMWeChat) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BMWeChat) QueryObjectId() bson.ObjectId {
+func (bd *BmWeChat) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BMWeChat) QueryId() string {
+func (bd *BmWeChat) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BMWeChat) SetObjectId(id_ bson.ObjectId) {
+func (bd *BmWeChat) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BMWeChat) SetId(id string) {
+func (bd *BmWeChat) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BMWeChat) SetConnect(tag string, v interface{}) interface{} {
+func (bd BmWeChat) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd BMWeChat) QueryConnect(tag string) interface{} {
+func (bd BmWeChat) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -67,15 +67,15 @@ func (bd BMWeChat) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BMWeChat) InsertBMObject() error {
+func (bd *BmWeChat) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BMWeChat) FindOne(req request.Request) error {
+func (bd *BmWeChat) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BMWeChat) UpdateBMObject(req request.Request) error {
+func (bd *BmWeChat) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
@@ -83,7 +83,7 @@ func (bd *BMWeChat) UpdateBMObject(req request.Request) error {
  * wechat interface
  *------------------------------------------------*/
 
-func (bd BMWeChat) IsWechatRegisted() bool {
+func (bd BmWeChat) IsWechatRegisted() bool {
 
 	var once sync.Once
 	var bmMongo bmconfig.BMMongoConfig
@@ -92,7 +92,7 @@ func (bd BMWeChat) IsWechatRegisted() bool {
 	port := bmMongo.Port
 	dbName := bmMongo.Database
 
-	colName := "BMWeChat"
+	colName := "BmWeChat"
 
 	session, err := mgo.Dial(host + ":" + port)
 	if err != nil {
@@ -109,6 +109,6 @@ func (bd BMWeChat) IsWechatRegisted() bool {
 	return n > 0
 }
 
-func (bd BMWeChat) Valid() bool {
+func (bd BmWeChat) Valid() bool {
 	return bd.Open_id != ""
 }

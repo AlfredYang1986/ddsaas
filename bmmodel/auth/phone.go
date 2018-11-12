@@ -9,7 +9,7 @@ import (
 	"sync"
 )
 
-type BMPhone struct {
+type BmPhone struct {
 	Id      string        `json:"id"`
 	Id_     bson.ObjectId `bson:"_id"`
 	PhoneNo string        `json:"phone_no" bson:"phone_no"`
@@ -19,11 +19,11 @@ type BMPhone struct {
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BMPhone) ResetIdWithId_() {
+func (bd *BmPhone) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BMPhone) ResetId_WithID() {
+func (bd *BmPhone) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -31,30 +31,30 @@ func (bd *BMPhone) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BMPhone) QueryObjectId() bson.ObjectId {
+func (bd *BmPhone) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BMPhone) QueryId() string {
+func (bd *BmPhone) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BMPhone) SetObjectId(id_ bson.ObjectId) {
+func (bd *BmPhone) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BMPhone) SetId(id string) {
+func (bd *BmPhone) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BMPhone) SetConnect(tag string, v interface{}) interface{} {
+func (bd BmPhone) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd BMPhone) QueryConnect(tag string) interface{} {
+func (bd BmPhone) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -62,15 +62,15 @@ func (bd BMPhone) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BMPhone) InsertBMObject() error {
+func (bd *BmPhone) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BMPhone) FindOne(req request.Request) error {
+func (bd *BmPhone) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BMPhone) UpdateBMObject(req request.Request) error {
+func (bd *BmPhone) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
@@ -78,7 +78,7 @@ func (bd *BMPhone) UpdateBMObject(req request.Request) error {
  * phone interface
  *------------------------------------------------*/
 
-func (bd BMPhone) IsPhoneRegisted() bool {
+func (bd BmPhone) IsPhoneRegisted() bool {
 
 	var once sync.Once
 	var bmMongo bmconfig.BMMongoConfig
@@ -87,7 +87,7 @@ func (bd BMPhone) IsPhoneRegisted() bool {
 	port := bmMongo.Port
 	dbName := bmMongo.Database
 
-	colName := "BMPhone"
+	colName := "BmPhone"
 
 	session, err := mgo.Dial(host + ":" + port)
 	if err != nil {
@@ -104,6 +104,6 @@ func (bd BMPhone) IsPhoneRegisted() bool {
 	return n > 0
 }
 
-func (bd BMPhone) Valid() bool {
+func (bd BmPhone) Valid() bool {
 	return bd.PhoneNo != ""
 }

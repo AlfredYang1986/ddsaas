@@ -21,7 +21,7 @@ type BMAccountFindBrick struct {
  *------------------------------------------------*/
 
 func (b *BMAccountFindBrick) Exec() error {
-	var tmp account.BMAccount
+	var tmp account.BmAccount
 	err := tmp.FindOne(*b.bk.Req)
 	tmp.SecretWord = ""
 	b.bk.Pr = tmp
@@ -30,20 +30,21 @@ func (b *BMAccountFindBrick) Exec() error {
 
 func (b *BMAccountFindBrick) Prepare(pr interface{}) error {
 	req := pr.(request.Request)
-	var eqCondArr []request.Eqcond
-	for _, e := range req.Eqcond {
-		if e.Ky == "secretword" {
-			tmpAccount := account.BMAccount{
-				SecretWord: e.Vy.(string),
-			}
-			//TODO: 配置参数化
-			tmpAccount.DecodeByCompanyDate("BlackMirror", "2018")
-			tmpAccount.Secret2MD5()
-			e.Vy = tmpAccount.SecretWord
-		}
-		eqCondArr = append(eqCondArr, e)
-	}
-	req.Eqcond = eqCondArr
+
+	//var eqCondArr []request.Eqcond
+	//for _, e := range req.Eqcond {
+	//	if e.Ky == "secretword" {
+	//		tmpAccount := account.BmAccount{
+	//			SecretWord: e.Vy.(string),
+	//		}
+	//		//TODO: 配置参数化
+	//		tmpAccount.DecodeByCompanyDate("BlackMirror", "2018")
+	//		tmpAccount.Secret2MD5()
+	//		e.Vy = tmpAccount.SecretWord
+	//	}
+	//	eqCondArr = append(eqCondArr, e)
+	//}
+	//req.Eqcond = eqCondArr
 
 	b.BrickInstance().Req = &req
 	return nil
@@ -66,7 +67,7 @@ func (b *BMAccountFindBrick) BrickInstance() *bmpipe.BMBrick {
 
 func (b *BMAccountFindBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	tmp := pr.(account.BMAccount)
+	tmp := pr.(account.BmAccount)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
@@ -76,7 +77,7 @@ func (b *BMAccountFindBrick) Return(w http.ResponseWriter) {
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval account.BMAccount = b.BrickInstance().Pr.(account.BMAccount)
+		var reval account.BmAccount = b.BrickInstance().Pr.(account.BmAccount)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }

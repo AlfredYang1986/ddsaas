@@ -25,7 +25,7 @@ type BMAuthGenerateToken struct {
 func (b *BMAuthGenerateToken) Exec() error {
 
 	tmp := b.BrickInstance().Pr
-	bmah := tmp.(auth.BMAuth)
+	bmah := tmp.(auth.BmAuth)
 	h := md5.New()
 	io.WriteString(h, bmah.Id)
 
@@ -40,7 +40,7 @@ func (b *BMAuthGenerateToken) Exec() error {
 }
 
 func (b *BMAuthGenerateToken) Prepare(pr interface{}) error {
-	req := pr.(auth.BMAuth)
+	req := pr.(auth.BmAuth)
 	b.BrickInstance().Pr = req
 	return nil
 }
@@ -62,7 +62,7 @@ func (b *BMAuthGenerateToken) BrickInstance() *bmpipe.BMBrick {
 
 func (b *BMAuthGenerateToken) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	tmp := pr.(auth.BMAuth)
+	tmp := pr.(auth.BmAuth)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
@@ -72,7 +72,7 @@ func (b *BMAuthGenerateToken) Return(w http.ResponseWriter) {
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval auth.BMAuth = b.BrickInstance().Pr.(auth.BMAuth)
+		var reval auth.BmAuth = b.BrickInstance().Pr.(auth.BmAuth)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }

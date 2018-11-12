@@ -6,7 +6,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type BMAuthProp struct {
+type BmAuthProp struct {
 	Id         string        `json:"Id"`
 	Id_        bson.ObjectId `bson:"_id"`
 	Auth_id    string        `json:"auth_id" bson:"auth_id"`
@@ -19,11 +19,11 @@ type BMAuthProp struct {
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BMAuthProp) ResetIdWithId_() {
+func (bd *BmAuthProp) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BMAuthProp) ResetId_WithID() {
+func (bd *BmAuthProp) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -31,30 +31,30 @@ func (bd *BMAuthProp) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BMAuthProp) QueryObjectId() bson.ObjectId {
+func (bd *BmAuthProp) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BMAuthProp) QueryId() string {
+func (bd *BmAuthProp) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BMAuthProp) SetObjectId(id_ bson.ObjectId) {
+func (bd *BmAuthProp) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BMAuthProp) SetId(id string) {
+func (bd *BmAuthProp) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BMAuthProp) SetConnect(tag string, v interface{}) interface{} {
+func (bd BmAuthProp) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd BMAuthProp) QueryConnect(tag string) interface{} {
+func (bd BmAuthProp) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -62,14 +62,14 @@ func (bd BMAuthProp) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BMAuthProp) InsertBMObject() error {
+func (bd *BmAuthProp) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BMAuthProp) FindOne(req request.Request) error {
+func (bd *BmAuthProp) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BMAuthProp) UpdateBMObject(req request.Request) error {
+func (bd *BmAuthProp) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }

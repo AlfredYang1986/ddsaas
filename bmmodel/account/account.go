@@ -13,23 +13,24 @@ import (
 	"io"
 )
 
-type BMAccount struct {
+type BmAccount struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
 	Account    string `json:"account" bson:"account"`
 	SecretWord string `json:"secretword" bson:"secretword"`
+
 }
 
 /*------------------------------------------------
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BMAccount) ResetIdWithId_() {
+func (bd *BmAccount) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BMAccount) ResetId_WithID() {
+func (bd *BmAccount) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -37,30 +38,30 @@ func (bd *BMAccount) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BMAccount) QueryObjectId() bson.ObjectId {
+func (bd *BmAccount) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BMAccount) QueryId() string {
+func (bd *BmAccount) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BMAccount) SetObjectId(id_ bson.ObjectId) {
+func (bd *BmAccount) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BMAccount) SetId(id string) {
+func (bd *BmAccount) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BMAccount) SetConnect(tag string, v interface{}) interface{} {
+func (bd BmAccount) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd BMAccount) QueryConnect(tag string) interface{} {
+func (bd BmAccount) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -68,23 +69,23 @@ func (bd BMAccount) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BMAccount) InsertBMObject() error {
+func (bd *BmAccount) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BMAccount) FindOne(req request.Request) error {
+func (bd *BmAccount) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BMAccount) UpdateBMObject(req request.Request) error {
+func (bd *BmAccount) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
-func (bd *BMAccount) DecodeByCompanyDate(company string, date string) error {
+func (bd *BmAccount) DecodeByCompanyDate(company string, date string) error {
 
 	var bmRsaKey auth.BMRsaKey = auth.BMRsaKey{
-		Company:company,
-		Date:date,
+		Company: company,
+		Date:    date,
 	}
 
 	privateKey, err := bmRsaKey.GetPrivateKey()
@@ -108,7 +109,7 @@ func (bd *BMAccount) DecodeByCompanyDate(company string, date string) error {
 	return nil
 }
 
-func (bd *BMAccount) Secret2MD5() {
+func (bd *BmAccount) Secret2MD5() {
 
 	secretWord := bd.SecretWord
 
@@ -120,14 +121,14 @@ func (bd *BMAccount) Secret2MD5() {
 
 }
 
-func (bd BMAccount) IsAccountRegisted() bool {
+func (bd BmAccount) IsAccountRegisted() bool {
 	session, err := mgo.Dial("localhost:27017")
 	if err != nil {
 		panic("dial db error")
 	}
 	defer session.Close()
 
-	c := session.DB("test").C("BMAccount")
+	c := session.DB("test").C("BmAccount")
 	n, err := c.Find(bson.M{"account": bd.Account}).Count()
 	if err != nil {
 		panic(err)
@@ -136,6 +137,6 @@ func (bd BMAccount) IsAccountRegisted() bool {
 	return n > 0
 }
 
-func (bd BMAccount) Valid() bool {
+func (bd BmAccount) Valid() bool {
 	return bd.Account != ""
 }

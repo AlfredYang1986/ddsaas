@@ -21,7 +21,7 @@ type BMPhonePushBrick struct {
  *------------------------------------------------*/
 
 func (b *BMPhonePushBrick) Exec() error {
-	var tmp auth.BMAuth = b.bk.Pr.(auth.BMAuth)
+	var tmp auth.BmAuth = b.bk.Pr.(auth.BmAuth)
 	ap := tmp.Phone
 	if ap.Id != "" && ap.Id_.Valid() {
 		if ap.Valid() && ap.IsPhoneRegisted() {
@@ -34,7 +34,7 @@ func (b *BMPhonePushBrick) Exec() error {
 }
 
 func (b *BMPhonePushBrick) Prepare(pr interface{}) error {
-	req := pr.(auth.BMAuth)
+	req := pr.(auth.BmAuth)
 	//b.bk.Pr = req
 	b.BrickInstance().Pr = req
 	return nil
@@ -61,7 +61,7 @@ func (b *BMPhonePushBrick) BrickInstance() *bmpipe.BMBrick {
 
 func (b *BMPhonePushBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	tmp := pr.(auth.BMAuth)
+	tmp := pr.(auth.BmAuth)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
@@ -71,7 +71,7 @@ func (b *BMPhonePushBrick) Return(w http.ResponseWriter) {
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval auth.BMAuth = b.BrickInstance().Pr.(auth.BMAuth)
+		var reval auth.BmAuth = b.BrickInstance().Pr.(auth.BmAuth)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }

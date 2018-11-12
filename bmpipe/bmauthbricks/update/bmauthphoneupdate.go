@@ -23,7 +23,7 @@ type BMAuthPhoneUpdateBrick struct {
  *------------------------------------------------*/
 
 func (b *BMAuthPhoneUpdateBrick) Exec() error {
-	tmp := auth.BMPhone{}
+	tmp := auth.BmPhone{}
 	tmp.UpdateBMObject(*b.bk.Req)
 	b.bk.Pr = tmp
 	return nil
@@ -53,7 +53,7 @@ func (b *BMAuthPhoneUpdateBrick) BrickInstance() *bmpipe.BMBrick {
 
 func (b *BMAuthPhoneUpdateBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	tmp := pr.(auth.BMPhone)
+	tmp := pr.(auth.BmPhone)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
@@ -63,7 +63,7 @@ func (b *BMAuthPhoneUpdateBrick) Return(w http.ResponseWriter) {
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval auth.BMPhone = b.BrickInstance().Pr.(auth.BMPhone)
+		var reval auth.BmPhone = b.BrickInstance().Pr.(auth.BmPhone)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }

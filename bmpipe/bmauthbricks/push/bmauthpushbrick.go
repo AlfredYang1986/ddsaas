@@ -20,14 +20,14 @@ type BMAuthPushBrick struct {
  *------------------------------------------------*/
 
 func (b *BMAuthPushBrick) Exec() error {
-	var tmp auth.BMAuth = b.bk.Pr.(auth.BMAuth)
+	var tmp auth.BmAuth = b.bk.Pr.(auth.BmAuth)
 	tmp.InsertBMObject()
 	b.bk.Pr = tmp
 	return nil
 }
 
 func (b *BMAuthPushBrick) Prepare(pr interface{}) error {
-	req := pr.(auth.BMAuth)
+	req := pr.(auth.BmAuth)
 	//b.bk.Pr = req
 	b.BrickInstance().Pr = req
 	return nil
@@ -50,7 +50,7 @@ func (b *BMAuthPushBrick) BrickInstance() *bmpipe.BMBrick {
 
 func (b *BMAuthPushBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	tmp := pr.(auth.BMAuth)
+	tmp := pr.(auth.BmAuth)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
@@ -60,7 +60,7 @@ func (b *BMAuthPushBrick) Return(w http.ResponseWriter) {
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval auth.BMAuth = b.BrickInstance().Pr.(auth.BMAuth)
+		var reval auth.BmAuth = b.BrickInstance().Pr.(auth.BmAuth)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }

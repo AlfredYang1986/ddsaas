@@ -60,14 +60,15 @@ func main() {
 	fac.RegisterModel("Eqcond", &request.Eqcond{})
 	fac.RegisterModel("Upcond", &request.Upcond{})
 	fac.RegisterModel("Fmcond", &request.Fmcond{})
-	fac.RegisterModel("BMErrorNode", &bmerror.BMErrorNode{})
+	fac.RegisterModel("BmErrorNode", &bmerror.BmErrorNode{})
 
 	fac.RegisterModel("BMRsaKey", &auth.BMRsaKey{})
-	fac.RegisterModel("BMAccount", &account.BMAccount{})
-	fac.RegisterModel("BMAuth", &auth.BMAuth{})
-	fac.RegisterModel("BMPhone", &auth.BMPhone{})
-	fac.RegisterModel("BMWeChat", &auth.BMWeChat{})
-	fac.RegisterModel("BMAuthProp", &auth.BMAuthProp{})
+	fac.RegisterModel("BmAccount", &account.BmAccount{})
+	fac.RegisterModel("BmBindAccountBrand", &account.BmBindAccountBrand{})
+	fac.RegisterModel("BmAuth", &auth.BmAuth{})
+	fac.RegisterModel("BmPhone", &auth.BmPhone{})
+	fac.RegisterModel("BmWeChat", &auth.BmWeChat{})
+	fac.RegisterModel("BmAuthProp", &auth.BmAuthProp{})
 
 	fac.RegisterModel("BmAttendee", &attendee.BmAttendee{})
 	fac.RegisterModel("BmAttendees", &attendee.BmAttendees{})
@@ -111,6 +112,7 @@ func main() {
 	fac.RegisterModel("BMAuthPushBrick", &authpush.BMAuthPushBrick{})
 	fac.RegisterModel("BMRsaKeyGenerateBrick", &authpush.BMRsaKeyGenerateBrick{})
 	fac.RegisterModel("BMAccountPushBrick", &accountpush.BMAccountPushBrick{})
+	fac.RegisterModel("BmAccountBindBrand", &accountpush.BmAccountBindBrand{})
 
 	/*------------------------------------------------
 	 * attendee push bricks object

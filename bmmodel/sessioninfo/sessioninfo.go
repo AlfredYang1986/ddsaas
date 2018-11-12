@@ -25,7 +25,7 @@ type BmSessionInfo struct {
 	Description string `json:"description" bson:"description"`
 	Harvest     string `json:"harvest" bson:"harvest"`
 	Acquisition string `json:"acquisition" bson:"acquisition"`
-	Accompany   int64  `json:"accompany" bson:"accompany"`
+	Accompany   float64  `json:"accompany" bson:"accompany"`
 	Including   string `json:"including" bson:"including"`
 	Carrying    string `json:"carrying" bson:"carrying"`
 	Notice      string `json:"notice" bson:"notice"`

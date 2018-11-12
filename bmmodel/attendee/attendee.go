@@ -16,14 +16,14 @@ type BmAttendee struct {
 
 	Intro       string `json:"intro" bson:"intro"`
 	Status      string `json:"status" bson:"status"`
-	LessonCount int64 `json:"lesson_count" bson:"lesson_count"`
+	LessonCount float64 `json:"lesson_count" bson:"lesson_count"`
 
 	Name     string `json:"name" bson:"name"`
 	Nickname string `json:"nickname" bson:"nickname"`
 	Icon     string `json:"icon" bson:"icon"`
-	Dob      int64 `json:"dob" bson:"dob"`
-	Gender   int64 `json:"gender" bson:"gender"`
-	RegDate  int64 `json:"reg_date" bson:"reg_date"`
+	Dob      float64 `json:"dob" bson:"dob"`
+	Gender   float64 `json:"gender" bson:"gender"`
+	RegDate  float64 `json:"reg_date" bson:"reg_date"`
 	Contact  string `json:"contact" bson:"contact"`
 	WeChat  string `json:"wechat" bson:"wechat"`
 

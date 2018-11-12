@@ -16,7 +16,7 @@ type BmBrand struct {
 
 	Title      string `json:"title" bson:"title"`
 	Subtitle   string `json:"subtitle" bson:"subtitle"`
-	Found      int64  `json:"found"`
+	Found      float64  `json:"found"`
 	FoundStory string `json:"foundStory" bson:"foundStory"`
 
 	//TODO:20181109新增的
@@ -89,36 +89,6 @@ func (bd BmBrand) SetConnect(tag string, v interface{}) interface{} {
 			rst = append(rst, item.(certification.BmCertification))
 		}
 		bd.Certifications = rst
-		//case "students":
-		//	var rst []student.BMStudent
-		//	for _, item := range v.([]interface{}) {
-		//		rst = append(rst, item.(student.BMStudent))
-		//	}
-		//	bd.Students = rst
-		//case "attendees":
-		//	var rst []attendee.BmAttendee
-		//	for _, item := range v.([]interface{}) {
-		//		rst = append(rst, item.(attendee.BmAttendee))
-		//	}
-		//	bd.Attendees = rst
-		//case "teachers":
-		//	var rst []teacher.BmTeacher
-		//	for _, item := range v.([]interface{}) {
-		//		rst = append(rst, item.(teacher.BmTeacher))
-		//	}
-		//	bd.Teachers = rst
-		//case "sales":
-		//	var rst []sales.BMSales
-		//	for _, item := range v.([]interface{}) {
-		//		rst = append(rst, item.(sales.BMSales))
-		//	}
-		//	bd.Sales = rst
-		//case "yard":
-		//	var rst []yard.BMYard
-		//	for _, item := range v.([]interface{}) {
-		//		rst = append(rst, item.(yard.BMYard))
-		//	}
-		//	bd.Yard = rst
 	}
 	return bd
 }
@@ -200,6 +170,7 @@ func (bd *BmBrand) reSetCate() error {
 
 	return err
 }
+
 func (bd *BmBrand) reSetHonor() error {
 
 	req := request.Request{}
@@ -237,6 +208,7 @@ func (bd *BmBrand) reSetHonor() error {
 
 	return nil
 }
+
 func (bd *BmBrand) reSetCertification() error {
 
 	req := request.Request{}

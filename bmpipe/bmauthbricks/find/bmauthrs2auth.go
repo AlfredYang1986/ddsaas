@@ -24,7 +24,7 @@ type BMAuthRS2AuthBrick struct {
  *------------------------------------------------*/
 
 func (b *BMAuthRS2AuthBrick) Exec() error {
-	prop := b.bk.Pr.(auth.BMAuthProp)
+	prop := b.bk.Pr.(auth.BmAuthProp)
 	reval, err := findAuth(prop)
 	phone, err := findPhone(prop)
 	wechat, err := findWechat(prop)
@@ -37,7 +37,7 @@ func (b *BMAuthRS2AuthBrick) Exec() error {
 }
 
 func (b *BMAuthRS2AuthBrick) Prepare(pr interface{}) error {
-	req := pr.(auth.BMAuthProp)
+	req := pr.(auth.BmAuthProp)
 	b.BrickInstance().Pr = req
 	return nil
 }
@@ -59,7 +59,7 @@ func (b *BMAuthRS2AuthBrick) BrickInstance() *bmpipe.BMBrick {
 
 func (b *BMAuthRS2AuthBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	tmp := pr.(auth.BMAuth)
+	tmp := pr.(auth.BmAuth)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
@@ -69,7 +69,7 @@ func (b *BMAuthRS2AuthBrick) Return(w http.ResponseWriter) {
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval auth.BMAuth = b.BrickInstance().Pr.(auth.BMAuth)
+		var reval auth.BmAuth = b.BrickInstance().Pr.(auth.BmAuth)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }
@@ -78,52 +78,52 @@ func (b *BMAuthRS2AuthBrick) Return(w http.ResponseWriter) {
  * brick inner function
  *------------------------------------------------*/
 
-func findPhone(prop auth.BMAuthProp) (auth.BMPhone, error) {
+func findPhone(prop auth.BmAuthProp) (auth.BmPhone, error) {
 	eq := request.Eqcond{}
 	eq.Ky = "_id"
 	eq.Vy = bson.ObjectIdHex(prop.Phone_id)
 	req := request.Request{}
-	req.Res = "BMPhone"
+	req.Res = "BmPhone"
 	var condi []interface{}
 	condi = append(condi, eq)
 	c := req.SetConnect("conditions", condi)
 	fmt.Println(c)
 
-	reval := auth.BMPhone{}
+	reval := auth.BmPhone{}
 	err := reval.FindOne(c.(request.Request))
 
 	return reval, err
 }
 
-func findWechat(prop auth.BMAuthProp) (auth.BMWeChat, error) {
+func findWechat(prop auth.BmAuthProp) (auth.BmWeChat, error) {
 	eq := request.Eqcond{}
 	eq.Ky = "_id"
 	eq.Vy = bson.ObjectIdHex(prop.Wechat_id)
 	req := request.Request{}
-	req.Res = "BMWeChat"
+	req.Res = "BmWeChat"
 	var condi []interface{}
 	condi = append(condi, eq)
 	c := req.SetConnect("conditions", condi)
 	fmt.Println(c)
 
-	reval := auth.BMWeChat{}
+	reval := auth.BmWeChat{}
 	err := reval.FindOne(c.(request.Request))
 
 	return reval, err
 }
 
-func findAuth(prop auth.BMAuthProp) (auth.BMAuth, error) {
+func findAuth(prop auth.BmAuthProp) (auth.BmAuth, error) {
 	eq := request.Eqcond{}
 	eq.Ky = "_id"
 	eq.Vy = bson.ObjectIdHex(prop.Auth_id)
 	req := request.Request{}
-	req.Res = "BMAuth"
+	req.Res = "BmAuth"
 	var condi []interface{}
 	condi = append(condi, eq)
 	c := req.SetConnect("conditions", condi)
 	fmt.Println(c)
 
-	reval := auth.BMAuth{}
+	reval := auth.BmAuth{}
 	err := reval.FindOne(c.(request.Request))
 
 	return reval, err
