@@ -10,18 +10,19 @@ type BmGuardian struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Relationship string `json:"Relationship" bson:"Relationship"`
+	Relationship string `json:"relation_ship" bson:"relation_ship"`
 
 	BrandId string `json:"brandId" bson:"brandId"`
 
-	Name     string `json:"name" bson:"name"`
-	Nickname string `json:"nickname" bson:"nickname"`
-	Icon     string `json:"icon" bson:"icon"`
-	Dob      float64  `json:"dob" bson:"dob"`
-	Gender   float64  `json:"gender" bson:"gender"`
-	RegDate  float64  `json:"reg_date" bson:"reg_date"`
-	Contact  string `json:"contact" bson:"contact"`
-	WeChat   string `json:"wechat" bson:"wechat"`
+	Name     string  `json:"name" bson:"name"`
+	Nickname string  `json:"nickname" bson:"nickname"`
+	Icon     string  `json:"icon" bson:"icon"`
+	Dob      float64 `json:"dob" bson:"dob"`
+	Gender   float64 `json:"gender" bson:"gender"`
+	RegDate  float64 `json:"reg_date" bson:"reg_date"`
+	Contact  string  `json:"contact" bson:"contact"`
+	WeChat   string  `json:"wechat" bson:"wechat"`
+	Address  string  `json:"addr" bson:"address"`
 
 	//Person person.BmPerson `json:"Person" jsonapi:"relationships"`
 

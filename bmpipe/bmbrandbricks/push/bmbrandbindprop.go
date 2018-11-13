@@ -29,6 +29,7 @@ func (b *BmBrandBindProp) Exec() error {
 	bind.BrandId = tmp.Id
 	bind.Id_ = bson.NewObjectId()
 	bind.Id = bind.Id_.Hex()
+	bind.CheckExist()
 	err := bind.InsertBMObject()
 
 	for _, item := range tmp.Honors {
@@ -37,6 +38,7 @@ func (b *BmBrandBindProp) Exec() error {
 		ist.Id = ist.Id_.Hex()
 		ist.HonorId = item.Id
 		ist.BrandId = tmp.Id
+		ist.CheckExist()
 		ist.InsertBMObject()
 	}
 
@@ -46,6 +48,7 @@ func (b *BmBrandBindProp) Exec() error {
 		ist.Id = ist.Id_.Hex()
 		ist.CertificationId = item.Id
 		ist.BrandId = tmp.Id
+		ist.CheckExist()
 		ist.InsertBMObject()
 	}
 

@@ -72,3 +72,26 @@ func (bd *BmBindBrandCategory) FindOne(req request.Request) error {
 func (bd *BmBindBrandCategory) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
+
+func (bd *BmBindBrandCategory) CheckExist() error {
+
+	eq1 := request.Eqcond{}
+	eq1.Ky = "categoryId"
+	eq1.Vy = bd.CategoryId
+	eq2 := request.Eqcond{}
+	eq2.Ky = "brandId"
+	eq2.Vy = bd.BrandId
+	req := request.Request{}
+	req.Res = "BmBindBrandCategory"
+	var condi []interface{}
+	condi = append(condi, eq1)
+	condi = append(condi, eq2)
+	c := req.SetConnect("conditions", condi)
+	var bind BmBindBrandCategory
+	err := bind.FindOne(c.(request.Request))
+	if bind.Id != "" {
+		bd.SetId(bind.Id)
+		bd.SetObjectId(bind.Id_)
+	}
+	return err
+}

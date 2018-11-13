@@ -1,17 +1,18 @@
-package accountpush
+package categoryupdate
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
 	"github.com/alfredyang1986/blackmirror/bmerror"
+	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
-	"github.com/alfredyang1986/ddsaas/bmmodel/account"
+	"github.com/alfredyang1986/ddsaas/bmmodel/category"
 	"io"
 	"net/http"
 )
 
-type BmAccountBindBrand struct {
+type BmCategoryUpdateBrick struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -19,21 +20,22 @@ type BmAccountBindBrand struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BmAccountBindBrand) Exec() error {
-	tmp := b.bk.Pr.(account.BmBindAccountBrand)
-	tmp.CheckExist()
-	err := tmp.InsertBMObject()
-	b.bk.Pr = tmp
-	return err
-}
+func (b *BmCategoryUpdateBrick) Exec() error {
 
-func (b *BmAccountBindBrand) Prepare(pr interface{}) error {
-	req := pr.(account.BmBindAccountBrand)
-	b.BrickInstance().Pr = req
+	req := b.bk.Req
+	tmp := category.BmCategory{}
+	tmp.UpdateBMObject(*req)
+	b.BrickInstance().Pr = tmp
 	return nil
 }
 
-func (b *BmAccountBindBrand) Done(pkg string, idx int64, e error) error {
+func (b *BmCategoryUpdateBrick) Prepare(pr interface{}) error {
+	req := pr.(request.Request)
+	b.BrickInstance().Req = &req
+	return nil
+}
+
+func (b *BmCategoryUpdateBrick) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	if int(idx) < tmp-1 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)
@@ -41,27 +43,26 @@ func (b *BmAccountBindBrand) Done(pkg string, idx int64, e error) error {
 	return nil
 }
 
-func (b *BmAccountBindBrand) BrickInstance() *bmpipe.BMBrick {
+func (b *BmCategoryUpdateBrick) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BmAccountBindBrand) ResultTo(w io.Writer) error {
+func (b *BmCategoryUpdateBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	tmp := pr.(account.BmBindAccountBrand)
+	tmp := pr.(category.BmCategory)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BmAccountBindBrand) Return(w http.ResponseWriter) {
+func (b *BmCategoryUpdateBrick) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval account.BmBindAccountBrand = b.BrickInstance().Pr.(account.BmBindAccountBrand)
+		reval := b.BrickInstance().Pr.(category.BmCategory)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }
-

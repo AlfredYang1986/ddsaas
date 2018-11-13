@@ -31,6 +31,7 @@ func (b *BmBindYardPropBrick) Exec() error {
 		ist.Id = ist.Id_.Hex()
 		ist.RoomId = item.Id
 		ist.YardId = tmp.Id
+		ist.CheckExist()
 		ist.InsertBMObject()
 	}
 
@@ -40,6 +41,7 @@ func (b *BmBindYardPropBrick) Exec() error {
 		ist.Id = ist.Id_.Hex()
 		ist.YardId = tmp.Id
 		ist.TagImgId = item.Id
+		ist.CheckExist()
 		ist.InsertBMObject()
 	}
 

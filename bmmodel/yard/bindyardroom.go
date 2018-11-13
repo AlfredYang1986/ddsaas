@@ -72,3 +72,26 @@ func (bd *BmBindYardRoom) FindOne(req request.Request) error {
 func (bd *BmBindYardRoom) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
+
+func (bd *BmBindYardRoom) CheckExist() error {
+
+	eq1 := request.Eqcond{}
+	eq1.Ky = "yardId"
+	eq1.Vy = bd.YardId
+	eq2 := request.Eqcond{}
+	eq2.Ky = "roomId"
+	eq2.Vy = bd.RoomId
+	req := request.Request{}
+	req.Res = "BmBindYardRoom"
+	var condi []interface{}
+	condi = append(condi, eq1)
+	condi = append(condi, eq2)
+	c := req.SetConnect("conditions", condi)
+	var bind BmBindYardRoom
+	err := bind.FindOne(c.(request.Request))
+	if bind.Id != "" {
+		bd.SetId(bind.Id)
+		bd.SetObjectId(bind.Id_)
+	}
+	return err
+}

@@ -29,6 +29,8 @@ func (b *BMAttendeePushGuardianRS) Exec() error {
 		ag.Id = ag.Id_.Hex()
 		ag.AttendeeId = tmp.Id
 		ag.GuardianId = g.Id
+
+		ag.CheckExist()
 		ag.InsertBMObject()
 	}
 	b.bk.Pr = tmp

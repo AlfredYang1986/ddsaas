@@ -84,7 +84,7 @@ func (b *BmYardFindBindBrick) Return(w http.ResponseWriter) {
 	}
 }
 
-func (b BmYardFindBindBrick) findImgs() ([]tagimg.BmTagImg, error) {
+func (b *BmYardFindBindBrick) findImgs() ([]tagimg.BmTagImg, error) {
 	yd := b.BrickInstance().Pr.(yard.BmYard)
 
 	req := request.Request{}
@@ -122,7 +122,7 @@ func (b BmYardFindBindBrick) findImgs() ([]tagimg.BmTagImg, error) {
 	return imgs, err
 }
 
-func (b BmYardFindBindBrick) findRooms() ([]room.BmRoom, error){
+func (b *BmYardFindBindBrick) findRooms() ([]room.BmRoom, error){
 	yd := b.BrickInstance().Pr.(yard.BmYard)
 
 	req := request.Request{}

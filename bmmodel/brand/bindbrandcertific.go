@@ -72,3 +72,26 @@ func (bd *BmBindBrandCertific) FindOne(req request.Request) error {
 func (bd *BmBindBrandCertific) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
+
+func (bd *BmBindBrandCertific) CheckExist() error {
+
+	eq1 := request.Eqcond{}
+	eq1.Ky = "certificationId"
+	eq1.Vy = bd.CertificationId
+	eq2 := request.Eqcond{}
+	eq2.Ky = "brandId"
+	eq2.Vy = bd.BrandId
+	req := request.Request{}
+	req.Res = "BmBindBrandCertific"
+	var condi []interface{}
+	condi = append(condi, eq1)
+	condi = append(condi, eq2)
+	c := req.SetConnect("conditions", condi)
+	var bind BmBindBrandCertific
+	err := bind.FindOne(c.(request.Request))
+	if bind.Id != "" {
+		bd.SetId(bind.Id)
+		bd.SetObjectId(bind.Id_)
+	}
+	return err
+}

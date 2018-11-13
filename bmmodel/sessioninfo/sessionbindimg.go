@@ -1,4 +1,4 @@
-package brand
+package sessioninfo
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
@@ -6,23 +6,23 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type BmBindBrandHonor struct {
+type BmBindSessionImg struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	BrandId string `json:"brandId" bson:"brandId"`
-	HonorId string `json:"honorId" bson:"honorId"`
+	SessionId string `json:"sessionId" bson:"sessionId"`
+	TagImgId string `json:"tagImgId" bson:"tagImgId"`
 }
 
 /*------------------------------------------------
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BmBindBrandHonor) ResetIdWithId_() {
+func (bd *BmBindSessionImg) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BmBindBrandHonor) ResetId_WithID() {
+func (bd *BmBindSessionImg) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -30,30 +30,30 @@ func (bd *BmBindBrandHonor) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BmBindBrandHonor) QueryObjectId() bson.ObjectId {
+func (bd *BmBindSessionImg) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BmBindBrandHonor) QueryId() string {
+func (bd *BmBindSessionImg) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BmBindBrandHonor) SetObjectId(id_ bson.ObjectId) {
+func (bd *BmBindSessionImg) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BmBindBrandHonor) SetId(id string) {
+func (bd *BmBindSessionImg) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BmBindBrandHonor) SetConnect(tag string, v interface{}) interface{} {
+func (bd BmBindSessionImg) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd BmBindBrandHonor) QueryConnect(tag string) interface{} {
+func (bd BmBindSessionImg) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -61,33 +61,33 @@ func (bd BmBindBrandHonor) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BmBindBrandHonor) InsertBMObject() error {
+func (bd *BmBindSessionImg) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BmBindBrandHonor) FindOne(req request.Request) error {
+func (bd *BmBindSessionImg) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BmBindBrandHonor) UpdateBMObject(req request.Request) error {
+func (bd *BmBindSessionImg) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
-func (bd *BmBindBrandHonor) CheckExist() error {
+func (bd *BmBindSessionImg) CheckExist() error {
 
 	eq1 := request.Eqcond{}
-	eq1.Ky = "honorId"
-	eq1.Vy = bd.HonorId
+	eq1.Ky = "sessionId"
+	eq1.Vy = bd.SessionId
 	eq2 := request.Eqcond{}
-	eq2.Ky = "brandId"
-	eq2.Vy = bd.BrandId
+	eq2.Ky = "tagImgId"
+	eq2.Vy = bd.TagImgId
 	req := request.Request{}
-	req.Res = "BmBindBrandHonor"
+	req.Res = "BmBindSessionImg"
 	var condi []interface{}
 	condi = append(condi, eq1)
 	condi = append(condi, eq2)
 	c := req.SetConnect("conditions", condi)
-	var bind BmBindBrandHonor
+	var bind BmBindSessionImg
 	err := bind.FindOne(c.(request.Request))
 	if bind.Id != "" {
 		bd.SetId(bind.Id)

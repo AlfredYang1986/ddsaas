@@ -4,6 +4,7 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/ddsaas/bmmodel/category"
+	"github.com/alfredyang1986/ddsaas/bmmodel/tagimg"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -22,13 +23,15 @@ type BmSessionInfo struct {
 	Cate category.BmCategory `json:"Cate" jsonapi:"relationships"`
 
 	//TODO:20181109新增的
-	Description string `json:"description" bson:"description"`
-	Harvest     string `json:"harvest" bson:"harvest"`
-	Acquisition string `json:"acquisition" bson:"acquisition"`
-	Accompany   float64  `json:"accompany" bson:"accompany"`
-	Including   string `json:"including" bson:"including"`
-	Carrying    string `json:"carrying" bson:"carrying"`
-	Notice      string `json:"notice" bson:"notice"`
+	Description string            `json:"description" bson:"description"`
+	Harvest     string            `json:"harvest" bson:"harvest"`
+	Acquisition string            `json:"acquisition" bson:"acquisition"`
+	Accompany   float64           `json:"accompany" bson:"accompany"`
+	Including   string            `json:"including" bson:"including"`
+	Carrying    string            `json:"carrying" bson:"carrying"`
+	Notice      string            `json:"notice" bson:"notice"`
+	Cover       string            `json:"cover" bson:"cover"`
+	TagImgs     []tagimg.BmTagImg `json:"Tagimgs" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
@@ -70,6 +73,15 @@ func (bd BmSessionInfo) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
 	case "Cate":
 		bd.Cate = v.(category.BmCategory)
+	case "Tagimgs":
+		var rst []tagimg.BmTagImg
+		for _, item := range v.([]interface{}) {
+			tmp := item.(tagimg.BmTagImg)
+			if len(tmp.Id) > 0 {
+				rst = append(rst, tmp)
+			}
+		}
+		bd.TagImgs = rst
 	}
 	return bd
 }

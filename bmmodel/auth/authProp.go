@@ -12,7 +12,6 @@ type BmAuthProp struct {
 	Auth_id    string        `json:"auth_id" bson:"auth_id"`
 	Phone_id   string        `json:"phone_id" bson:"phone_id"`
 	Wechat_id  string        `json:"wechat_id" bson:"wechat_id"`
-	Profile_id string        `json:"profile_id" bson:"profile_id"`
 }
 
 /*------------------------------------------------

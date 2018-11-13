@@ -1,11 +1,14 @@
 package attendee
 
 import (
+	"github.com/alfredyang1986/blackmirror/bmconfighandle"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/ddsaas/bmmodel/guardian"
 	"github.com/alfredyang1986/ddsaas/bmmodel/payment"
+	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+	"sync"
 )
 
 type BmAttendee struct {
@@ -14,23 +17,24 @@ type BmAttendee struct {
 
 	BrandId string `json:"brandId" bson:"brandId"`
 
-	Intro       string `json:"intro" bson:"intro"`
-	Status      string `json:"status" bson:"status"`
+	Intro       string  `json:"intro" bson:"intro"`
+	Status      string  `json:"status" bson:"status"`
 	LessonCount float64 `json:"lesson_count" bson:"lesson_count"`
 
-	Name     string `json:"name" bson:"name"`
-	Nickname string `json:"nickname" bson:"nickname"`
-	Icon     string `json:"icon" bson:"icon"`
+	Name     string  `json:"name" bson:"name"`
+	Nickname string  `json:"nickname" bson:"nickname"`
+	Icon     string  `json:"icon" bson:"icon"`
 	Dob      float64 `json:"dob" bson:"dob"`
 	Gender   float64 `json:"gender" bson:"gender"`
 	RegDate  float64 `json:"reg_date" bson:"reg_date"`
-	Contact  string `json:"contact" bson:"contact"`
-	WeChat  string `json:"wechat" bson:"wechat"`
+	Contact  string  `json:"contact" bson:"contact"`
+	WeChat   string  `json:"wechat" bson:"wechat"`
 
 	//Person    person.BmPerson       `json:"Person" jsonapi:"relationships"`
 	Guardians []guardian.BmGuardian `json:"Guardians" jsonapi:"relationships"`
 	Payments  []payment.BMPayment   `json:"Payments" jsonapi:"relationships"`
-	Address   string `json:"address" bson:"address"`
+	Address   string                `json:"addr" bson:"address"`
+	School    string                `json:"school" bson:"school"`
 }
 
 /*------------------------------------------------
@@ -100,6 +104,10 @@ func (bd *BmAttendee) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
+func (bd *BmAttendee) CoverBMObject() error {
+	return bmmodel.CoverOne(bd)
+}
+
 func (bd *BmAttendee) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
@@ -125,4 +133,26 @@ func (bd *BmAttendee) GetAttendeeGuardianRSes() (error, []BMAttendeeGuardianRS) 
 	err := agrsarr.FindMulti(c2.(request.Request))
 	return err, agrsarr.AgRsArr
 
+}
+
+var once sync.Once
+var bmMongoConfig bmconfig.BMMongoConfig
+
+func (bd BmAttendee) IsAttendeeExist() bool {
+
+	once.Do(bmMongoConfig.GenerateConfig)
+	session, err := mgo.Dial(bmMongoConfig.Host + ":" + bmMongoConfig.Port)
+
+	if err != nil {
+		panic("dial db error")
+	}
+	defer session.Close()
+
+	c := session.DB(bmMongoConfig.Database).C("BmAttendee")
+	n, err := c.Find(bson.M{"_id": bson.ObjectIdHex(bd.Id)}).Count()
+	if err != nil {
+		panic(err)
+	}
+
+	return n > 0
 }

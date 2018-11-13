@@ -102,3 +102,26 @@ func (bd *BMAttendeeGuardianRS) GetGuardian() (error, guardian.BmGuardian) {
 	//guardian.ReSetPerson()
 	return err, guardian
 }
+
+func (bd *BMAttendeeGuardianRS) CheckExist() error {
+
+	eq1 := request.Eqcond{}
+	eq1.Ky = "attendeeId"
+	eq1.Vy = bd.AttendeeId
+	eq2 := request.Eqcond{}
+	eq2.Ky = "guardianId"
+	eq2.Vy = bd.GuardianId
+	req := request.Request{}
+	req.Res = "BMAttendeeGuardianRS"
+	var condi []interface{}
+	condi = append(condi, eq1)
+	condi = append(condi, eq2)
+	c := req.SetConnect("conditions", condi)
+	var bind BMAttendeeGuardianRS
+	err := bind.FindOne(c.(request.Request))
+	if bind.Id != "" {
+		bd.SetId(bind.Id)
+		bd.SetObjectId(bind.Id_)
+	}
+	return err
+}

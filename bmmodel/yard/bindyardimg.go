@@ -72,3 +72,26 @@ func (bd *BmBindYardImg) FindOne(req request.Request) error {
 func (bd *BmBindYardImg) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
+
+func (bd *BmBindYardImg) CheckExist() error {
+
+	eq1 := request.Eqcond{}
+	eq1.Ky = "yardId"
+	eq1.Vy = bd.YardId
+	eq2 := request.Eqcond{}
+	eq2.Ky = "tagImgId"
+	eq2.Vy = bd.TagImgId
+	req := request.Request{}
+	req.Res = "BmBindYardImg"
+	var condi []interface{}
+	condi = append(condi, eq1)
+	condi = append(condi, eq2)
+	c := req.SetConnect("conditions", condi)
+	var bind BmBindYardImg
+	err := bind.FindOne(c.(request.Request))
+	if bind.Id != "" {
+		bd.SetId(bind.Id)
+		bd.SetObjectId(bind.Id_)
+	}
+	return err
+}

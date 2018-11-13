@@ -12,7 +12,6 @@ type BmAuth struct {
 
 	Phone  BmPhone  `json:"BmPhone" jsonapi:"relationships"`
 	Wechat BmWeChat `json:"BmWeChat" jsonapi:"relationships"`
-	//Profile profile.BMProfile `json:"profile" jsonapi:"relationships"`
 
 	Token string
 }

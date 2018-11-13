@@ -21,7 +21,15 @@ type BMAttendeePushBrick struct {
 
 func (b *BMAttendeePushBrick) Exec() error {
 	var tmp attendee.BmAttendee = b.bk.Pr.(attendee.BmAttendee)
+
+	//TODO:暂时把cover逻辑写在InsertBMObject()中.
+	//if tmp.IsAttendeeExist() {
+	//	tmp.CoverBMObject()
+	//} else {
+	//	tmp.InsertBMObject()
+	//}
 	tmp.InsertBMObject()
+
 	b.bk.Pr = tmp
 	return nil
 }

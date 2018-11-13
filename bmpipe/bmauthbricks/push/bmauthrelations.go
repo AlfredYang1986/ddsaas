@@ -23,7 +23,7 @@ type BMAuthRSPushBrick struct {
  *------------------------------------------------*/
 
 func (b *BMAuthRSPushBrick) Exec() error {
-	var tmp auth.BmAuth = b.bk.Pr.(auth.BmAuth)
+	tmp := b.bk.Pr.(auth.BmAuth)
 	eq := request.Eqcond{}
 	eq.Ky = "auth_id"
 	eq.Vy = tmp.Id
@@ -37,23 +37,19 @@ func (b *BMAuthRSPushBrick) Exec() error {
 	var qr auth.BmAuthProp
 	err := qr.FindOne(c.(request.Request))
 	if err != nil && err.Error() == "not found" {
-		//panic(err)
 		qr.Id_ = bson.NewObjectId()
 		qr.Id = qr.Id_.Hex()
 		qr.Auth_id = tmp.Id
 		qr.Phone_id = tmp.Phone.Id
 		qr.Wechat_id = tmp.Wechat.Id
-		//qr.Profile_id = tmp.Profile.Id
 		qr.InsertBMObject()
 	}
 	fmt.Println(qr)
-	//tmp.InsertBMObject()
 	return nil
 }
 
 func (b *BMAuthRSPushBrick) Prepare(pr interface{}) error {
 	req := pr.(auth.BmAuth)
-	//b.bk.Pr = req
 	b.BrickInstance().Pr = req
 	return nil
 }

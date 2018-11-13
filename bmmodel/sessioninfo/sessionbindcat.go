@@ -72,3 +72,26 @@ func (bd *BmSessionBindCat) FindOne(req request.Request) error {
 func (bd *BmSessionBindCat) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
+
+func (bd *BmSessionBindCat) CheckExist() error {
+
+	eq1 := request.Eqcond{}
+	eq1.Ky = "sessionId"
+	eq1.Vy = bd.SessionId
+	eq2 := request.Eqcond{}
+	eq2.Ky = "categoryId"
+	eq2.Vy = bd.CategoryId
+	req := request.Request{}
+	req.Res = "BmSessionBindCat"
+	var condi []interface{}
+	condi = append(condi, eq1)
+	condi = append(condi, eq2)
+	c := req.SetConnect("conditions", condi)
+	var bind BmSessionBindCat
+	err := bind.FindOne(c.(request.Request))
+	if bind.Id != "" {
+		bd.SetId(bind.Id)
+		bd.SetObjectId(bind.Id_)
+	}
+	return err
+}

@@ -20,6 +20,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/update"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmcategorybricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmtagimgsbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/update"
@@ -168,7 +169,8 @@ func main() {
 
 	fac.RegisterModel("BmSessionInfoPushBrick", &courseinfopush.BmSessionInfoPushBrick{})
 	fac.RegisterModel("BmSessionCatPushBrick", &courseinfopush.BmSessionCatPushBrick{})
-	fac.RegisterModel("BmBindSessionCatPushBrick", &courseinfopush.BmBindSessionCatPushBrick{})
+	fac.RegisterModel("BmSessionImgPushBrick", &courseinfopush.BmSessionImgPushBrick{})
+	fac.RegisterModel("BmSessionPushProp", &courseinfopush.BmSessionPushProp{})
 	fac.RegisterModel("BmFindSessionInfoBrick", &courseinfofind.BmFindSessionInfoBrick{})
 	fac.RegisterModel("BmBindFindSessionInfoCatBrick", &courseinfofind.BmBindFindSessionInfoCatBrick{})
 	fac.RegisterModel("BmFindSessionInfoMultiBrick", &courseinfofindmulti.BmFindSessionInfoMultiBrick{})
@@ -185,6 +187,7 @@ func main() {
 	fac.RegisterModel("BmYardUpdateBrick", &yardupdate.BmYardUpdateBrick{})
 	fac.RegisterModel("BmSessionInfoUpdateBrick", &courseinfoupdate.BmSessionInfoUpdateBrick{})
 	fac.RegisterModel("BmBrandUpdateBrick", &brandupdate.BmBrandUpdateBrick{})
+	fac.RegisterModel("BmCategoryUpdateBrick", &categoryupdate.BmCategoryUpdateBrick{})
 
 	/*------------------------------------------------
 	 * delete bricks object
