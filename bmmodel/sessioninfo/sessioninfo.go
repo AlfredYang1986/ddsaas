@@ -23,15 +23,17 @@ type BmSessionInfo struct {
 	Cate category.BmCategory `json:"Cate" jsonapi:"relationships"`
 
 	//TODO:20181109新增的
-	Description string            `json:"description" bson:"description"`
-	Harvest     string            `json:"harvest" bson:"harvest"`
-	Acquisition string            `json:"acquisition" bson:"acquisition"`
-	Accompany   float64           `json:"accompany" bson:"accompany"`
-	Including   string            `json:"including" bson:"including"`
-	Carrying    string            `json:"carrying" bson:"carrying"`
-	Notice      string            `json:"notice" bson:"notice"`
-	Cover       string            `json:"cover" bson:"cover"`
-	TagImgs     []tagimg.BmTagImg `json:"Tagimgs" jsonapi:"relationships"`
+	Description  string            `json:"description" bson:"description"`
+	Harvest      string            `json:"harvest" bson:"harvest"`
+	Acquisition  string            `json:"acquisition" bson:"acquisition"`
+	Accompany    float64           `json:"accompany" bson:"accompany"`
+	Status       float64           `json:"status" bson:"status"` //0普通课程 1体验课 2活动
+	Including    string            `json:"including" bson:"including"`
+	Carrying     string            `json:"carrying" bson:"carrying"`
+	Notice       string            `json:"notice" bson:"notice"`
+	PlayChildren string            `json:"play_children" bson:"play_children"`
+	Cover        string            `json:"cover" bson:"cover"`
+	TagImgs      []tagimg.BmTagImg `json:"Tagimgs" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
@@ -104,4 +106,80 @@ func (bd *BmSessionInfo) FindOne(req request.Request) error {
 
 func (bd *BmSessionInfo) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
+}
+
+func (bd *BmSessionInfo) ReSetProp() error {
+
+	bd.reSetCategory()
+	bd.reSetTagImg()
+
+	return nil
+}
+
+func (bd *BmSessionInfo) reSetCategory() error {
+
+	eq := request.Eqcond{}
+	eq.Ky = "sessionId"
+	eq.Vy = bd.Id
+	req := request.Request{}
+	req.Res = "BmSessionBindCat"
+	var condi []interface{}
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	reval := BmSessionBindCat{}
+	err := reval.FindOne(c.(request.Request))
+
+	eq0 := request.Eqcond{}
+	eq0.Ky = "id"
+	eq0.Vy = reval.CategoryId
+	req0 := request.Request{}
+	req0.Res = "BmCategory"
+	var condi0 []interface{}
+	condi0 = append(condi0, eq0)
+	c0 := req0.SetConnect("conditions", condi0)
+
+	result := category.BmCategory{}
+	err = result.FindOne(c0.(request.Request))
+	bd.Cate = result
+
+	return err
+}
+
+func (bd *BmSessionInfo) reSetTagImg() error {
+
+	req := request.Request{}
+	req.Res = "BmBindSessionImg"
+	var condi []interface{}
+	eq := request.Eqcond{}
+	eq.Ky = "sessionId"
+	eq.Vy = bd.Id
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	var reval []BmBindSessionImg
+	err := bmmodel.FindMutil(c.(request.Request), &reval)
+	if err != nil {
+		return err
+	}
+
+	var condi0 []bson.ObjectId
+	for _, item := range reval {
+		condi0 = append(condi0, bson.ObjectIdHex(item.TagImgId))
+	}
+
+	tt := make(map[string]interface{})
+	tt["$in"] = condi0
+	or_condi := bson.M{"_id": tt}
+
+	var imgs []tagimg.BmTagImg
+	err = bmmodel.FindMutilWithBson("BmTagImg", or_condi, &imgs)
+
+	for i, ir := range imgs {
+		ir.ResetIdWithId_()
+		imgs[i] = ir
+	}
+	bd.TagImgs = imgs
+
+	return err
 }

@@ -23,6 +23,7 @@ type BmYardFindBrick struct {
 func (b *BmYardFindBrick) Exec() error {
 	var tmp yard.BmYard
 	err := tmp.FindOne(*b.bk.Req)
+	tmp.ReSetProp()
 	b.bk.Pr = tmp
 	return err
 }

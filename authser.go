@@ -12,6 +12,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/honor"
 	"github.com/alfredyang1986/ddsaas/bmmodel/payment"
 	"github.com/alfredyang1986/ddsaas/bmmodel/region"
+	"github.com/alfredyang1986/ddsaas/bmmodel/reservable"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/find"
@@ -22,6 +23,8 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcategorybricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/update"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmreservablebricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmreservablebricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmtagimgsbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmyardbricks/update"
@@ -156,7 +159,6 @@ func main() {
 	fac.RegisterModel("BmYardPushCertificationBrick", &yardpush.BmYardPushCertificationBrick{})
 	fac.RegisterModel("BmBindYardPropBrick", &yardpush.BmBindYardPropBrick{})
 	fac.RegisterModel("BmYardFindBrick", &yardfind.BmYardFindBrick{})
-	fac.RegisterModel("BmYardFindBindBrick", &yardfind.BmYardFindBindBrick{})
 	fac.RegisterModel("BmYardFindMulti", &yardfind.BmYardFindMulti{})
 	fac.RegisterModel("BmTagImgPushBrick", &tagimgpush.BmTagImgPushBrick{})
 	fac.RegisterModel("BmTagImgBindYard", &tagimgpush.BmTagImgBindYard{})
@@ -172,9 +174,21 @@ func main() {
 	fac.RegisterModel("BmSessionImgPushBrick", &courseinfopush.BmSessionImgPushBrick{})
 	fac.RegisterModel("BmSessionPushProp", &courseinfopush.BmSessionPushProp{})
 	fac.RegisterModel("BmFindSessionInfoBrick", &courseinfofind.BmFindSessionInfoBrick{})
-	fac.RegisterModel("BmBindFindSessionInfoCatBrick", &courseinfofind.BmBindFindSessionInfoCatBrick{})
 	fac.RegisterModel("BmFindSessionInfoMultiBrick", &courseinfofindmulti.BmFindSessionInfoMultiBrick{})
 	fac.RegisterModel("BmFindSessionInfoBindCatMultiBrick", &courseinfofindmulti.BmFindSessionInfoBindCatMultiBrick{})
+
+	/*------------------------------------------------
+	 * reservable brick object
+	 *------------------------------------------------*/
+	fac.RegisterModel("BmReservable", &reservable.BmReservable{})
+	fac.RegisterModel("BmReservableBindSession", &reservable.BmReservableBindSession{})
+	fac.RegisterModel("BmReservableBindYard", &reservable.BmReservableBindYard{})
+
+	fac.RegisterModel("BmReservablePushBrick", &reservablepush.BmReservablePushBrick{})
+	fac.RegisterModel("BmReservablePushSession", &reservablepush.BmReservablePushSession{})
+	fac.RegisterModel("BmBindReservableProp", &reservablepush.BmBindReservableProp{})
+	fac.RegisterModel("BmReservableFindBrick", &reservablefind.BmReservableFindBrick{})
+	fac.RegisterModel("BmReservableFindMulti", &reservablefind.BmReservableFindMulti{})
 
 	/*------------------------------------------------
 	 * update bricks object

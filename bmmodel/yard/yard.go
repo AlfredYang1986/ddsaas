@@ -131,4 +131,88 @@ func (bd *BmYard) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
+func (bd *BmYard) ReSetProp() error {
+
+	bd.reSetRooms()
+	bd.reSetTagImg()
+
+	return nil
+}
+
+func (bd *BmYard) reSetRooms() error {
+
+	req := request.Request{}
+	req.Res = "BmBindYardRoom"
+	var condi []interface{}
+	eq := request.Eqcond{}
+	eq.Ky = "yardId"
+	eq.Vy = bd.Id
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	var reval []BmBindYardRoom
+	err := bmmodel.FindMutil(c.(request.Request), &reval)
+	if err != nil {
+		return err
+	}
+
+	var condi0 []bson.ObjectId
+	for _, item := range reval {
+		condi0 = append(condi0, bson.ObjectIdHex(item.RoomId))
+	}
+
+	tt := make(map[string]interface{})
+	tt["$in"] = condi0
+	or_condi := bson.M{"_id": tt}
+
+	var rooms []room.BmRoom
+	err = bmmodel.FindMutilWithBson("BmRoom", or_condi, &rooms)
+
+	for i, ir := range rooms {
+		ir.ResetIdWithId_()
+		rooms[i] = ir
+	}
+	bd.Rooms = rooms
+
+	return err
+}
+
+func (bd *BmYard) reSetTagImg() error {
+
+	req := request.Request{}
+	req.Res = "BmBindYardImg"
+	var condi []interface{}
+	eq := request.Eqcond{}
+	eq.Ky = "yardId"
+	eq.Vy = bd.Id
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	var reval []BmBindYardImg
+	err := bmmodel.FindMutil(c.(request.Request), &reval)
+	if err != nil {
+		return err
+	}
+
+	var condi0 []bson.ObjectId
+	for _, item := range reval {
+		condi0 = append(condi0, bson.ObjectIdHex(item.TagImgId))
+	}
+
+	tt := make(map[string]interface{})
+	tt["$in"] = condi0
+	or_condi := bson.M{"_id": tt}
+
+	var imgs []tagimg.BmTagImg
+	err = bmmodel.FindMutilWithBson("BmTagImg", or_condi, &imgs)
+
+	for i, ir := range imgs {
+		ir.ResetIdWithId_()
+		imgs[i] = ir
+	}
+	bd.TagImgs = imgs
+
+	return err
+}
+
 
