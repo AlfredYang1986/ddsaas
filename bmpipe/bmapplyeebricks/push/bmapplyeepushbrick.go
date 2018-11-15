@@ -1,20 +1,18 @@
-package authothers
+package applyeepush
 
 import (
-	"crypto/md5"
-	"fmt"
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
+	"github.com/alfredyang1986/ddsaas/bmmodel/applyee"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
-	"github.com/alfredyang1986/blackmirror/bmrouter/bmoauth"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
 	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
 	"io"
 	"net/http"
 )
 
-type BMAuthGenerateToken struct {
+type BmApplyeePushBrick struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -22,55 +20,58 @@ type BMAuthGenerateToken struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BMAuthGenerateToken) Exec() error {
+func (b *BmApplyeePushBrick) Exec() error {
+	var err error
+	tmp := b.bk.Pr.(applyee.BmApplyee)
 
-	tmp := b.BrickInstance().Pr
+	if tmp.Id != "" && tmp.Id_.Valid() && tmp.Valid() {
+		//TODO:现在[push已存在的]相当于[update]
+		err = tmp.InsertBMObject()
+		//if  tmp.IsRegisted() {
+		//	b.bk.Err = -9
+		//}
+	}
 
-	bmah := tmp.(auth.BmAuth)
-	h := md5.New()
-	io.WriteString(h, bmah.Id)
-	token := fmt.Sprintf("%x", h.Sum(nil))
-	bmah.Token = token
-	b.BrickInstance().Pr = bmah
-	err := bmoauth.PushToken(token)
-
+	b.bk.Pr = tmp
 	return err
 }
 
-func (b *BMAuthGenerateToken) Prepare(pr interface{}) error {
-	req := pr.(auth.BmAuth)
+func (b *BmApplyeePushBrick) Prepare(pr interface{}) error {
+	req := pr.(applyee.BmApplyee)
 	b.BrickInstance().Pr = req
 	return nil
 }
 
-func (b *BMAuthGenerateToken) Done(pkg string, idx int64, e error) error {
+func (b *BmApplyeePushBrick) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
-	if int(idx) < tmp-1 {
+	ec := b.BrickInstance().Err
+	if int(idx) < tmp-1 && ec == 0 {
 		bmrouter.NextBrickRemote(pkg, idx+1, b)
 	}
 	return nil
 }
 
-func (b *BMAuthGenerateToken) BrickInstance() *bmpipe.BMBrick {
+func (b *BmApplyeePushBrick) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BMAuthGenerateToken) ResultTo(w io.Writer) error {
+func (b *BmApplyeePushBrick) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
-	tmp := pr.(auth.BmAuth)
+	tmp := pr.(applyee.BmApplyee)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BMAuthGenerateToken) Return(w http.ResponseWriter) {
+func (b *BmApplyeePushBrick) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval auth.BmAuth = b.BrickInstance().Pr.(auth.BmAuth)
+		reval := b.BrickInstance().Pr.(auth.BmLoginSucceed)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }
+

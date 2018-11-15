@@ -1,6 +1,7 @@
 package brand
 
 import (
+	"github.com/alfredyang1986/blackmirror/bmconfighandle"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/ddsaas/bmmodel/category"
@@ -8,6 +9,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/honor"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+	"sync"
 )
 
 type BmBrand struct {
@@ -113,13 +115,17 @@ func (bd *BmBrand) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
+var once sync.Once
+var bmMongoConfig bmconfig.BMMongoConfig
+
 func (bd BmBrand) IsBrandRegistered() bool {
-	session, err := mgo.Dial("localhost:27017")
+	once.Do(bmMongoConfig.GenerateConfig)
+	session, err := mgo.Dial(bmMongoConfig.Host + ":" + bmMongoConfig.Port)
 	if err != nil {
 		panic("dial db error")
 	}
 	defer session.Close()
-	c := session.DB("test").C("BmBrand")
+	c := session.DB(bmMongoConfig.Database).C("BmBrand")
 
 	n, err := c.Find(bson.M{"title": bd.Title}).Count()
 	if err != nil {

@@ -4,17 +4,25 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmconfighandle"
 	"github.com/alfredyang1986/ddsaas/bmmodel/account"
 	"github.com/alfredyang1986/ddsaas/bmmodel/address"
+	"github.com/alfredyang1986/ddsaas/bmmodel/apply"
+	"github.com/alfredyang1986/ddsaas/bmmodel/applyee"
 	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
 	"github.com/alfredyang1986/ddsaas/bmmodel/brand"
 	"github.com/alfredyang1986/ddsaas/bmmodel/category"
 	"github.com/alfredyang1986/ddsaas/bmmodel/certification"
 	"github.com/alfredyang1986/ddsaas/bmmodel/guardian"
 	"github.com/alfredyang1986/ddsaas/bmmodel/honor"
+	"github.com/alfredyang1986/ddsaas/bmmodel/kid"
 	"github.com/alfredyang1986/ddsaas/bmmodel/payment"
 	"github.com/alfredyang1986/ddsaas/bmmodel/region"
 	"github.com/alfredyang1986/ddsaas/bmmodel/reservable"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmapplybricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmapplybricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmapplyeebricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmapplyeebricks/other"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmapplyeebricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmattendeebricks/update"
@@ -74,6 +82,7 @@ func main() {
 	fac.RegisterModel("BmPhone", &auth.BmPhone{})
 	fac.RegisterModel("BmWeChat", &auth.BmWeChat{})
 	fac.RegisterModel("BmAuthProp", &auth.BmAuthProp{})
+	fac.RegisterModel("BmLoginSucceed", &auth.BmLoginSucceed{})
 
 	fac.RegisterModel("BmAttendee", &attendee.BmAttendee{})
 	fac.RegisterModel("BmAttendees", &attendee.BmAttendees{})
@@ -175,7 +184,6 @@ func main() {
 	fac.RegisterModel("BmSessionPushProp", &courseinfopush.BmSessionPushProp{})
 	fac.RegisterModel("BmFindSessionInfoBrick", &courseinfofind.BmFindSessionInfoBrick{})
 	fac.RegisterModel("BmFindSessionInfoMultiBrick", &courseinfofindmulti.BmFindSessionInfoMultiBrick{})
-	fac.RegisterModel("BmFindSessionInfoBindCatMultiBrick", &courseinfofindmulti.BmFindSessionInfoBindCatMultiBrick{})
 
 	/*------------------------------------------------
 	 * reservable brick object
@@ -189,6 +197,26 @@ func main() {
 	fac.RegisterModel("BmBindReservableProp", &reservablepush.BmBindReservableProp{})
 	fac.RegisterModel("BmReservableFindBrick", &reservablefind.BmReservableFindBrick{})
 	fac.RegisterModel("BmReservableFindMulti", &reservablefind.BmReservableFindMulti{})
+
+	/*------------------------------------------------
+	 * apply brick object
+	 *------------------------------------------------*/
+	fac.RegisterModel("BmKid", &kid.BmKid{})
+	fac.RegisterModel("BmApply", &apply.BmApply{})
+	fac.RegisterModel("BmApplyee", &applyee.BmApplyee{})
+	fac.RegisterModel("BmApplyBindKid", &apply.BmApplyBindKid{})
+	fac.RegisterModel("BmApplyBindApplyee", &apply.BmApplyBindApplyee{})
+
+	fac.RegisterModel("BmApplyPushBrick", &applypush.BmApplyPushBrick{})
+	fac.RegisterModel("BmApplyPushKids", &applypush.BmApplyPushKids{})
+	fac.RegisterModel("BmApplyPushProp", &applypush.BmApplyPushProp{})
+
+	fac.RegisterModel("BmApplyFindBrick", &applyfind.BmApplyFindBrick{})
+	fac.RegisterModel("BmAppliesFindBrick", &applyfind.BmAppliesFindBrick{})
+
+	fac.RegisterModel("BmApplyeePushBrick", &applyeepush.BmApplyeePushBrick{})
+	fac.RegisterModel("BmApplyeeFindBrick", &applyeefind.BmApplyeeFindBrick{})
+	fac.RegisterModel("BmApplyeeGenerateToken", &applyeeother.BmApplyeeGenerateToken{})
 
 	/*------------------------------------------------
 	 * update bricks object

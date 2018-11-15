@@ -84,6 +84,7 @@ func (bd *BmSessionInfos) FindMulti(req request.Request) error {
 	err := bmmodel.FindMutil(req, &bd.Sessions)
 	for i, r := range bd.Sessions {
 		r.ResetIdWithId_()
+		r.ReSetProp()
 		bd.Sessions[i] = r
 	}
 	return err
