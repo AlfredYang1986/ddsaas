@@ -27,8 +27,8 @@ type BmSessionInfo struct {
 	Harvest      string            `json:"harvest" bson:"harvest"`
 	Acquisition  string            `json:"acquisition" bson:"acquisition"`
 	Accompany    float64           `json:"accompany" bson:"accompany"`
-	Status       float64           `json:"status" bson:"status"` //0普通课程 1体验课 2活动
-	Including    string            `json:"including" bson:"including"`
+	Status       float64           `json:"status" bson:"status"` //0活动 1体验课 2普通课程
+	Including    string            `json:"inc" bson:"including"`
 	Carrying     string            `json:"carrying" bson:"carrying"`
 	Notice       string            `json:"notice" bson:"notice"`
 	PlayChildren string            `json:"play_children" bson:"play_children"`

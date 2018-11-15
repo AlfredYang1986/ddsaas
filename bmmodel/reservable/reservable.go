@@ -12,7 +12,7 @@ type BmReservable struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Status    float64 `json:"status" bson:"status"` //0普通课程 1体验课 2活动
+	Status    float64 `json:"status" bson:"status"` //0活动 1体验课 2普通课程
 	StartDate float64 `json:"start_date" bson:"start_date"`
 	EndDate   float64 `json:"end_date" bson:"end_date"`
 
