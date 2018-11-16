@@ -13,11 +13,12 @@ type BmApplyee struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Name          string              `json:"name" bson:"name"`
-	Pic           string              `json:"pic" bson:"pic"`
-	RegisterPhone string              `json:"regi_phone" bson:"regi_phone"`
-	WeChatOpenid  string              `json:"wechat_openid" bson:"wechat_openid"`
-	WeChatToken   string              `json:"wechat_token" bson:"wechat_token"`
+	Name            string  `json:"name" bson:"name"`
+	Gender          float64 `json:"gender" bson:"gender"`
+	Pic             string  `json:"pic" bson:"pic"`
+	RegisterPhone   string  `json:"regi_phone" bson:"regi_phone"`
+	WeChatOpenid    string  `json:"wechat_openid" bson:"wechat_openid"`
+	WeChatBindPhone string  `json:"wechat_bind_phone" bson:"wechat_bind_phone"`
 }
 
 /*-----------------------------------------------
