@@ -23,12 +23,11 @@ func (b *BmBrandPushBrick) Exec() error {
 	tmp := b.bk.Pr.(brand.BmBrand)
 
 	var err error
-	if tmp.Id != "" && tmp.Id_.Valid() {
-		if tmp.Valid() && tmp.IsBrandRegistered() {
-			b.bk.Err = -5
-		} else {
-			err = tmp.InsertBMObject()
-		}
+	if tmp.Valid() && tmp.Id != "" && tmp.Id_.Valid() {
+		//if tmp.IsBrandRegistered() {
+		//	b.bk.Err = -5
+		//}
+		err = tmp.InsertBMObject()
 	}
 	b.bk.Pr = tmp
 	return err
