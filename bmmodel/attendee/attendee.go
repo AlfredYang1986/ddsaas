@@ -16,6 +16,7 @@ type BmAttendee struct {
 	Id_ bson.ObjectId `bson:"_id"`
 
 	BrandId string `json:"brandId" bson:"brandId"`
+	KidId   string `json:"kidId" bson:"kidId"`
 
 	Intro       string  `json:"intro" bson:"intro"`
 	Status      string  `json:"status" bson:"status"`

@@ -1,20 +1,20 @@
 package bmalioss
 
 import (
-	"net/url"
-	"sort"
-	"time"
-	"fmt"
 	"crypto/hmac"
 	"crypto/sha1"
 	"encoding/base64"
-	"strings"
-	"net/http"
+	"encoding/json"
+	"fmt"
+	"github.com/alfredyang1986/blackmirror/bmredis"
 	"github.com/hashicorp/go-uuid"
-	"github.com/go-redis/redis"
 	"io/ioutil"
 	"log"
-	"encoding/json"
+	"net/http"
+	"net/url"
+	"sort"
+	"strings"
+	"time"
 )
 
 const appid = "LTAINO7wSDoWJRfN"
@@ -93,11 +93,7 @@ func queryRemoteSTSToken() (BmSTS, error){
 
 	fmt.Println(string(content))
 
-	client := redis.NewClient(&redis.Options{
-		Addr:     "192.168.100.174:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
-	})
+	client := bmredis.GetRedisClient()
 	defer client.Close()
 
 	var reval BmSTS
@@ -122,11 +118,7 @@ func computeHmac256 (message string, secret string) string {
 }
 
 func querySTSToken () (BmSTS, error) {
-	client := redis.NewClient(&redis.Options{
-		Addr:     "192.168.100.174:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
-	})
+	client := bmredis.GetRedisClient()
 	defer client.Close()
 
 	var reval BmSTS

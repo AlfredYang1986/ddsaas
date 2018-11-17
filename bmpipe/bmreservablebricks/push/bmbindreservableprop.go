@@ -32,21 +32,6 @@ func (b *BmBindReservableProp) Exec() error {
 	sbc.CheckExist()
 	err := sbc.InsertBMObject()
 
-	rby := reservable.BmReservableBindYard{}
-	rby.Id_ = bson.NewObjectId()
-	rby.Id = rby.Id_.Hex()
-	rby.ReservableId = tmp.Id
-	rby.Clear()
-
-	for _, item := range tmp.Yards {
-		ist := reservable.BmReservableBindYard{}
-		ist.Id_ = bson.NewObjectId()
-		ist.Id = ist.Id_.Hex()
-		ist.ReservableId = tmp.Id
-		ist.YardId = item.Id
-		ist.InsertBMObject()
-	}
-
 	b.bk.Pr = tmp
 	return err
 }

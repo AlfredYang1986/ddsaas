@@ -16,6 +16,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/payment"
 	"github.com/alfredyang1986/ddsaas/bmmodel/region"
 	"github.com/alfredyang1986/ddsaas/bmmodel/reservable"
+	"github.com/alfredyang1986/ddsaas/bmmodel/sessionable"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmapplybricks/find"
@@ -33,6 +34,8 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmreservablebricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmreservablebricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmsessionablebricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmsessionablebricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmtagimgsbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmyardbricks/update"
@@ -190,13 +193,25 @@ func main() {
 	 *------------------------------------------------*/
 	fac.RegisterModel("BmReservable", &reservable.BmReservable{})
 	fac.RegisterModel("BmReservableBindSession", &reservable.BmReservableBindSession{})
-	fac.RegisterModel("BmReservableBindYard", &reservable.BmReservableBindYard{})
 
 	fac.RegisterModel("BmReservablePushBrick", &reservablepush.BmReservablePushBrick{})
 	fac.RegisterModel("BmReservablePushSession", &reservablepush.BmReservablePushSession{})
 	fac.RegisterModel("BmBindReservableProp", &reservablepush.BmBindReservableProp{})
 	fac.RegisterModel("BmReservableFindBrick", &reservablefind.BmReservableFindBrick{})
 	fac.RegisterModel("BmReservableFindMulti", &reservablefind.BmReservableFindMulti{})
+
+	/*------------------------------------------------
+	 * sessionable brick object
+	 *------------------------------------------------*/
+	fac.RegisterModel("BmSessionable", &sessionable.BmSessionable{})
+	fac.RegisterModel("BmSessionableBindYard", &sessionable.BmSessionableBindYard{})
+	fac.RegisterModel("BmSessionableBindTeacher", &sessionable.BmSessionableBindTeacher{})
+	fac.RegisterModel("BmSessionableBindAttendee", &sessionable.BmSessionableBindAttendee{})
+
+	fac.RegisterModel("BmSessionablePushBrick", &sessionablepush.BmSessionablePushBrick{})
+	fac.RegisterModel("BmSessionablePushProp", &sessionablepush.BmSessionablePushProp{})
+	fac.RegisterModel("BmSessionableFindBrick", &sessionablefind.BmSessionableFindBrick{})
+	fac.RegisterModel("BmSessionableFindMulti", &sessionablefind.BmSessionableFindMulti{})
 
 	/*------------------------------------------------
 	 * apply brick object

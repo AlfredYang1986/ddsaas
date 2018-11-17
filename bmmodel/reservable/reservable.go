@@ -4,7 +4,6 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/ddsaas/bmmodel/sessioninfo"
-	"github.com/alfredyang1986/ddsaas/bmmodel/yard"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -12,11 +11,11 @@ type BmReservable struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
+	BrandId   string  `json:"brandId" bson:"brandId"`
 	Status    float64 `json:"status" bson:"status"` //0活动 1体验课 2普通课程
 	StartDate float64 `json:"start_date" bson:"start_date"`
 	EndDate   float64 `json:"end_date" bson:"end_date"`
 
-	Yards       []yard.BmYard             `json:"Yards" jsonapi:"relationships"`
 	SessionInfo sessioninfo.BmSessionInfo `json:"SessionInfo" jsonapi:"relationships"`
 }
 
@@ -57,15 +56,6 @@ func (bd *BmReservable) SetId(id string) {
  *------------------------------------------------*/
 func (bd BmReservable) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
-	case "Yards":
-		var rst []yard.BmYard
-		for _, item := range v.([]interface{}) {
-			tmp := item.(yard.BmYard)
-			if len(tmp.Id) > 0 {
-				rst = append(rst, tmp)
-			}
-		}
-		bd.Yards = rst
 	case "SessionInfo":
 		bd.SessionInfo = v.(sessioninfo.BmSessionInfo)
 	}
@@ -99,7 +89,6 @@ func (bd *BmReservable) UpdateBMObject(req request.Request) error {
 func (bd *BmReservable) ReSetProp() error {
 
 	bd.reSetSessionInfo()
-	bd.reSetYard()
 
 	return nil
 }
@@ -133,43 +122,4 @@ func (bd *BmReservable) reSetSessionInfo() error {
 	bd.SessionInfo = result
 
 	return err
-}
-
-func (bd *BmReservable) reSetYard() error {
-
-	req := request.Request{}
-	req.Res = "BmReservableBindYard"
-	var condi []interface{}
-	eq := request.Eqcond{}
-	eq.Ky = "reservableId"
-	eq.Vy = bd.Id
-	condi = append(condi, eq)
-	c := req.SetConnect("conditions", condi)
-
-	var reval []BmReservableBindYard
-	err := bmmodel.FindMutil(c.(request.Request), &reval)
-	if err != nil {
-		return err
-	}
-
-	var condi0 []bson.ObjectId
-	for _, item := range reval {
-		condi0 = append(condi0, bson.ObjectIdHex(item.YardId))
-	}
-
-	tt := make(map[string]interface{})
-	tt["$in"] = condi0
-	or_condi := bson.M{"_id": tt}
-
-	var resultArr []yard.BmYard
-	err = bmmodel.FindMutilWithBson("BmYard", or_condi, &resultArr)
-
-	for i, ir := range resultArr {
-		ir.ResetIdWithId_()
-		ir.ReSetProp()
-		resultArr[i] = ir
-	}
-	bd.Yards = resultArr
-
-	return nil
 }

@@ -1,4 +1,4 @@
-package reservable
+package sessionable
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
@@ -6,23 +6,23 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type BmReservableBindYard struct {
+type BmSessionableBindAttendee struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	ReservableId string `json:"reservableId" bson:"reservableId"`
-	YardId       string `json:"yardId" bson:"yardId"`
+	SessionableId string `json:"sessionableId" bson:"sessionableId"`
+	AttendeeId    string `json:"attendeeId" bson:"attendeeId"`
 }
 
 /*------------------------------------------------
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BmReservableBindYard) ResetIdWithId_() {
+func (bd *BmSessionableBindAttendee) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BmReservableBindYard) ResetId_WithID() {
+func (bd *BmSessionableBindAttendee) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -30,30 +30,30 @@ func (bd *BmReservableBindYard) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BmReservableBindYard) QueryObjectId() bson.ObjectId {
+func (bd *BmSessionableBindAttendee) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BmReservableBindYard) QueryId() string {
+func (bd *BmSessionableBindAttendee) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BmReservableBindYard) SetObjectId(id_ bson.ObjectId) {
+func (bd *BmSessionableBindAttendee) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BmReservableBindYard) SetId(id string) {
+func (bd *BmSessionableBindAttendee) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BmReservableBindYard) SetConnect(tag string, v interface{}) interface{} {
+func (bd BmSessionableBindAttendee) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd BmReservableBindYard) QueryConnect(tag string) interface{} {
+func (bd BmSessionableBindAttendee) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -61,37 +61,37 @@ func (bd BmReservableBindYard) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BmReservableBindYard) InsertBMObject() error {
+func (bd *BmSessionableBindAttendee) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BmReservableBindYard) CoverBMObject() error {
+func (bd *BmSessionableBindAttendee) CoverBMObject() error {
 	return bmmodel.CoverOne(bd)
 }
 
-func (bd *BmReservableBindYard) FindOne(req request.Request) error {
+func (bd *BmSessionableBindAttendee) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BmReservableBindYard) UpdateBMObject(req request.Request) error {
+func (bd *BmSessionableBindAttendee) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
-func (bd *BmReservableBindYard) DeleteAll(req request.Request) error {
+func (bd *BmSessionableBindAttendee) DeleteAll(req request.Request) error {
 	return bmmodel.DeleteAll(req, bd)
 }
 
-func (bd *BmReservableBindYard) Clear() error {
+func (bd *BmSessionableBindAttendee) Clear() error {
 
 	eq1 := request.Eqcond{}
-	eq1.Ky = "reservableId"
-	eq1.Vy = bd.ReservableId
+	eq1.Ky = "sessionableId"
+	eq1.Vy = bd.SessionableId
 	req := request.Request{}
-	req.Res = "BmReservableBindYard"
+	req.Res = "BmSessionableBindAttendee"
 	var condi []interface{}
 	condi = append(condi, eq1)
 	c := req.SetConnect("conditions", condi)
-	var bind BmReservableBindYard
+	var bind BmSessionableBindAttendee
 	err := bind.DeleteAll(c.(request.Request))
 	return err
 }
