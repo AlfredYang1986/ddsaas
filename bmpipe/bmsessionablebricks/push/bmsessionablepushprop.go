@@ -32,6 +32,15 @@ func (b *BmSessionablePushProp) Exec() error {
 	sbc.CheckExist()
 	err := sbc.InsertBMObject()
 
+	sessionInfo := tmp.SessionInfo
+	sbs := sessionable.BmSessionableBindSessionInfo{}
+	sbs.SessionableId = tmp.Id
+	sbs.SessionInfoId = sessionInfo.Id
+	sbs.Id_ = bson.NewObjectId()
+	sbs.Id = sbs.Id_.Hex()
+	sbs.CheckExist()
+	err = sbs.InsertBMObject()
+
 	sbt := sessionable.BmSessionableBindTeacher{}
 	sbt.Id_ = bson.NewObjectId()
 	sbt.Id = sbt.Id_.Hex()

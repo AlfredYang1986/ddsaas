@@ -4,6 +4,7 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
+	"github.com/alfredyang1986/ddsaas/bmmodel/sessioninfo"
 	"github.com/alfredyang1986/ddsaas/bmmodel/teacher"
 	"github.com/alfredyang1986/ddsaas/bmmodel/yard"
 	"gopkg.in/mgo.v2/bson"
@@ -19,9 +20,10 @@ type BmSessionable struct {
 
 	ReservableId string `json:"reservableId" bson:"reservableId"`
 
-	Yard      yard.BmYard           `json:"Yard" jsonapi:"relationships"`
-	Teachers  []teacher.BmTeacher   `json:"Teachers" jsonapi:"relationships"`
-	Attendees []attendee.BmAttendee `json:"Attendees" jsonapi:"relationships"`
+	Yard        yard.BmYard               `json:"Yard" jsonapi:"relationships"`
+	SessionInfo sessioninfo.BmSessionInfo `json:"SessionInfo" jsonapi:"relationships"`
+	Teachers    []teacher.BmTeacher       `json:"Teachers" jsonapi:"relationships"`
+	Attendees   []attendee.BmAttendee     `json:"Attendees" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
@@ -81,6 +83,8 @@ func (bd BmSessionable) SetConnect(tag string, v interface{}) interface{} {
 		bd.Attendees = rst
 	case "Yard":
 		bd.Yard = v.(yard.BmYard)
+	case "SessionInfo":
+		bd.SessionInfo = v.(sessioninfo.BmSessionInfo)
 	}
 	return bd
 }
@@ -112,6 +116,7 @@ func (bd *BmSessionable) UpdateBMObject(req request.Request) error {
 func (bd *BmSessionable) ReSetProp() error {
 
 	bd.reSetYard()
+	bd.reSetSessionInfo()
 	bd.reSetTeachers()
 	bd.reSetAttendees()
 
@@ -145,6 +150,37 @@ func (bd *BmSessionable) reSetYard() error {
 	err = result.FindOne(c0.(request.Request))
 	result.ReSetProp()
 	bd.Yard = result
+
+	return err
+}
+
+func (bd *BmSessionable) reSetSessionInfo() error {
+
+	eq := request.Eqcond{}
+	eq.Ky = "sessionableId"
+	eq.Vy = bd.Id
+	req := request.Request{}
+	req.Res = "BmSessionableBindSessionInfo"
+	var condi []interface{}
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	reval := BmSessionableBindSessionInfo{}
+	err := reval.FindOne(c.(request.Request))
+
+	eq0 := request.Eqcond{}
+	eq0.Ky = "id"
+	eq0.Vy = reval.SessionInfoId
+	req0 := request.Request{}
+	req0.Res = "BmSessionInfo"
+	var condi0 []interface{}
+	condi0 = append(condi0, eq0)
+	c0 := req0.SetConnect("conditions", condi0)
+
+	result := sessioninfo.BmSessionInfo{}
+	err = result.FindOne(c0.(request.Request))
+	result.ReSetProp()
+	bd.SessionInfo = result
 
 	return err
 }
