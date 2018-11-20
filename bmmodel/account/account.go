@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/base64"
 	"fmt"
+	"github.com/alfredyang1986/blackmirror/bmconfighandle"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmsecurity"
@@ -11,6 +12,7 @@ import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"io"
+	"sync"
 )
 
 type BmAccount struct {
@@ -121,8 +123,12 @@ func (bd *BmAccount) Secret2MD5() {
 
 }
 
+var once sync.Once
+var bmMongoConfig bmconfig.BMMongoConfig
+
 func (bd BmAccount) IsAccountRegisted() bool {
-	session, err := mgo.Dial("localhost:27017")
+	once.Do(bmMongoConfig.GenerateConfig)
+	session, err := mgo.Dial(bmMongoConfig.Host + ":" + bmMongoConfig.Port)
 	if err != nil {
 		panic("dial db error")
 	}
