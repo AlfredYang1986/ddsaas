@@ -17,6 +17,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/region"
 	"github.com/alfredyang1986/ddsaas/bmmodel/reservable"
 	"github.com/alfredyang1986/ddsaas/bmmodel/sessionable"
+	"github.com/alfredyang1986/ddsaas/bmmodel/wechatinfo"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmapplybricks/find"
@@ -32,6 +33,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcategorybricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/update"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmquerrywechatopenid/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmreservablebricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmreservablebricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmsessionablebricks/find"
@@ -245,6 +247,9 @@ func main() {
 	fac.RegisterModel("BmSessionInfoUpdateBrick", &courseinfoupdate.BmSessionInfoUpdateBrick{})
 	fac.RegisterModel("BmBrandUpdateBrick", &brandupdate.BmBrandUpdateBrick{})
 	fac.RegisterModel("BmCategoryUpdateBrick", &categoryupdate.BmCategoryUpdateBrick{})
+
+	fac.RegisterModel("BmWeChatInfo", &wechatinfo.BmWeChatInfo{})
+	fac.RegisterModel("BmWeChatInfoFindBrick", &wechatopenidfind.BmWeChatInfoFindBrick{})
 
 	/*------------------------------------------------
 	 * delete bricks object
