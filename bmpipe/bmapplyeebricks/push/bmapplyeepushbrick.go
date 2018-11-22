@@ -26,6 +26,7 @@ func (b *BmApplyeePushBrick) Exec() error {
 
 	if tmp.Id != "" && tmp.Id_.Valid() && tmp.Valid() {
 		//TODO:现在[push已存在的]相当于[update]
+		tmp.CheckExist()
 		err = tmp.InsertBMObject()
 		//if  tmp.IsRegisted() {
 		//	b.bk.Err = -9

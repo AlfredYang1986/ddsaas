@@ -14,7 +14,7 @@ type BmKid struct {
 	NickName     string  `json:"nickname" bson:"nickname"`
 	Gender       float64 `json:"gender" bson:"gender"`
 	Dob          float64 `json:"dob" bson:"dob"`
-	GuardianRole string `json:"guardian_role" bson:"guardian_role"`
+	GuardianRole string  `json:"guardian_role" bson:"guardian_role"`
 }
 
 /*------------------------------------------------

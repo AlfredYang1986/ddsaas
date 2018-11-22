@@ -103,3 +103,22 @@ func (bd BmApplyee) IsRegisted() bool {
 func (bd BmApplyee) Valid() bool {
 	return bd.WeChatOpenid != ""
 }
+
+func (bd *BmApplyee) CheckExist() error {
+
+	eq1 := request.Eqcond{}
+	eq1.Ky = "wechat_openid"
+	eq1.Vy = bd.WeChatOpenid
+	req := request.Request{}
+	req.Res = "BmApplyee"
+	var condi []interface{}
+	condi = append(condi, eq1)
+	c := req.SetConnect("conditions", condi)
+	var tmp BmApplyee
+	err := tmp.FindOne(c.(request.Request))
+	if tmp.Id != "" {
+		bd.SetId(tmp.Id)
+		bd.SetObjectId(tmp.Id_)
+	}
+	return err
+}
