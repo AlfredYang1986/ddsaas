@@ -88,8 +88,16 @@ func (bd *BmWeChatInfo) GetWeChatInfo(req request.Request) error {
 	if len(req.Eqcond)<1 {
 		panic("no code")
 	}
-
-	code := req.Eqcond[0].Vy.(string)
+	var code string
+	for _,eq := range req.Eqcond {
+		if eq.Ky == "code" {
+			code = eq.Vy.(string)
+		}
+		if eq.Ky == "brand" {
+			brand := eq.Vy.(string)
+			bd.getBrandAppId(brand)
+		}
+	}
 
 	originUrl := "https://api.weixin.qq.com/sns/jscode2session?appid="
 	url := strings.Join([]string{originUrl, bd.AppId, "&secret=", bd.Secret, "&js_code=", code, "&grant_type=authorization_code"}, "")
@@ -107,4 +115,17 @@ func (bd *BmWeChatInfo) GetWeChatInfo(req request.Request) error {
 	bd.SessionKey = session_key
 
 	return err
+}
+
+func (bd *BmWeChatInfo) getBrandAppId(brand string) error {
+
+	switch brand {
+	case "dongda":
+		bd.AppId = "wx6129e48a548c52b8"
+		bd.Secret = "b250e875e51a931e2ae3a49ff450bc3c"
+	case "pacee":
+		bd.AppId = "wx79138b2ee5288cc2"
+		bd.Secret = "c2637375412cfa97c9e127b4cde30c5c"
+	}
+	return nil
 }

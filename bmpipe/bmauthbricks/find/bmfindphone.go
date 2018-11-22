@@ -42,7 +42,7 @@ func (b *BMAuthPhoneFindBrick) Done(pkg string, idx int64, e error) error {
 	if e != nil && e.Error() == "not found" {
 		reval := auth.BmAuth{}
 		reval.Phone = auth.BmPhone{}
-		reval.Phone.PhoneNo = b.BrickInstance().Req.CondiQueryVal("phone", "BmPhone").(string)
+		reval.Phone.PhoneNo = b.BrickInstance().Req.CondiQueryVal("phone_no", "BmPhone").(string)
 		b.BrickInstance().Pr = reval
 
 		bmrouter.NextBrickRemote("insertauth", 0, b)

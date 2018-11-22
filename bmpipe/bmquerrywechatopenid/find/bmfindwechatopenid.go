@@ -22,10 +22,7 @@ type BmWeChatInfoFindBrick struct {
 
 func (b *BmWeChatInfoFindBrick) Exec() error {
 
-	tmp := wechatinfo.BmWeChatInfo{
-		AppId:"wx6129e48a548c52b8",
-		Secret:"b250e875e51a931e2ae3a49ff450bc3c",
-	}
+	tmp := wechatinfo.BmWeChatInfo{}
 
 	err := tmp.GetWeChatInfo(*b.bk.Req)
 
