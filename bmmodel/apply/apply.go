@@ -17,7 +17,7 @@ type BmApply struct {
 	ExceptTime float64           `json:"except_time" bson:"except_time"`
 	BrandId    string            `json:"brandId" bson:"brandId"`
 	ApplyFrom  string            `json:"applyFrom" bson:"applyFrom"`
-	CourseType float64           `json:"courseType" bson:"courseType"` //0活动 1体验课 2普通课程
+	CourseType float64           `json:"courseType" bson:"courseType"` //0活动 1体验课 2普通课程 -1预注册
 	CourseName string            `json:"courseName" bson:"courseName"`
 	Contact    string            `json:"contact" bson:"contact"`
 	Kids       []kid.BmKid       `json:"Kids" jsonapi:"relationships"`
