@@ -77,6 +77,10 @@ func (bd *BmReservableBindSession) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
+func (bd *BmReservableBindSession) DeleteAll(req request.Request) error {
+	return bmmodel.DeleteAll(req)
+}
+
 func (bd *BmReservableBindSession) CheckExist() error {
 
 	eq1 := request.Eqcond{}

@@ -34,8 +34,10 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcategorybricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmquerrywechatopenid/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmreservablebricks/delect"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmreservablebricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmreservablebricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmsessionablebricks/delete"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmsessionablebricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmsessionablebricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmtagimgsbricks/push"
@@ -200,6 +202,7 @@ func main() {
 	fac.RegisterModel("BmReservablePushSession", &reservablepush.BmReservablePushSession{})
 	fac.RegisterModel("BmBindReservableProp", &reservablepush.BmBindReservableProp{})
 	fac.RegisterModel("BmReservableFindBrick", &reservablefind.BmReservableFindBrick{})
+	fac.RegisterModel("BmReservableDeleteBrick", &reservabledelete.BmReservableDeleteBrick{})
 	fac.RegisterModel("BmReservableFindMulti", &reservablefind.BmReservableFindMulti{})
 
 	/*------------------------------------------------
@@ -213,6 +216,7 @@ func main() {
 	fac.RegisterModel("BmSessionablePushBrick", &sessionablepush.BmSessionablePushBrick{})
 	fac.RegisterModel("BmSessionablePushProp", &sessionablepush.BmSessionablePushProp{})
 	fac.RegisterModel("BmSessionableFindBrick", &sessionablefind.BmSessionableFindBrick{})
+	fac.RegisterModel("BmSessionableDeleteBrick", &sessionabledelete.BmSessionableDeleteBrick{})
 	fac.RegisterModel("BmSessionableFindMulti", &sessionablefind.BmSessionableFindMulti{})
 
 	/*------------------------------------------------

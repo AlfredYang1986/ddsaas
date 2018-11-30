@@ -113,13 +113,23 @@ func (bd *BmSessionable) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
-func (bd *BmSessionable) ReSetProp() error {
+func (bd *BmSessionable) DeleteAll(req request.Request) error {
+	return bmmodel.DeleteAll(req)
+}
 
+func (bd *BmSessionable) ReSetProp() error {
 	bd.reSetYard()
 	bd.reSetSessionInfo()
 	bd.reSetTeachers()
 	bd.reSetAttendees()
+	return nil
+}
 
+func (bd *BmSessionable) DeleteProp() error {
+	bd.deleteBmSessionableBindYard()
+	bd.deleteBmSessionableBindSessionInfo()
+	bd.deleteBmSessionableBindAttendee()
+	bd.deleteBmSessionableBindTeacher()
 	return nil
 }
 
@@ -259,4 +269,72 @@ func (bd *BmSessionable) reSetAttendees() error {
 	bd.Attendees = resultArr
 
 	return nil
+}
+
+func (bd *BmSessionable) deleteBmSessionableBindYard() error {
+
+	eq := request.Eqcond{}
+	eq.Ky = "sessionableId"
+	eq.Vy = bd.Id
+	req := request.Request{}
+	req.Res = "BmSessionableBindYard"
+	var condi []interface{}
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	reval := BmSessionableBindYard{}
+	err := reval.DeleteAll(c.(request.Request))
+
+	return err
+}
+
+func (bd *BmSessionable) deleteBmSessionableBindSessionInfo() error {
+
+	eq := request.Eqcond{}
+	eq.Ky = "sessionableId"
+	eq.Vy = bd.Id
+	req := request.Request{}
+	req.Res = "BmSessionableBindSessionInfo"
+	var condi []interface{}
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	reval := BmSessionableBindSessionInfo{}
+	err := reval.DeleteAll(c.(request.Request))
+
+	return err
+}
+
+func (bd *BmSessionable) deleteBmSessionableBindTeacher() error {
+
+	req := request.Request{}
+	req.Res = "BmSessionableBindTeacher"
+	var condi []interface{}
+	eq := request.Eqcond{}
+	eq.Ky = "sessionableId"
+	eq.Vy = bd.Id
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	var bind BmSessionableBindTeacher
+	err := bind.DeleteAll(c.(request.Request))
+
+	return err
+}
+
+func (bd *BmSessionable) deleteBmSessionableBindAttendee() error {
+
+	req := request.Request{}
+	req.Res = "BmSessionableBindAttendee"
+	var condi []interface{}
+	eq := request.Eqcond{}
+	eq.Ky = "sessionableId"
+	eq.Vy = bd.Id
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	var bind BmSessionableBindAttendee
+	err := bind.DeleteAll(c.(request.Request))
+
+	return err
 }

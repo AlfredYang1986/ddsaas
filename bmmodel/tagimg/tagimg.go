@@ -73,3 +73,7 @@ func (bd *BmTagImg) FindOne(req request.Request) error {
 func (bd *BmTagImg) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
+
+func (bd *BmTagImg) DeleteAll(req request.Request) error {
+	return bmmodel.DeleteAll(req)
+}

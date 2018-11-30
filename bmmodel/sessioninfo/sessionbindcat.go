@@ -73,6 +73,10 @@ func (bd *BmSessionBindCat) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
+func (bd *BmSessionBindCat) DeleteAll(req request.Request) error {
+	return bmmodel.DeleteAll(req)
+}
+
 func (bd *BmSessionBindCat) CheckExist() error {
 
 	eq1 := request.Eqcond{}

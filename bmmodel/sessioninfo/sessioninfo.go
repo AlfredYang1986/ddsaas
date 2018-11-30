@@ -108,11 +108,19 @@ func (bd *BmSessionInfo) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
-func (bd *BmSessionInfo) ReSetProp() error {
+func (bd *BmSessionInfo) DeleteAll(req request.Request) error {
+	return bmmodel.DeleteAll(req)
+}
 
+func (bd *BmSessionInfo) ReSetProp() error {
 	bd.reSetCategory()
 	bd.reSetTagImg()
+	return nil
+}
 
+func (bd *BmSessionInfo) DeleteProp() error {
+    bd.deleteBmSessionBindCat()
+    bd.deleteBmBindSessionImg()
 	return nil
 }
 
@@ -180,6 +188,72 @@ func (bd *BmSessionInfo) reSetTagImg() error {
 		imgs[i] = ir
 	}
 	bd.TagImgs = imgs
+
+	return err
+}
+
+func (bd *BmSessionInfo) deleteBmSessionBindCat() error {
+
+	eq := request.Eqcond{}
+	eq.Ky = "sessionId"
+	eq.Vy = bd.Id
+	req := request.Request{}
+	req.Res = "BmSessionBindCat"
+	var condi []interface{}
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	reval := BmSessionBindCat{}
+	err := reval.FindOne(c.(request.Request))
+	err = reval.DeleteAll(c.(request.Request))
+
+	eq0 := request.Eqcond{}
+	eq0.Ky = "id"
+	eq0.Vy = reval.CategoryId
+	req0 := request.Request{}
+	req0.Res = "BmCategory"
+	var condi0 []interface{}
+	condi0 = append(condi0, eq0)
+	c0 := req0.SetConnect("conditions", condi0)
+
+	result := category.BmCategory{}
+	err = result.FindOne(c0.(request.Request))
+	err = result.DeleteAll(c0.(request.Request))
+	bd.Cate = result
+
+	return err
+}
+
+func (bd *BmSessionInfo) deleteBmBindSessionImg() error {
+
+	req := request.Request{}
+	req.Res = "BmBindSessionImg"
+	var condi []interface{}
+	eq := request.Eqcond{}
+	eq.Ky = "sessionId"
+	eq.Vy = bd.Id
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	var bind BmBindSessionImg
+	err := bind.DeleteAll(c.(request.Request))
+
+	var reval []BmBindSessionImg
+	err = bmmodel.FindMutil(c.(request.Request), &reval)
+	if err != nil {
+		return err
+	}
+
+	var condi0 []bson.ObjectId
+	for _, item := range reval {
+		condi0 = append(condi0, bson.ObjectIdHex(item.TagImgId))
+	}
+
+	tt := make(map[string]interface{})
+	tt["$in"] = condi0
+	or_condi := bson.M{"_id": tt}
+
+	err = bmmodel.DeleteMutilWithBson("BmTagImg", or_condi)
 
 	return err
 }

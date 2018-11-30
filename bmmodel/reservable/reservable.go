@@ -3,6 +3,7 @@ package reservable
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"github.com/alfredyang1986/ddsaas/bmmodel/sessionable"
 	"github.com/alfredyang1986/ddsaas/bmmodel/sessioninfo"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -86,10 +87,18 @@ func (bd *BmReservable) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
+func (bd *BmReservable) DeleteAll(req request.Request) error {
+	return bmmodel.DeleteAll(req)
+}
+
 func (bd *BmReservable) ReSetProp() error {
-
 	bd.reSetSessionInfo()
+	return nil
+}
 
+func (bd *BmReservable) DeleteProp() error {
+	bd.deleteBmReservableBindSession()
+	bd.deleteBmSessionable()
 	return nil
 }
 
@@ -121,5 +130,55 @@ func (bd *BmReservable) reSetSessionInfo() error {
 	result.ReSetProp()
 	bd.SessionInfo = result
 
+	return err
+}
+
+func (bd *BmReservable) deleteBmReservableBindSession() error {
+
+	eq := request.Eqcond{}
+	eq.Ky = "reservableId"
+	eq.Vy = bd.Id
+	req := request.Request{}
+	req.Res = "BmReservableBindSession"
+	var condi []interface{}
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	reval := BmReservableBindSession{}
+	err := reval.FindOne(c.(request.Request))
+	err = reval.DeleteAll(c.(request.Request))
+
+	eq0 := request.Eqcond{}
+	eq0.Ky = "id"
+	eq0.Vy = reval.SessionId
+	req0 := request.Request{}
+	req0.Res = "BmSessionInfo"
+	var condi0 []interface{}
+	condi0 = append(condi0, eq0)
+	c0 := req0.SetConnect("conditions", condi0)
+
+	result := sessioninfo.BmSessionInfo{}
+	err = result.FindOne(c0.(request.Request))
+	err = result.DeleteAll(c0.(request.Request))
+	result.DeleteProp()
+	bd.SessionInfo = result
+
+	return err
+}
+
+func (bd *BmReservable) deleteBmSessionable() error {
+
+	eq := request.Eqcond{}
+	eq.Ky = "reservableId"
+	eq.Vy = bd.Id
+	req := request.Request{}
+	req.Res = "BmSessionable"
+	var condi []interface{}
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	reval := sessionable.BmSessionable{}
+	err := reval.FindOne(c.(request.Request))
+	err = reval.DeleteAll(c.(request.Request))
 	return err
 }

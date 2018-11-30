@@ -78,7 +78,7 @@ func (bd *BmSessionableBindAttendee) UpdateBMObject(req request.Request) error {
 }
 
 func (bd *BmSessionableBindAttendee) DeleteAll(req request.Request) error {
-	return bmmodel.DeleteAll(req, bd)
+	return bmmodel.DeleteAll(req)
 }
 
 func (bd *BmSessionableBindAttendee) Clear() error {

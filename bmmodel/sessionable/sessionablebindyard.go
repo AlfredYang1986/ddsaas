@@ -77,6 +77,10 @@ func (bd *BmSessionableBindYard) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
+func (bd *BmSessionableBindYard) DeleteAll(req request.Request) error {
+	return bmmodel.DeleteAll(req)
+}
+
 func (bd *BmSessionableBindYard) CheckExist() error {
 
 	eq1 := request.Eqcond{}

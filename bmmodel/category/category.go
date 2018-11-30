@@ -73,3 +73,7 @@ func (bd *BmCategory) FindOne(req request.Request) error {
 func (bd *BmCategory) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
+
+func (bd *BmCategory) DeleteAll(req request.Request) error {
+	return bmmodel.DeleteAll(req)
+}
