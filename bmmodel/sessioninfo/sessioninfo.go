@@ -210,6 +210,11 @@ func (bd *BmSessionInfo) deleteBmSessionBindCat() error {
 	eq0 := request.Eqcond{}
 	eq0.Ky = "id"
 	eq0.Vy = reval.CategoryId
+
+	if eq0.Vy == "" {
+		return err
+	}
+
 	req0 := request.Request{}
 	req0.Res = "BmCategory"
 	var condi0 []interface{}
@@ -217,7 +222,6 @@ func (bd *BmSessionInfo) deleteBmSessionBindCat() error {
 	c0 := req0.SetConnect("conditions", condi0)
 
 	result := category.BmCategory{}
-	err = result.FindOne(c0.(request.Request))
 	err = result.DeleteAll(c0.(request.Request))
 	bd.Cate = result
 

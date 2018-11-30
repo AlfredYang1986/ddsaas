@@ -151,6 +151,11 @@ func (bd *BmReservable) deleteBmReservableBindSession() error {
 	eq0 := request.Eqcond{}
 	eq0.Ky = "id"
 	eq0.Vy = reval.SessionId
+
+	if eq0.Vy == "" {
+		return err
+	}
+
 	req0 := request.Request{}
 	req0.Res = "BmSessionInfo"
 	var condi0 []interface{}
@@ -178,7 +183,6 @@ func (bd *BmReservable) deleteBmSessionable() error {
 	c := req.SetConnect("conditions", condi)
 
 	reval := sessionable.BmSessionable{}
-	err := reval.FindOne(c.(request.Request))
-	err = reval.DeleteAll(c.(request.Request))
+	err := reval.DeleteAll(c.(request.Request))
 	return err
 }
