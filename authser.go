@@ -78,6 +78,7 @@ func main() {
 	 *------------------------------------------------*/
 	fac.RegisterModel("Request", &request.Request{})
 	fac.RegisterModel("Eqcond", &request.Eqcond{})
+	fac.RegisterModel("Gtcond", &request.Gtcond{})
 	fac.RegisterModel("Upcond", &request.Upcond{})
 	fac.RegisterModel("Fmcond", &request.Fmcond{})
 	fac.RegisterModel("BmErrorNode", &bmerror.BmErrorNode{})
