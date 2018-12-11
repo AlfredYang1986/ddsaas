@@ -32,13 +32,18 @@ func (b *BmApplyPushProp) Exec() error {
 	oneBindOne.CheckExist()
 	err := oneBindOne.InsertBMObject()
 
+	sbt := apply.BmApplyBindKid{}
+	sbt.Id_ = bson.NewObjectId()
+	sbt.Id = sbt.Id_.Hex()
+	sbt.ApplyId = tmp.Id
+	sbt.Clear()
 	for _, item := range tmp.Kids {
 		itb := apply.BmApplyBindKid{}
 		itb.Id_ = bson.NewObjectId()
 		itb.Id = itb.Id_.Hex()
 		itb.ApplyId = tmp.Id
 		itb.KidId = item.Id
-		itb.CheckExist()
+		//itb.CheckExist()
 		itb.InsertBMObject()
 	}
 

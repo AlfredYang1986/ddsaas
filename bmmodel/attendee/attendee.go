@@ -19,7 +19,7 @@ type BmAttendee struct {
 	KidId   string `json:"kidId" bson:"kidId"`
 
 	Intro       string  `json:"intro" bson:"intro"`
-	Status      string  `json:"status" bson:"status"`
+	Status      string  `json:"status" bson:"status"`	//未付款-candidate, 已付款-stud
 	LessonCount float64 `json:"lesson_count" bson:"lesson_count"`
 
 	Name     string  `json:"name" bson:"name"`

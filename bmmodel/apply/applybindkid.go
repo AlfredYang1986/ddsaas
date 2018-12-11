@@ -73,6 +73,10 @@ func (bd *BmApplyBindKid) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
+func (bd *BmApplyBindKid) DeleteAll(req request.Request) error {
+	return bmmodel.DeleteAll(req)
+}
+
 func (bd *BmApplyBindKid) CheckExist() error {
 
 	eq1 := request.Eqcond{}
@@ -93,5 +97,20 @@ func (bd *BmApplyBindKid) CheckExist() error {
 		bd.SetId(bind.Id)
 		bd.SetObjectId(bind.Id_)
 	}
+	return err
+}
+
+func (bd *BmApplyBindKid) Clear() error {
+
+	eq1 := request.Eqcond{}
+	eq1.Ky = "applyId"
+	eq1.Vy = bd.ApplyId
+	req := request.Request{}
+	req.Res = "BmApplyBindKid"
+	var condi []interface{}
+	condi = append(condi, eq1)
+	c := req.SetConnect("conditions", condi)
+	var bind BmApplyBindKid
+	err := bind.DeleteAll(c.(request.Request))
 	return err
 }
