@@ -43,7 +43,6 @@ func (b *BmApplyPushProp) Exec() error {
 		itb.Id = itb.Id_.Hex()
 		itb.ApplyId = tmp.Id
 		itb.KidId = item.Id
-		//itb.CheckExist()
 		itb.InsertBMObject()
 	}
 

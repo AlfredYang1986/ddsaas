@@ -14,14 +14,19 @@ type BmTeacher struct {
 
 	BrandId string `json:"brandId" bson:"brandId"`
 
-	Name     string  `json:"name" bson:"name"`
-	Nickname string  `json:"nickname" bson:"nickname"`
-	Icon     string  `json:"icon" bson:"icon"`
-	Dob      float64 `json:"dob" bson:"dob"`
-	Gender   float64 `json:"gender" bson:"gender"`
-	RegDate  float64 `json:"reg_date" bson:"reg_date"`
-	Contact  string  `json:"contact" bson:"contact"`
-	WeChat   string  `json:"wechat" bson:"wechat"`
+	Name       string  `json:"name" bson:"name"`
+	Nickname   string  `json:"nickname" bson:"nickname"`
+	Icon       string  `json:"icon" bson:"icon"`
+	Dob        float64 `json:"dob" bson:"dob"`
+	Gender     float64 `json:"gender" bson:"gender"`
+	RegDate    float64 `json:"reg_date" bson:"reg_date"`
+	Contact    string  `json:"contact" bson:"contact"`
+	WeChat     string  `json:"wechat" bson:"wechat"`
+	JobTitle   string  `json:"jobTitle" bson:"jobTitle"`
+	JobType    float64 `json:"jobType" bson:"jobType"`		//0-兼职, 1-全职
+	IdCardNo   string  `json:"idCardNo" bson:"idCardNo"`
+	Major      string  `json:"major" bson:"major"`
+	TeachYears float64 `json:"teachYears" bson:"teachYears"`
 
 	//Person person.BmPerson `json:"person" jsonapi:"relationships"`
 	Address     string `json:"address" bson:"address"`

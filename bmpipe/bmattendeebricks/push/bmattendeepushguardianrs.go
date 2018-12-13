@@ -2,11 +2,11 @@ package attendeepush
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
-	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
+	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
 	"gopkg.in/mgo.v2/bson"
 	"io"
 	"net/http"
@@ -22,16 +22,42 @@ type BMAttendeePushGuardianRS struct {
 
 func (b *BMAttendeePushGuardianRS) Exec() error {
 	var tmp attendee.BmAttendee = b.bk.Pr.(attendee.BmAttendee)
+	var err error
+
 	guardians := tmp.Guardians
+	applyees := tmp.Applyees
+
+	agrs := attendee.BMAttendeeGuardianRS{}
+	agrs.Id_ = bson.NewObjectId()
+	agrs.Id = agrs.Id_.Hex()
+	agrs.AttendeeId = tmp.Id
+	agrs.Clear()
+
+	//aba := attendee.BMAttendeeBindApplyee{}
+	//aba.Id_ = bson.NewObjectId()
+	//aba.Id = aba.Id_.Hex()
+	//aba.AttendeeId = tmp.Id
+	//aba.Clear()
+
 	for _,g := range guardians{
 		var ag attendee.BMAttendeeGuardianRS
 		ag.Id_ = bson.NewObjectId()
 		ag.Id = ag.Id_.Hex()
 		ag.AttendeeId = tmp.Id
 		ag.GuardianId = g.Id
-
-		ag.CheckExist()
 		ag.InsertBMObject()
+	}
+	for _,ape := range applyees{
+		var bind attendee.BMAttendeeBindApplyee
+		bind.Id_ = bson.NewObjectId()
+		bind.Id = bind.Id_.Hex()
+		bind.AttendeeId = tmp.Id
+		bind.ApplyeeId = ape.Id
+		bind.CheckExist()
+		err = bind.CheckExist()
+		if err.Error() != "Already Exist!" {
+			bind.InsertBMObject()
+		}
 	}
 	b.bk.Pr = tmp
 	return nil

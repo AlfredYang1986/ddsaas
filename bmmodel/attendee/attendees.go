@@ -76,6 +76,7 @@ func (bd *BmAttendees) FindMulti(req request.Request) error {
 	err := bmmodel.FindMutil(req, &bd.Attendees)
 	for i, r := range bd.Attendees {
 		r.ResetIdWithId_()
+		r.ReSetProp()
 		bd.Attendees[i] = r
 	}
 	return err

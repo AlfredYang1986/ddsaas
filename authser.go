@@ -102,6 +102,7 @@ func main() {
 	fac.RegisterModel("BmAttendees", &attendee.BmAttendees{})
 	fac.RegisterModel("BMAttendeeProp", &attendee.BMAttendeeProp{})
 	fac.RegisterModel("BMAttendeeGuardianRS", &attendee.BMAttendeeGuardianRS{})
+	fac.RegisterModel("BMAttendeeBindApplyee", &attendee.BMAttendeeBindApplyee{})
 	fac.RegisterModel("BMAttendeeGuardianRSeS", &attendee.BMAttendeeGuardianRSeS{})
 	fac.RegisterModel("BmGuardian", &guardian.BmGuardian{})
 	//fac.RegisterModel("BmPerson", &person.BmPerson{})
@@ -129,7 +130,6 @@ func main() {
 
 	fac.RegisterModel("BMAttendeeFindBrick", &attendeefind.BMAttendeeFindBrick{})
 	fac.RegisterModel("BMAttendeeFindMulti", &attendeefind.BMAttendeeFindMulti{})
-	fac.RegisterModel("BMAttendeeRS2Attendee", &attendeefind.BMAttendeeRS2Attendee{})
 
 	/*------------------------------------------------
 	 * auth push bricks object

@@ -4,6 +4,7 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmconfighandle"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"github.com/alfredyang1986/ddsaas/bmmodel/applyee"
 	"github.com/alfredyang1986/ddsaas/bmmodel/guardian"
 	"github.com/alfredyang1986/ddsaas/bmmodel/payment"
 	"gopkg.in/mgo.v2"
@@ -16,10 +17,16 @@ type BmAttendee struct {
 	Id_ bson.ObjectId `bson:"_id"`
 
 	BrandId string `json:"brandId" bson:"brandId"`
+
 	KidId   string `json:"kidId" bson:"kidId"`
+	ApplyId string `json:"applyId" bson:"applyId"`
+
+	TeacherId   string `json:"teacherId" bson:"teacherId"`
+	TeacherName string `json:"teacherName" bson:"teacherName"`
+	SourceWay   string `json:"sourceWay" bson:"sourceWay"`
 
 	Intro       string  `json:"intro" bson:"intro"`
-	Status      string  `json:"status" bson:"status"`	//未付款-candidate, 已付款-stud
+	Status      string  `json:"status" bson:"status"` //未付款-candidate, 已付款-stud
 	LessonCount float64 `json:"lesson_count" bson:"lesson_count"`
 
 	Name     string  `json:"name" bson:"name"`
@@ -33,9 +40,11 @@ type BmAttendee struct {
 
 	//Person    person.BmPerson       `json:"Person" jsonapi:"relationships"`
 	Guardians []guardian.BmGuardian `json:"Guardians" jsonapi:"relationships"`
+	Applyees  []applyee.BmApplyee   `json:"Applyees" jsonapi:"relationships"`
 	Payments  []payment.BMPayment   `json:"Payments" jsonapi:"relationships"`
-	Address   string                `json:"addr" bson:"address"`
+	Address   string                `json:"address" bson:"address"`
 	School    string                `json:"school" bson:"school"`
+	IdCardNo  string                `json:"idCardNo" bson:"idCardNo"`
 }
 
 /*------------------------------------------------
@@ -83,6 +92,12 @@ func (bd BmAttendee) SetConnect(tag string, v interface{}) interface{} {
 			rst = append(rst, item.(guardian.BmGuardian))
 		}
 		bd.Guardians = rst
+	case "Applyees":
+		var rst []applyee.BmApplyee
+		for _, item := range v.([]interface{}) {
+			rst = append(rst, item.(applyee.BmApplyee))
+		}
+		bd.Applyees = rst
 	case "Payments":
 		var rst []payment.BMPayment
 		for _, item := range v.([]interface{}) {
@@ -156,4 +171,86 @@ func (bd BmAttendee) IsAttendeeExist() bool {
 	}
 
 	return n > 0
+}
+
+func (bd *BmAttendee) ReSetProp() error {
+	bd.reSetGuardians()
+	bd.reSetApplyees()
+	return nil
+}
+
+func (bd *BmAttendee) reSetGuardians() error {
+
+	req := request.Request{}
+	req.Res = "BMAttendeeGuardianRS"
+	var condi []interface{}
+	eq := request.Eqcond{}
+	eq.Ky = "attendeeId"
+	eq.Vy = bd.Id
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	var reval []BMAttendeeGuardianRS
+	err := bmmodel.FindMutil(c.(request.Request), &reval)
+	if err != nil {
+		return err
+	}
+
+	var condi0 []bson.ObjectId
+	for _, item := range reval {
+		condi0 = append(condi0, bson.ObjectIdHex(item.GuardianId))
+	}
+
+	tt := make(map[string]interface{})
+	tt["$in"] = condi0
+	or_condi := bson.M{"_id": tt}
+
+	var resultArr []guardian.BmGuardian
+	err = bmmodel.FindMutilWithBson("BmGuardian", or_condi, &resultArr)
+
+	for i, ir := range resultArr {
+		ir.ResetIdWithId_()
+		resultArr[i] = ir
+	}
+	bd.Guardians = resultArr
+
+	return nil
+}
+
+func (bd *BmAttendee) reSetApplyees() error {
+
+	req := request.Request{}
+	req.Res = "BMAttendeeBindApplyee"
+	var condi []interface{}
+	eq := request.Eqcond{}
+	eq.Ky = "attendeeId"
+	eq.Vy = bd.Id
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	var reval []BMAttendeeBindApplyee
+	err := bmmodel.FindMutil(c.(request.Request), &reval)
+	if err != nil {
+		return err
+	}
+
+	var condi0 []bson.ObjectId
+	for _, item := range reval {
+		condi0 = append(condi0, bson.ObjectIdHex(item.ApplyeeId))
+	}
+
+	tt := make(map[string]interface{})
+	tt["$in"] = condi0
+	or_condi := bson.M{"_id": tt}
+
+	var resultArr []applyee.BmApplyee
+	err = bmmodel.FindMutilWithBson("BmApplyee", or_condi, &resultArr)
+
+	for i, ir := range resultArr {
+		ir.ResetIdWithId_()
+		resultArr[i] = ir
+	}
+	bd.Applyees = resultArr
+
+	return nil
 }

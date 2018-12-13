@@ -23,6 +23,7 @@ type BMAttendeeFindBrick struct {
 func (b *BMAttendeeFindBrick) Exec() error {
 	var tmp attendee.BmAttendee
 	err := tmp.FindOne(*b.bk.Req)
+	tmp.ReSetProp()
 	b.bk.Pr = tmp
 	return err
 }

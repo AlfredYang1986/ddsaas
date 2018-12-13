@@ -264,6 +264,7 @@ func (bd *BmSessionable) reSetAttendees() error {
 
 	for i, ir := range resultArr {
 		ir.ResetIdWithId_()
+		ir.ReSetProp()
 		resultArr[i] = ir
 	}
 	bd.Attendees = resultArr

@@ -23,6 +23,7 @@ type BmGuardian struct {
 	Contact  string  `json:"contact" bson:"contact"`
 	WeChat   string  `json:"wechat" bson:"wechat"`
 	Address  string  `json:"addr" bson:"address"`
+	IdCardNo string  `json:"idCardNo" bson:"idCardNo"`
 
 	//Person person.BmPerson `json:"Person" jsonapi:"relationships"`
 
