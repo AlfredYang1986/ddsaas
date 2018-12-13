@@ -97,6 +97,10 @@ func (bd *BmApply) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
+func (bd *BmApply) FindCount(req request.Request) (int, error) {
+	return bmmodel.FindCount(req)
+}
+
 func (bd *BmApply) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }

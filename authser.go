@@ -10,6 +10,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/brand"
 	"github.com/alfredyang1986/ddsaas/bmmodel/category"
 	"github.com/alfredyang1986/ddsaas/bmmodel/certification"
+	"github.com/alfredyang1986/ddsaas/bmmodel/count"
 	"github.com/alfredyang1986/ddsaas/bmmodel/guardian"
 	"github.com/alfredyang1986/ddsaas/bmmodel/honor"
 	"github.com/alfredyang1986/ddsaas/bmmodel/kid"
@@ -32,6 +33,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmbrandbricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcategorybricks/update"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmcountbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmquerrywechatopenid/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmreservablebricks/delect"
@@ -88,6 +90,8 @@ func main() {
 	fac.RegisterModel("Upcond", &request.Upcond{})
 	fac.RegisterModel("Fmcond", &request.Fmcond{})
 	fac.RegisterModel("BmErrorNode", &bmerror.BmErrorNode{})
+	fac.RegisterModel("BmCount", &count.BmCount{})
+	fac.RegisterModel("BmCountFindBrick", &countfind.BmCountFindBrick{})
 
 	fac.RegisterModel("BMRsaKey", &auth.BMRsaKey{})
 	fac.RegisterModel("BmAccount", &account.BmAccount{})
