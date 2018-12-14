@@ -21,7 +21,7 @@ type BmAccount struct {
 
 	Account    string `json:"account" bson:"account"`
 	SecretWord string `json:"secretword" bson:"secretword"`
-
+	BrandId    string `json:"brandId" bson:"brandId"`
 }
 
 /*------------------------------------------------
