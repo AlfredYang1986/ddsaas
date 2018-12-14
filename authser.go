@@ -11,6 +11,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/category"
 	"github.com/alfredyang1986/ddsaas/bmmodel/certification"
 	"github.com/alfredyang1986/ddsaas/bmmodel/count"
+	"github.com/alfredyang1986/ddsaas/bmmodel/courseunit"
 	"github.com/alfredyang1986/ddsaas/bmmodel/guardian"
 	"github.com/alfredyang1986/ddsaas/bmmodel/honor"
 	"github.com/alfredyang1986/ddsaas/bmmodel/kid"
@@ -35,6 +36,8 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcategorybricks/update"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcountbricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseinfobricks/update"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseunitbricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmcourseunitbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmquerrywechatopenid/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmreservablebricks/delect"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmreservablebricks/find"
@@ -229,6 +232,18 @@ func main() {
 	fac.RegisterModel("BmSessionableFindBrick", &sessionablefind.BmSessionableFindBrick{})
 	fac.RegisterModel("BmSessionableDeleteBrick", &sessionabledelete.BmSessionableDeleteBrick{})
 	fac.RegisterModel("BmSessionableFindMulti", &sessionablefind.BmSessionableFindMulti{})
+	fac.RegisterModel("BmSessionableFindMultiByYard", &sessionablefind.BmSessionableFindMultiByYard{})
+
+	/*------------------------------------------------
+	 * courseunit brick object
+	 *------------------------------------------------*/
+	fac.RegisterModel("BmCourseUnit", &courseunit.BmCourseUnit{})
+	fac.RegisterModel("BmCourseUnitBindSessionable", &courseunit.BmCourseUnitBindSessionable{})
+
+	fac.RegisterModel("BmCourseUnitFindBrick", &courseunitfind.BmCourseUnitFindBrick{})
+	fac.RegisterModel("BmCourseUnitFindMulti", &courseunitfind.BmCourseUnitFindMulti{})
+	fac.RegisterModel("BmCourseUnitPushBrick", &courseunitpush.BmCourseUnitPushBrick{})
+	fac.RegisterModel("BmCourseUnitPushProp", &courseunitpush.BmCourseUnitPushProp{})
 
 	/*------------------------------------------------
 	 * apply brick object

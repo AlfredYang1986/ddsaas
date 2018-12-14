@@ -22,7 +22,7 @@ type BmGuardian struct {
 	RegDate  float64 `json:"reg_date" bson:"reg_date"`
 	Contact  string  `json:"contact" bson:"contact"`
 	WeChat   string  `json:"wechat" bson:"wechat"`
-	Address  string  `json:"addr" bson:"address"`
+	Address  string  `json:"address" bson:"address"`
 	IdCardNo string  `json:"idCardNo" bson:"idCardNo"`
 
 	//Person person.BmPerson `json:"Person" jsonapi:"relationships"`

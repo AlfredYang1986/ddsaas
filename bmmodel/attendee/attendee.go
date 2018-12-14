@@ -6,7 +6,6 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/ddsaas/bmmodel/applyee"
 	"github.com/alfredyang1986/ddsaas/bmmodel/guardian"
-	"github.com/alfredyang1986/ddsaas/bmmodel/payment"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"sync"
@@ -41,7 +40,7 @@ type BmAttendee struct {
 	//Person    person.BmPerson       `json:"Person" jsonapi:"relationships"`
 	Guardians []guardian.BmGuardian `json:"Guardians" jsonapi:"relationships"`
 	Applyees  []applyee.BmApplyee   `json:"Applyees" jsonapi:"relationships"`
-	Payments  []payment.BMPayment   `json:"Payments" jsonapi:"relationships"`
+	//Payments  []payment.BMPayment   `json:"Payments" jsonapi:"relationships"`
 	Address   string                `json:"address" bson:"address"`
 	School    string                `json:"school" bson:"school"`
 	IdCardNo  string                `json:"idCardNo" bson:"idCardNo"`
@@ -98,12 +97,12 @@ func (bd BmAttendee) SetConnect(tag string, v interface{}) interface{} {
 			rst = append(rst, item.(applyee.BmApplyee))
 		}
 		bd.Applyees = rst
-	case "Payments":
-		var rst []payment.BMPayment
-		for _, item := range v.([]interface{}) {
-			rst = append(rst, item.(payment.BMPayment))
-		}
-		bd.Payments = rst
+	//case "Payments":
+	//	var rst []payment.BMPayment
+	//	for _, item := range v.([]interface{}) {
+	//		rst = append(rst, item.(payment.BMPayment))
+	//	}
+	//	bd.Payments = rst
 	}
 	return bd
 }
