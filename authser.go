@@ -21,6 +21,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/sessionable"
 	"github.com/alfredyang1986/ddsaas/bmmodel/wechatinfo"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/other"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmaccountbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmapplybricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmapplybricks/push"
@@ -103,6 +104,7 @@ func main() {
 	fac.RegisterModel("BmWeChat", &auth.BmWeChat{})
 	fac.RegisterModel("BmAuthProp", &auth.BmAuthProp{})
 	fac.RegisterModel("BmLoginSucceed", &auth.BmLoginSucceed{})
+	fac.RegisterModel("BmLoginSucceedBySaaS", &auth.BmLoginSucceedBySaaS{})
 
 	fac.RegisterModel("BmAttendee", &attendee.BmAttendee{})
 	fac.RegisterModel("BmAttendees", &attendee.BmAttendees{})
@@ -133,6 +135,7 @@ func main() {
 	fac.RegisterModel("BMPhone2AuthRSBrick", &authfind.BMPhone2AuthRSBrick{})
 	fac.RegisterModel("BMGetPublicKeyBrick", &authfind.BMGetPublicKeyBrick{})
 	fac.RegisterModel("BMAccountFindBrick", &accountfind.BMAccountFindBrick{})
+	fac.RegisterModel("BmAccountGenerateToken", &accountother.BmAccountGenerateToken{})
 
 	fac.RegisterModel("BMAttendeeFindBrick", &attendeefind.BMAttendeeFindBrick{})
 	fac.RegisterModel("BMAttendeeFindMulti", &attendeefind.BMAttendeeFindMulti{})

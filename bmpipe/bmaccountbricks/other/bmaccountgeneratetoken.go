@@ -1,17 +1,21 @@
-package accountpush
+package accountother
 
 import (
+	"crypto/md5"
+	"fmt"
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
+	"github.com/alfredyang1986/blackmirror/bmrouter/bmoauth"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
 	"github.com/alfredyang1986/ddsaas/bmmodel/account"
+	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
 	"io"
 	"net/http"
 )
 
-type BMAccountPushBrick struct {
+type BmAccountGenerateToken struct {
 	bk *bmpipe.BMBrick
 }
 
@@ -19,40 +23,33 @@ type BMAccountPushBrick struct {
  * brick interface
  *------------------------------------------------*/
 
-func (b *BMAccountPushBrick) Exec() error {
+func (b *BmAccountGenerateToken) Exec() error {
 	var err error
-	var tmp account.BmAccount = b.bk.Pr.(account.BmAccount)
+	tmp := b.bk.Pr.(account.BmAccount)
 
-	if tmp.Id != "" && tmp.Id_.Valid() {
-		if tmp.Valid() && tmp.IsAccountRegisted() {
-			//TODO: error处理
-			b.bk.Err = -8
-		} else {
-			//TODO: 临时版本暂时注掉rsa加密
-			//TODO: 配置参数化
-			//err = tmp.DecodeByCompanyDate("BlackMirror", "2018")
-			//if err != nil {
-			//	return err
-			//}
-			//tmp.Secret2MD5()
+	h := md5.New()
+	io.WriteString(h, tmp.Id)
+	token := fmt.Sprintf("%x", h.Sum(nil))
+	err = bmoauth.PushToken(token)
 
-			tmp.InsertBMObject()
-			tmp.SecretWord = ""
-			b.bk.Pr = tmp
-		}
+	bmls := auth.BmLoginSucceedBySaaS{
+		Id: tmp.Id,
+		Id_: tmp.Id_,
+		Account:tmp,
+		Token:token,
 	}
 
+	b.BrickInstance().Pr = bmls
 	return err
 }
 
-func (b *BMAccountPushBrick) Prepare(pr interface{}) error {
-
+func (b *BmAccountGenerateToken) Prepare(pr interface{}) error {
 	req := pr.(account.BmAccount)
 	b.BrickInstance().Pr = req
 	return nil
 }
 
-func (b *BMAccountPushBrick) Done(pkg string, idx int64, e error) error {
+func (b *BmAccountGenerateToken) Done(pkg string, idx int64, e error) error {
 	tmp, _ := bmpkg.GetPkgLen(pkg)
 	ec := b.BrickInstance().Err
 	if int(idx) < tmp-1 && ec == 0 {
@@ -61,27 +58,27 @@ func (b *BMAccountPushBrick) Done(pkg string, idx int64, e error) error {
 	return nil
 }
 
-func (b *BMAccountPushBrick) BrickInstance() *bmpipe.BMBrick {
+func (b *BmAccountGenerateToken) BrickInstance() *bmpipe.BMBrick {
 	if b.bk == nil {
 		b.bk = &bmpipe.BMBrick{}
 	}
 	return b.bk
 }
 
-func (b *BMAccountPushBrick) ResultTo(w io.Writer) error {
+func (b *BmAccountGenerateToken) ResultTo(w io.Writer) error {
 	pr := b.BrickInstance().Pr
 	tmp := pr.(account.BmAccount)
 	err := jsonapi.ToJsonAPI(&tmp, w)
 	return err
 }
 
-func (b *BMAccountPushBrick) Return(w http.ResponseWriter) {
+func (b *BmAccountGenerateToken) Return(w http.ResponseWriter) {
 	ec := b.BrickInstance().Err
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		//reval := b.BrickInstance().Pr.(auth.BmLoginSucceedBySaaS)
-		reval := b.BrickInstance().Pr.(account.BmAccount)
+		reval := b.BrickInstance().Pr.(auth.BmLoginSucceedBySaaS)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }
+

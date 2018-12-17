@@ -2,13 +2,11 @@ package account
 
 import (
 	"crypto/md5"
-	"encoding/base64"
 	"fmt"
 	"github.com/alfredyang1986/blackmirror/bmconfighandle"
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
-	"github.com/alfredyang1986/blackmirror/bmsecurity"
-	"github.com/alfredyang1986/ddsaas/bmmodel/auth"
+	//"github.com/alfredyang1986/ddsaas/bmmodel/auth"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"io"
@@ -21,6 +19,8 @@ type BmAccount struct {
 
 	Account    string `json:"account" bson:"account"`
 	SecretWord string `json:"secretword" bson:"secretword"`
+	//TODO:临时版本
+	Token      string `json:"token"`
 	BrandId    string `json:"brandId" bson:"brandId"`
 }
 
@@ -83,33 +83,33 @@ func (bd *BmAccount) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
-func (bd *BmAccount) DecodeByCompanyDate(company string, date string) error {
-
-	var bmRsaKey auth.BMRsaKey = auth.BMRsaKey{
-		Company: company,
-		Date:    date,
-	}
-
-	privateKey, err := bmRsaKey.GetPrivateKey()
-	if err != nil {
-		return err
-	}
-
-	secretWord := bd.SecretWord
-	secretByte, err := base64.StdEncoding.DecodeString(secretWord)
-	if err != nil {
-		return err
-	}
-
-	originByte, err := bmsecurity.PhRsaDecrypt(privateKey, secretByte)
-	if err != nil {
-		return err
-	}
-
-	bd.SecretWord = string(originByte)
-
-	return nil
-}
+//func (bd *BmAccount) DecodeByCompanyDate(company string, date string) error {
+//
+//	var bmRsaKey auth.BMRsaKey = auth.BMRsaKey{
+//		Company: company,
+//		Date:    date,
+//	}
+//
+//	privateKey, err := bmRsaKey.GetPrivateKey()
+//	if err != nil {
+//		return err
+//	}
+//
+//	secretWord := bd.SecretWord
+//	secretByte, err := base64.StdEncoding.DecodeString(secretWord)
+//	if err != nil {
+//		return err
+//	}
+//
+//	originByte, err := bmsecurity.PhRsaDecrypt(privateKey, secretByte)
+//	if err != nil {
+//		return err
+//	}
+//
+//	bd.SecretWord = string(originByte)
+//
+//	return nil
+//}
 
 func (bd *BmAccount) Secret2MD5() {
 

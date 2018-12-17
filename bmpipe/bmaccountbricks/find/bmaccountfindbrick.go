@@ -1,15 +1,18 @@
 package accountfind
 
 import (
+	"crypto/md5"
+	"fmt"
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
-	"github.com/alfredyang1986/ddsaas/bmmodel/account"
-	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmerror"
+	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
+	"github.com/alfredyang1986/blackmirror/bmrouter/bmoauth"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
-	"net/http"
+	"github.com/alfredyang1986/ddsaas/bmmodel/account"
 	"io"
+	"net/http"
 )
 
 type BMAccountFindBrick struct {
@@ -24,6 +27,14 @@ func (b *BMAccountFindBrick) Exec() error {
 	var tmp account.BmAccount
 	err := tmp.FindOne(*b.bk.Req)
 	tmp.SecretWord = ""
+
+	h := md5.New()
+	io.WriteString(h, tmp.Id)
+	token := fmt.Sprintf("%x", h.Sum(nil))
+	err = bmoauth.PushToken(token)
+
+	tmp.Token = token
+
 	b.bk.Pr = tmp
 	return err
 }
@@ -77,7 +88,8 @@ func (b *BMAccountFindBrick) Return(w http.ResponseWriter) {
 	if ec != 0 {
 		bmerror.ErrInstance().ErrorReval(ec, w)
 	} else {
-		var reval account.BmAccount = b.BrickInstance().Pr.(account.BmAccount)
+		//reval := b.BrickInstance().Pr.(auth.BmLoginSucceedBySaaS)
+		reval := b.BrickInstance().Pr.(account.BmAccount)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
 }
