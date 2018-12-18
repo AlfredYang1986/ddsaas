@@ -26,14 +26,15 @@ type BMAccountFindBrick struct {
 func (b *BMAccountFindBrick) Exec() error {
 	var tmp account.BmAccount
 	err := tmp.FindOne(*b.bk.Req)
-	tmp.SecretWord = ""
 
-	h := md5.New()
-	io.WriteString(h, tmp.Id)
-	token := fmt.Sprintf("%x", h.Sum(nil))
-	err = bmoauth.PushToken(token)
-
-	tmp.Token = token
+	if tmp.Account != "" {
+		h := md5.New()
+		io.WriteString(h, tmp.Id)
+		token := fmt.Sprintf("%x", h.Sum(nil))
+		err = bmoauth.PushToken(token)
+		tmp.Token = token
+		tmp.SecretWord = ""
+	}
 
 	b.bk.Pr = tmp
 	return err
