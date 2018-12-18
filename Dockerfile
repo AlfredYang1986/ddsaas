@@ -2,6 +2,8 @@ FROM golang:alpine
 
 RUN apk add --no-cache git mercurial
 
+LABEL ddsaas.version="1.1.0" maintainer="Jeorch"
+
 RUN go get github.com/alfredyang1986/blackmirror
 RUN go get github.com/alfredyang1986/ddsaas
 
