@@ -15,11 +15,9 @@ type BmAttendee struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	BrandId string `json:"brandId" bson:"brandId"`
-
-	KidId   string `json:"kidId" bson:"kidId"`
-	ApplyId string `json:"applyId" bson:"applyId"`
-
+	BrandId     string `json:"brandId" bson:"brandId"`
+	KidId       string `json:"kidId" bson:"kidId"`
+	ApplyId     string `json:"applyId" bson:"applyId"`
 	TeacherId   string `json:"teacherId" bson:"teacherId"`
 	TeacherName string `json:"teacherName" bson:"teacherName"`
 	SourceWay   string `json:"sourceWay" bson:"sourceWay"`
@@ -27,23 +25,21 @@ type BmAttendee struct {
 	Intro       string  `json:"intro" bson:"intro"`
 	Status      string  `json:"status" bson:"status"` //未付款-candidate, 已付款-stud
 	LessonCount float64 `json:"lesson_count" bson:"lesson_count"`
+	Name        string  `json:"name" bson:"name"`
+	Nickname    string  `json:"nickname" bson:"nickname"`
+	Icon        string  `json:"icon" bson:"icon"`
+	Dob         float64 `json:"dob" bson:"dob"`
+	Gender      float64 `json:"gender" bson:"gender"`
+	RegDate     float64 `json:"reg_date" bson:"reg_date"`
+	CreateTime  int64   `json:"create_time" bson:"create_time"`
+	Contact     string  `json:"contact" bson:"contact"`
+	WeChat      string  `json:"wechat" bson:"wechat"`
+	Address     string  `json:"address" bson:"address"`
+	School      string  `json:"school" bson:"school"`
+	IdCardNo    string  `json:"idCardNo" bson:"idCardNo"`
 
-	Name     string  `json:"name" bson:"name"`
-	Nickname string  `json:"nickname" bson:"nickname"`
-	Icon     string  `json:"icon" bson:"icon"`
-	Dob      float64 `json:"dob" bson:"dob"`
-	Gender   float64 `json:"gender" bson:"gender"`
-	RegDate  float64 `json:"reg_date" bson:"reg_date"`
-	Contact  string  `json:"contact" bson:"contact"`
-	WeChat   string  `json:"wechat" bson:"wechat"`
-
-	//Person    person.BmPerson       `json:"Person" jsonapi:"relationships"`
 	Guardians []guardian.BmGuardian `json:"Guardians" jsonapi:"relationships"`
 	Applyees  []applyee.BmApplyee   `json:"Applyees" jsonapi:"relationships"`
-	//Payments  []payment.BMPayment   `json:"Payments" jsonapi:"relationships"`
-	Address   string                `json:"address" bson:"address"`
-	School    string                `json:"school" bson:"school"`
-	IdCardNo  string                `json:"idCardNo" bson:"idCardNo"`
 }
 
 /*------------------------------------------------
@@ -97,12 +93,12 @@ func (bd BmAttendee) SetConnect(tag string, v interface{}) interface{} {
 			rst = append(rst, item.(applyee.BmApplyee))
 		}
 		bd.Applyees = rst
-	//case "Payments":
-	//	var rst []payment.BMPayment
-	//	for _, item := range v.([]interface{}) {
-	//		rst = append(rst, item.(payment.BMPayment))
-	//	}
-	//	bd.Payments = rst
+		//case "Payments":
+		//	var rst []payment.BMPayment
+		//	for _, item := range v.([]interface{}) {
+		//		rst = append(rst, item.(payment.BMPayment))
+		//	}
+		//	bd.Payments = rst
 	}
 	return bd
 }

@@ -19,6 +19,7 @@ type BmApplyee struct {
 	RegisterPhone   string  `json:"regi_phone" bson:"regi_phone"`
 	WeChatOpenid    string  `json:"wechat_openid" bson:"wechat_openid"`
 	WeChatBindPhone string  `json:"wechat_bind_phone" bson:"wechat_bind_phone"`
+	//CreateTime      int64   `json:"create_time" bson:"create_time"`
 }
 
 /*-----------------------------------------------

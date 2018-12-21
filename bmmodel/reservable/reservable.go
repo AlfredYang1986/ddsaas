@@ -12,10 +12,11 @@ type BmReservable struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	BrandId   string  `json:"brandId" bson:"brandId"`
-	Status    float64 `json:"status" bson:"status"` //0活动 1体验课 2普通课程
-	StartDate float64 `json:"start_date" bson:"start_date"`
-	EndDate   float64 `json:"end_date" bson:"end_date"`
+	BrandId    string  `json:"brandId" bson:"brandId"`
+	Status     float64 `json:"status" bson:"status"` //0活动 1体验课 2普通课程
+	StartDate  float64 `json:"start_date" bson:"start_date"`
+	EndDate    float64 `json:"end_date" bson:"end_date"`
+	CreateTime int64   `json:"create_time" bson:"create_time"`
 
 	SessionInfo sessioninfo.BmSessionInfo `json:"SessionInfo" jsonapi:"relationships"`
 }

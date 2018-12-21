@@ -9,6 +9,7 @@ import (
 	"github.com/alfredyang1986/blackmirror/jsonapi"
 	"io"
 	"net/http"
+	"time"
 )
 
 type BMAttendeePushBrick struct {
@@ -28,6 +29,7 @@ func (b *BMAttendeePushBrick) Exec() error {
 	//} else {
 	//	tmp.InsertBMObject()
 	//}
+	tmp.CreateTime = time.Now().UnixNano()
 	tmp.InsertBMObject()
 
 	b.bk.Pr = tmp

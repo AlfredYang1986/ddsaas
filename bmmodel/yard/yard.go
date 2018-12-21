@@ -3,6 +3,7 @@ package yard
 import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
+	"github.com/alfredyang1986/ddsaas/bmmodel/certification"
 	"github.com/alfredyang1986/ddsaas/bmmodel/room"
 	"github.com/alfredyang1986/ddsaas/bmmodel/tagimg"
 	"gopkg.in/mgo.v2/bson"
@@ -21,26 +22,26 @@ type BmYard struct {
 	/**
 	 * 在构建过程中，yard可能成为地址搜索的条件
 	 */
-	Province string `json:"province" bson:"province"`
-	City     string `json:"city" bson:"city"`
-	District string `json:"district" bson:"district"`
-	Address   string `json:"address" bson:"address"`
-	TrafficInfo   string `json:"traffic_info" bson:"traffic_info"`
+	Province       string        `json:"province" bson:"province"`
+	City           string        `json:"city" bson:"city"`
+	District       string        `json:"district" bson:"district"`
+	Address        string        `json:"address" bson:"address"`
+	TrafficInfo    string        `json:"traffic_info" bson:"traffic_info"`
+	Attribute      string        `json:"attribute" bson:"attribute"`
+	Scenario       string        `json:"scenario" bson:"scenario"`
+	OpenTime       string        `json:"openTime" bson:"openTime"`
+	ServiceContact string        `json:"serviceContact" bson:"serviceContact"`
+	Facilities     []interface{} `json:"facilities" bson:"facilities"`
+	//Friendly       []interface{}                   `json:"friendly" bson:"friendly"`
 
 	//RoomCount float64 `json:"room_count"`
 	/**
 	 * 在构建过程中，除了排课逻辑，不会通过query到Room
 	 */
-	Rooms   []room.BmRoom     `json:"Rooms" jsonapi:"relationships"`
-	TagImgs []tagimg.BmTagImg `json:"Tagimgs" jsonapi:"relationships"`
-
-	//TODO:20181109新增的
-	Attribute string `json:"attribute" bson:"attribute"`
-	Scenario  string `json:"scenario" bson:"scenario"`
 	//TODO:Certifications合并成TagImgs,添加category做区分.
-	//Certifications []certification.BmCertification `json:"Certifications" jsonapi:"relationships"`
-	Facilities     []interface{}                   `json:"facilities" bson:"facilities"`
-	//Friendly       []interface{}                   `json:"friendly" bson:"friendly"`
+	Rooms          []room.BmRoom                   `json:"Rooms" jsonapi:"relationships"`
+	TagImgs        []tagimg.BmTagImg               `json:"Tagimgs" jsonapi:"relationships"`
+	Certifications []certification.BmCertification `json:"Certifications" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
@@ -98,15 +99,15 @@ func (bd BmYard) SetConnect(tag string, v interface{}) interface{} {
 			}
 		}
 		bd.TagImgs = rst
-	//case "Certifications":
-	//	var rst []certification.BmCertification
-	//	for _, item := range v.([]interface{}) {
-	//		tmp := item.(certification.BmCertification)
-	//		if len(tmp.Id) > 0 {
-	//			rst = append(rst, tmp)
-	//		}
-	//	}
-	//	bd.Certifications = rst
+	case "Certifications":
+		var rst []certification.BmCertification
+		for _, item := range v.([]interface{}) {
+			tmp := item.(certification.BmCertification)
+			if len(tmp.Id) > 0 {
+				rst = append(rst, tmp)
+			}
+		}
+		bd.Certifications = rst
 	}
 	return bd
 }
@@ -135,6 +136,7 @@ func (bd *BmYard) ReSetProp() error {
 
 	bd.reSetRooms()
 	bd.reSetTagImg()
+	bd.reSetCertifications()
 
 	return nil
 }
@@ -215,4 +217,40 @@ func (bd *BmYard) reSetTagImg() error {
 	return err
 }
 
+func (bd *BmYard) reSetCertifications() error {
 
+	req := request.Request{}
+	req.Res = "BmBindYardCertific"
+	var condi []interface{}
+	eq := request.Eqcond{}
+	eq.Ky = "yardId"
+	eq.Vy = bd.Id
+	condi = append(condi, eq)
+	c := req.SetConnect("conditions", condi)
+
+	var reval []BmBindYardCertific
+	err := bmmodel.FindMutil(c.(request.Request), &reval)
+	if err != nil {
+		return err
+	}
+
+	var condi0 []bson.ObjectId
+	for _, item := range reval {
+		condi0 = append(condi0, bson.ObjectIdHex(item.CertificationId))
+	}
+
+	tt := make(map[string]interface{})
+	tt["$in"] = condi0
+	or_condi := bson.M{"_id": tt}
+
+	var cert []certification.BmCertification
+	err = bmmodel.FindMutilWithBson("BmCertification", or_condi, &cert)
+
+	for i, ir := range cert {
+		ir.ResetIdWithId_()
+		cert[i] = ir
+	}
+	bd.Certifications = cert
+
+	return err
+}

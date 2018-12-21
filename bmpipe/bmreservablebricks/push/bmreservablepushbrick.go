@@ -9,6 +9,7 @@ import (
 	"github.com/alfredyang1986/blackmirror/jsonapi"
 	"io"
 	"net/http"
+	"time"
 )
 
 type BmReservablePushBrick struct {
@@ -21,6 +22,7 @@ type BmReservablePushBrick struct {
 
 func (b *BmReservablePushBrick) Exec() error {
 	tmp := b.bk.Pr.(reservable.BmReservable)
+	tmp.CreateTime = time.Now().UnixNano()
 	err := tmp.InsertBMObject()
 	b.bk.Pr = tmp
 	return err

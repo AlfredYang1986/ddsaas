@@ -14,11 +14,11 @@ type BmSessionable struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Status    float64 `json:"status" bson:"status"` //0活动 1体验课 2普通课程
-	StartDate float64 `json:"start_date" bson:"start_date"`
-	EndDate   float64 `json:"end_date" bson:"end_date"`
-
-	ReservableId string `json:"reservableId" bson:"reservableId"`
+	Status       float64 `json:"status" bson:"status"` //0活动 1体验课 2普通课程
+	StartDate    float64 `json:"start_date" bson:"start_date"`
+	EndDate      float64 `json:"end_date" bson:"end_date"`
+	CreateTime   int64   `json:"create_time" bson:"create_time"`
+	ReservableId string  `json:"reservableId" bson:"reservableId"`
 
 	Yard        yard.BmYard               `json:"Yard" jsonapi:"relationships"`
 	SessionInfo sessioninfo.BmSessionInfo `json:"SessionInfo" jsonapi:"relationships"`

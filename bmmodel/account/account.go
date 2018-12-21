@@ -19,9 +19,10 @@ type BmAccount struct {
 
 	Account    string `json:"account" bson:"account"`
 	SecretWord string `json:"secretword" bson:"secretword"`
+	//CreateTime int64  `json:"create_time" bson:"create_time"`
 	//TODO:临时版本
-	Token      string `json:"token"`
-	BrandId    string `json:"brandId" bson:"brandId"`
+	Token   string `json:"token"`
+	BrandId string `json:"brandId" bson:"brandId"`
 }
 
 /*------------------------------------------------
@@ -134,7 +135,7 @@ func (bd BmAccount) IsAccountRegisted() bool {
 	}
 	defer session.Close()
 
-	c := session.DB("test").C("BmAccount")
+	c := session.DB(bmMongoConfig.Database).C("BmAccount")
 	n, err := c.Find(bson.M{"account": bd.Account}).Count()
 	if err != nil {
 		panic(err)

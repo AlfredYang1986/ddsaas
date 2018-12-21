@@ -10,6 +10,7 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmmodel/teacher"
 	"io"
 	"net/http"
+	"time"
 )
 
 type BmTeacherPushBrick struct {
@@ -22,9 +23,7 @@ type BmTeacherPushBrick struct {
 
 func (b *BmTeacherPushBrick) Exec() error {
 	var tmp teacher.BmTeacher = b.bk.Pr.(teacher.BmTeacher)
-	//TODO： use type Timestamp
-	//ts := time.Now().Unix()
-	//tmp.Found = ts
+	tmp.CreateTime = time.Now().UnixNano()
 	tmp.InsertBMObject()
 	b.bk.Pr = tmp
 	return nil
@@ -32,7 +31,6 @@ func (b *BmTeacherPushBrick) Exec() error {
 
 func (b *BmTeacherPushBrick) Prepare(pr interface{}) error {
 	req := pr.(teacher.BmTeacher)
-	//b.bk.Pr = req
 	b.BrickInstance().Pr = req
 	return nil
 }

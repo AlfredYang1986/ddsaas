@@ -16,28 +16,19 @@ type BmBrand struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Title      string `json:"title" bson:"title"`
-	Subtitle   string `json:"subtitle" bson:"subtitle"`
-	Found      float64  `json:"found"`
-	FoundStory string `json:"foundStory" bson:"foundStory"`
-
-	//TODO:20181109新增的
-	Cate      category.BmCategory `json:"Cate" jsonapi:"relationships"` //类别
-	Logo      string              `json:"logo" bson:"logo"`             //品牌logo
-	Slogan    string              `json:"slogan" bson:"slogan"`         //一句话介绍
-	BrandTags []interface{}       `json:"brand_tags" bson:"brand_tags"` //HightLight[与众不同],3-5条,一条5个字
-	EduIdea   string              `json:"edu_idea" bson:"edu_idea"`     //教育理念
-	AboutUs   string              `json:"about_us" bson:"about_us"`     //团队
+	Title      string        `json:"title" bson:"title"`
+	Subtitle   string        `json:"subtitle" bson:"subtitle"`
+	Found      float64       `json:"found"`
+	FoundStory string        `json:"foundStory" bson:"foundStory"`
+	Logo       string        `json:"logo" bson:"logo"`             //品牌logo
+	Slogan     string        `json:"slogan" bson:"slogan"`         //一句话介绍
+	BrandTags  []interface{} `json:"brand_tags" bson:"brand_tags"` //HightLight[与众不同],3-5条,一条5个字
+	EduIdea    string        `json:"edu_idea" bson:"edu_idea"`     //教育理念
+	AboutUs    string        `json:"about_us" bson:"about_us"`     //团队
 	//TODO:Honors和Certifications合并成TagImgs,添加category做区分.
+	Cate           category.BmCategory             `json:"Cate" jsonapi:"relationships"` //类别
 	Honors         []honor.BmHonor                 `json:"Honors" jsonapi:"relationships"`
 	Certifications []certification.BmCertification `json:"Certifications" jsonapi:"relationships"`
-
-	//Students []student.BMStudent `json:"students" jsonapi:"relationships"`
-	//Attendees []attendee.BmAttendee `json:"attendees" jsonapi:"relationships"`
-	//Teachers []teacher.BmTeacher    `json:"teachers" jsonapi:"relationships"`
-	//Sales    []sales.BMSales        `json:"sales" jsonapi:"relationships"`
-
-	//Yard []yard.BMYard `json:"yard" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
