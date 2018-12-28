@@ -23,7 +23,7 @@ type BmTeacherPushBrick struct {
 
 func (b *BmTeacherPushBrick) Exec() error {
 	var tmp teacher.BmTeacher = b.bk.Pr.(teacher.BmTeacher)
-	tmp.CreateTime = time.Now().UnixNano()
+	tmp.CreateTime = time.Now().UnixNano() / 1e6
 	tmp.InsertBMObject()
 	b.bk.Pr = tmp
 	return nil

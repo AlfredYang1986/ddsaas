@@ -22,7 +22,7 @@ type BmApplyPushBrick struct {
 
 func (b *BmApplyPushBrick) Exec() error {
 	tmp := b.bk.Pr.(apply.BmApply)
-	tmp.CreateTime = time.Now().UnixNano()
+	tmp.CreateTime = time.Now().UnixNano() / 1e6
 	err := tmp.InsertBMObject()
 	b.bk.Pr = tmp
 	return err
