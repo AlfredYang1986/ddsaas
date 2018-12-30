@@ -7,10 +7,10 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
-	"io"
-	"net/http"
 	"github.com/alfredyang1986/ddsaas/bmmodel/yard"
 	"gopkg.in/mgo.v2/bson"
+	"io"
+	"net/http"
 )
 
 type BmBindYardPropBrick struct {
@@ -24,6 +24,11 @@ type BmBindYardPropBrick struct {
 func (b *BmBindYardPropBrick) Exec() error {
 	tmp := b.bk.Pr.(yard.BmYard)
 
+	byr := yard.BmBindYardRoom{}
+	byr.Id_ = bson.NewObjectId()
+	byr.Id = byr.Id_.Hex()
+	byr.YardId = tmp.Id
+	byr.Clear()
 	for _, item := range tmp.Rooms {
 		ist := yard.BmBindYardRoom{}
 		ist.Id_ = bson.NewObjectId()
@@ -34,16 +39,25 @@ func (b *BmBindYardPropBrick) Exec() error {
 		ist.InsertBMObject()
 	}
 
+	byi := yard.BmBindYardImg{}
+	byi.Id_ = bson.NewObjectId()
+	byi.Id = byi.Id_.Hex()
+	byi.YardId = tmp.Id
+	byi.Clear()
 	for _, item := range tmp.TagImgs {
 		ist := yard.BmBindYardImg{}
 		ist.Id_ = bson.NewObjectId()
 		ist.Id = ist.Id_.Hex()
 		ist.YardId = tmp.Id
 		ist.TagImgId = item.Id
-		ist.CheckExist()
 		ist.InsertBMObject()
 	}
 
+	byc := yard.BmBindYardCertific{}
+	byc.Id_ = bson.NewObjectId()
+	byc.Id = byc.Id_.Hex()
+	byc.YardId = tmp.Id
+	byc.Clear()
 	for _, item := range tmp.Certifications {
 		ist := yard.BmBindYardCertific{}
 		ist.Id_ = bson.NewObjectId()
@@ -59,7 +73,6 @@ func (b *BmBindYardPropBrick) Exec() error {
 
 func (b *BmBindYardPropBrick) Prepare(pr interface{}) error {
 	req := pr.(yard.BmYard)
-	//b.bk.Pr = req
 	b.BrickInstance().Pr = req
 	return nil
 }

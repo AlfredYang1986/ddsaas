@@ -72,3 +72,22 @@ func (bd *BmBindYardCertific) FindOne(req request.Request) error {
 func (bd *BmBindYardCertific) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
+
+func (bd *BmBindYardCertific) DeleteAll(req request.Request) error {
+	return bmmodel.DeleteAll(req)
+}
+
+func (bd *BmBindYardCertific) Clear() error {
+
+	eq1 := request.Eqcond{}
+	eq1.Ky = "yardId"
+	eq1.Vy = bd.YardId
+	req := request.Request{}
+	req.Res = "BmBindYardCertific"
+	var condi []interface{}
+	condi = append(condi, eq1)
+	c := req.SetConnect("conditions", condi)
+	var bind BmBindYardCertific
+	err := bind.DeleteAll(c.(request.Request))
+	return err
+}

@@ -29,7 +29,7 @@ type BmTeacher struct {
 	TeachYears  float64 `json:"teachYears" bson:"teachYears"`
 	Address     string  `json:"address" bson:"address"`
 	NativePlace string  `json:"nativePlace" bson:"nativePlace"`
-	CreateTime  int64   `json:"create_time" bson:"create_time"`
+	CreateTime  float64   `json:"create_time" bson:"create_time"`
 }
 
 /*------------------------------------------------

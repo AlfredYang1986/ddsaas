@@ -73,6 +73,10 @@ func (bd *BmBindYardRoom) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
+func (bd *BmBindYardRoom) DeleteAll(req request.Request) error {
+	return bmmodel.DeleteAll(req)
+}
+
 func (bd *BmBindYardRoom) CheckExist() error {
 
 	eq1 := request.Eqcond{}
@@ -93,5 +97,20 @@ func (bd *BmBindYardRoom) CheckExist() error {
 		bd.SetId(bind.Id)
 		bd.SetObjectId(bind.Id_)
 	}
+	return err
+}
+
+func (bd *BmBindYardRoom) Clear() error {
+
+	eq1 := request.Eqcond{}
+	eq1.Ky = "yardId"
+	eq1.Vy = bd.YardId
+	req := request.Request{}
+	req.Res = "BmBindYardRoom"
+	var condi []interface{}
+	condi = append(condi, eq1)
+	c := req.SetConnect("conditions", condi)
+	var bind BmBindYardRoom
+	err := bind.DeleteAll(c.(request.Request))
 	return err
 }

@@ -29,7 +29,7 @@ func (b *BMAttendeePushBrick) Exec() error {
 	//} else {
 	//	tmp.InsertBMObject()
 	//}
-	tmp.CreateTime = time.Now().UnixNano() / 1e6
+	tmp.CreateTime = float64(time.Now().UnixNano() / 1e6)
 	tmp.InsertBMObject()
 
 	b.bk.Pr = tmp

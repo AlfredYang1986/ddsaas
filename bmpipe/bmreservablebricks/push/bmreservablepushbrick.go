@@ -22,7 +22,7 @@ type BmReservablePushBrick struct {
 
 func (b *BmReservablePushBrick) Exec() error {
 	tmp := b.bk.Pr.(reservable.BmReservable)
-	tmp.CreateTime = time.Now().UnixNano() / 1e6
+	tmp.CreateTime = float64(time.Now().UnixNano() / 1e6)
 	err := tmp.InsertBMObject()
 	b.bk.Pr = tmp
 	return err

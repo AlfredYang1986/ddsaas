@@ -22,7 +22,7 @@ type BmSessionablePushBrick struct {
 
 func (b *BmSessionablePushBrick) Exec() error {
 	tmp := b.bk.Pr.(sessionable.BmSessionable)
-	tmp.CreateTime = time.Now().UnixNano() / 1e6
+	tmp.CreateTime = float64(time.Now().UnixNano() / 1e6)
 	err := tmp.InsertBMObject()
 	b.bk.Pr = tmp
 	return err
