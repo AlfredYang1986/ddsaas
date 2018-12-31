@@ -4,7 +4,6 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/ddsaas/bmmodel/certification"
-	"github.com/alfredyang1986/ddsaas/bmmodel/room"
 	"github.com/alfredyang1986/ddsaas/bmmodel/tagimg"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -39,7 +38,6 @@ type BmYard struct {
 	 * 在构建过程中，除了排课逻辑，不会通过query到Room
 	 */
 	//TODO:Certifications合并成TagImgs,添加category做区分.
-	Rooms          []room.BmRoom                   `json:"Rooms" jsonapi:"relationships"`
 	TagImgs        []tagimg.BmTagImg               `json:"Tagimgs" jsonapi:"relationships"`
 	Certifications []certification.BmCertification `json:"Certifications" jsonapi:"relationships"`
 }
@@ -81,15 +79,6 @@ func (bd *BmYard) SetId(id string) {
  *------------------------------------------------*/
 func (bd BmYard) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
-	case "Rooms":
-		var rst []room.BmRoom
-		for _, item := range v.([]interface{}) {
-			tmp := item.(room.BmRoom)
-			if len(tmp.Id) > 0 {
-				rst = append(rst, tmp)
-			}
-		}
-		bd.Rooms = rst
 	case "Tagimgs":
 		var rst []tagimg.BmTagImg
 		for _, item := range v.([]interface{}) {
@@ -134,49 +123,10 @@ func (bd *BmYard) UpdateBMObject(req request.Request) error {
 
 func (bd *BmYard) ReSetProp() error {
 
-	bd.reSetRooms()
 	bd.reSetTagImg()
 	bd.reSetCertifications()
 
 	return nil
-}
-
-func (bd *BmYard) reSetRooms() error {
-
-	req := request.Request{}
-	req.Res = "BmBindYardRoom"
-	var condi []interface{}
-	eq := request.Eqcond{}
-	eq.Ky = "yardId"
-	eq.Vy = bd.Id
-	condi = append(condi, eq)
-	c := req.SetConnect("conditions", condi)
-
-	var reval []BmBindYardRoom
-	err := bmmodel.FindMutil(c.(request.Request), &reval)
-	if err != nil {
-		return err
-	}
-
-	var condi0 []bson.ObjectId
-	for _, item := range reval {
-		condi0 = append(condi0, bson.ObjectIdHex(item.RoomId))
-	}
-
-	tt := make(map[string]interface{})
-	tt["$in"] = condi0
-	or_condi := bson.M{"_id": tt}
-
-	var rooms []room.BmRoom
-	err = bmmodel.FindMutilWithBson("BmRoom", or_condi, &rooms)
-
-	for i, ir := range rooms {
-		ir.ResetIdWithId_()
-		rooms[i] = ir
-	}
-	bd.Rooms = rooms
-
-	return err
 }
 
 func (bd *BmYard) reSetTagImg() error {

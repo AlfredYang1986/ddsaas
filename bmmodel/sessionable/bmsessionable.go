@@ -17,7 +17,8 @@ type BmSessionable struct {
 	Status       float64 `json:"status" bson:"status"` //0活动 1体验课 2普通课程
 	StartDate    float64 `json:"start_date" bson:"start_date"`
 	EndDate      float64 `json:"end_date" bson:"end_date"`
-	CreateTime   float64   `json:"create_time" bson:"create_time"`
+	CreateTime   float64 `json:"create_time" bson:"create_time"`
+	BrandId      string  `json:"brandId" bson:"brandId"`
 	ReservableId string  `json:"reservableId" bson:"reservableId"`
 
 	Yard        yard.BmYard               `json:"Yard" jsonapi:"relationships"`

@@ -6,25 +6,22 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type BmRoom struct {
+type BmRooms struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	YardId   string  `json:"yardId" bson:"yardId"`
-	Title    string  `json:"title" bson:"title"`
-	RoomType float64  `json:"roomType" bson:"roomType"`
-	Capacity float64 `json:"capacity" bson:"capacity"`
+	Rooms []BmRoom `json:"Rooms" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
  * bm object interface
  *------------------------------------------------*/
 
-func (bd *BmRoom) ResetIdWithId_() {
+func (bd *BmRooms) ResetIdWithId_() {
 	bmmodel.ResetIdWithId_(bd)
 }
 
-func (bd *BmRoom) ResetId_WithID() {
+func (bd *BmRooms) ResetId_WithID() {
 	bmmodel.ResetId_WithID(bd)
 }
 
@@ -32,30 +29,30 @@ func (bd *BmRoom) ResetId_WithID() {
  * bmobject interface
  *------------------------------------------------*/
 
-func (bd *BmRoom) QueryObjectId() bson.ObjectId {
+func (bd *BmRooms) QueryObjectId() bson.ObjectId {
 	return bd.Id_
 }
 
-func (bd *BmRoom) QueryId() string {
+func (bd *BmRooms) QueryId() string {
 	return bd.Id
 }
 
-func (bd *BmRoom) SetObjectId(id_ bson.ObjectId) {
+func (bd *BmRooms) SetObjectId(id_ bson.ObjectId) {
 	bd.Id_ = id_
 }
 
-func (bd *BmRoom) SetId(id string) {
+func (bd *BmRooms) SetId(id string) {
 	bd.Id = id
 }
 
 /*------------------------------------------------
  * relationships interface
  *------------------------------------------------*/
-func (bd BmRoom) SetConnect(tag string, v interface{}) interface{} {
+func (bd BmRooms) SetConnect(tag string, v interface{}) interface{} {
 	return bd
 }
 
-func (bd BmRoom) QueryConnect(tag string) interface{} {
+func (bd BmRooms) QueryConnect(tag string) interface{} {
 	return bd
 }
 
@@ -63,18 +60,23 @@ func (bd BmRoom) QueryConnect(tag string) interface{} {
  * mongo interface
  *------------------------------------------------*/
 
-func (bd *BmRoom) InsertBMObject() error {
+func (bd *BmRooms) InsertBMObject() error {
 	return bmmodel.InsertBMObject(bd)
 }
 
-func (bd *BmRoom) FindOne(req request.Request) error {
+func (bd *BmRooms) FindOne(req request.Request) error {
 	return bmmodel.FindOne(req, bd)
 }
 
-func (bd *BmRoom) UpdateBMObject(req request.Request) error {
+func (bd *BmRooms) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
-func (bd *BmRoom) DeleteOne(req request.Request) error {
-	return bmmodel.DeleteOne(req, bd)
+func (bd *BmRooms) FindMulti(req request.Request) error {
+	err := bmmodel.FindMutil(req, &bd.Rooms)
+	for i, r := range bd.Rooms {
+		r.ResetIdWithId_()
+		bd.Rooms[i] = r
+	}
+	return err
 }

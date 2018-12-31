@@ -43,12 +43,14 @@ import (
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmreservablebricks/delect"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmreservablebricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmreservablebricks/push"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmroombricks/delete"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmroombricks/find"
+	"github.com/alfredyang1986/ddsaas/bmpipe/bmroombricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmsessionablebricks/delete"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmsessionablebricks/find"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmsessionablebricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmtagimgsbricks/push"
 	"github.com/alfredyang1986/ddsaas/bmpipe/bmteacherbricks/update"
-	"github.com/alfredyang1986/ddsaas/bmpipe/bmyardbricks/update"
 	"net/http"
 	"sync"
 
@@ -165,15 +167,20 @@ func main() {
 	fac.RegisterModel("BmBrandBindProp", &brandpush.BmBrandBindProp{})
 	fac.RegisterModel("BmBrandFindBrick", &brandfind.BmBrandFindBrick{})
 
+	/*------------------------------------------------
+	 * teacher bricks object
+	 *------------------------------------------------*/
 	fac.RegisterModel("BmTeacherPushBrick", &teacherpush.BmTeacherPushBrick{})
-	//fac.RegisterModel("BmTeacherPersonPushBrick", &teacherpush.BmTeacherPersonPushBrick{})
-	//fac.RegisterModel("BmTeacherPushPersonRS", &teacherpush.BmTeacherPushPersonRS{})
 	fac.RegisterModel("BmTeacherFindBrick", &teacherfind.BmTeacherFindBrick{})
-	//fac.RegisterModel("BmTeacherRS2Teacher", &teacherfind.BmTeacherRS2Teacher{})
-	//fac.RegisterModel("BmPersonFindBrick", &teather_person.BmPersonTeacherFindBrick{})
-	//fac.RegisterModel("BmPersonTeacherRS", &teather_person.BmPersonTeacherRS{})
 	fac.RegisterModel("BmTeacherFindMultiBrick", &teacherfind.BmTeacherFindMultiBrick{})
-	//fac.RegisterModel("BmTeacherMultiRS", &teacherfind.BmTeacherMultiRS{})
+
+	/*------------------------------------------------
+	 * room bricks object
+	 *------------------------------------------------*/
+	fac.RegisterModel("BmRoomPushBrick", &roompush.BmRoomPushBrick{})
+	fac.RegisterModel("BmRoomFindBrick", &roomfind.BmRoomFindBrick{})
+	fac.RegisterModel("BmRoomDeleteBrick", &roomdelete.BmRoomDeleteBrick{})
+	fac.RegisterModel("BmRoomFindMultiBrick", &roomfind.BmRoomFindMultiBrick{})
 
 	/*------------------------------------------------
 	 * yard brick object
@@ -186,7 +193,6 @@ func main() {
 
 	fac.RegisterModel("BmYardPushBrick", &yardpush.BmYardPushBrick{})
 	fac.RegisterModel("BmTagImgYardPushBrick", &yardpush.BmTagImgYardPushBrick{})
-	fac.RegisterModel("BmYardRoomPushBrick", &yardpush.BmYardRoomPushBrick{})
 	fac.RegisterModel("BmYardPushCertificationBrick", &yardpush.BmYardPushCertificationBrick{})
 	fac.RegisterModel("BmBindYardPropBrick", &yardpush.BmBindYardPropBrick{})
 	fac.RegisterModel("BmYardFindBrick", &yardfind.BmYardFindBrick{})
@@ -274,7 +280,6 @@ func main() {
 	fac.RegisterModel("BmAttendeeUpdateBrick", &attendeeupdate.BmAttendeeUpdateBrick{})
 	fac.RegisterModel("BmGuardianUpdateBrick", &attendeeupdate.BmGuardianUpdateBrick{})
 	fac.RegisterModel("BmTeacherUpdateBrick", &teacherupdate.BmTeacherUpdateBrick{})
-	fac.RegisterModel("BmYardUpdateBrick", &yardupdate.BmYardUpdateBrick{})
 	fac.RegisterModel("BmSessionInfoUpdateBrick", &courseinfoupdate.BmSessionInfoUpdateBrick{})
 	fac.RegisterModel("BmBrandUpdateBrick", &brandupdate.BmBrandUpdateBrick{})
 	fac.RegisterModel("BmCategoryUpdateBrick", &categoryupdate.BmCategoryUpdateBrick{})

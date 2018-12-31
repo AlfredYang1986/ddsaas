@@ -30,7 +30,6 @@ func (b *BmYardFindBrick) Exec() error {
 
 func (b *BmYardFindBrick) Prepare(pr interface{}) error {
 	req := pr.(request.Request)
-	//b.bk.Pr = req
 	b.BrickInstance().Req = &req
 	return nil
 }

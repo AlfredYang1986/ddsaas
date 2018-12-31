@@ -24,21 +24,6 @@ type BmBindYardPropBrick struct {
 func (b *BmBindYardPropBrick) Exec() error {
 	tmp := b.bk.Pr.(yard.BmYard)
 
-	byr := yard.BmBindYardRoom{}
-	byr.Id_ = bson.NewObjectId()
-	byr.Id = byr.Id_.Hex()
-	byr.YardId = tmp.Id
-	byr.Clear()
-	for _, item := range tmp.Rooms {
-		ist := yard.BmBindYardRoom{}
-		ist.Id_ = bson.NewObjectId()
-		ist.Id = ist.Id_.Hex()
-		ist.RoomId = item.Id
-		ist.YardId = tmp.Id
-		ist.CheckExist()
-		ist.InsertBMObject()
-	}
-
 	byi := yard.BmBindYardImg{}
 	byi.Id_ = bson.NewObjectId()
 	byi.Id = byi.Id_.Hex()
