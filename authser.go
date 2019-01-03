@@ -166,6 +166,7 @@ func main() {
 	fac.RegisterModel("BmBrandPushProp", &brandpush.BmBrandPushProp{})
 	fac.RegisterModel("BmBrandBindProp", &brandpush.BmBrandBindProp{})
 	fac.RegisterModel("BmBrandFindBrick", &brandfind.BmBrandFindBrick{})
+	fac.RegisterModel("BmBrandFindMultiBrick", &brandfind.BmBrandFindMultiBrick{})
 
 	/*------------------------------------------------
 	 * teacher bricks object
