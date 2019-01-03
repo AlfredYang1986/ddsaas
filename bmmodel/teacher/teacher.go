@@ -27,9 +27,12 @@ type BmTeacher struct {
 	IdCardNo    string  `json:"idCardNo" bson:"idCardNo"`
 	Major       string  `json:"major" bson:"major"`
 	TeachYears  float64 `json:"teachYears" bson:"teachYears"`
+	Province    string  `json:"province" bson:"province"`
+	City        string  `json:"city" bson:"city"`
+	District    string  `json:"district" bson:"district"`
 	Address     string  `json:"address" bson:"address"`
 	NativePlace string  `json:"nativePlace" bson:"nativePlace"`
-	CreateTime  float64   `json:"create_time" bson:"create_time"`
+	CreateTime  float64 `json:"create_time" bson:"create_time"`
 }
 
 /*------------------------------------------------

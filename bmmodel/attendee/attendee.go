@@ -31,9 +31,12 @@ type BmAttendee struct {
 	Dob         float64 `json:"dob" bson:"dob"`
 	Gender      float64 `json:"gender" bson:"gender"`
 	RegDate     float64 `json:"reg_date" bson:"reg_date"`
-	CreateTime  float64   `json:"create_time" bson:"create_time"`
+	CreateTime  float64 `json:"create_time" bson:"create_time"`
 	Contact     string  `json:"contact" bson:"contact"`
 	WeChat      string  `json:"wechat" bson:"wechat"`
+	Province    string  `json:"province" bson:"province"`
+	City        string  `json:"city" bson:"city"`
+	District    string  `json:"district" bson:"district"`
 	Address     string  `json:"address" bson:"address"`
 	School      string  `json:"school" bson:"school"`
 	IdCardNo    string  `json:"idCardNo" bson:"idCardNo"`
