@@ -73,25 +73,21 @@ func (bd *BmBindBrandCertific) UpdateBMObject(req request.Request) error {
 	return bmmodel.UpdateOne(req, bd)
 }
 
-func (bd *BmBindBrandCertific) CheckExist() error {
+func (bd *BmBindBrandCertific) DeleteAll(req request.Request) error {
+	return bmmodel.DeleteAll(req)
+}
 
-	eq1 := request.Eqcond{}
-	eq1.Ky = "certificationId"
-	eq1.Vy = bd.CertificationId
+func (bd *BmBindBrandCertific) Clear() error {
+
 	eq2 := request.Eqcond{}
 	eq2.Ky = "brandId"
 	eq2.Vy = bd.BrandId
 	req := request.Request{}
 	req.Res = "BmBindBrandCertific"
 	var condi []interface{}
-	condi = append(condi, eq1)
 	condi = append(condi, eq2)
 	c := req.SetConnect("conditions", condi)
 	var bind BmBindBrandCertific
-	err := bind.FindOne(c.(request.Request))
-	if bind.Id != "" {
-		bd.SetId(bind.Id)
-		bd.SetObjectId(bind.Id_)
-	}
+	err := bind.DeleteAll(c.(request.Request))
 	return err
 }

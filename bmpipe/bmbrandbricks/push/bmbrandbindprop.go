@@ -32,23 +32,31 @@ func (b *BmBrandBindProp) Exec() error {
 	bind.CheckExist()
 	err := bind.InsertBMObject()
 
+	bbh := brand.BmBindBrandHonor{}
+	bbh.Id_ = bson.NewObjectId()
+	bbh.Id = bbh.Id_.Hex()
+	bbh.BrandId = tmp.Id
+	bbh.Clear()
 	for _, item := range tmp.Honors {
 		ist := brand.BmBindBrandHonor{}
 		ist.Id_ = bson.NewObjectId()
 		ist.Id = ist.Id_.Hex()
 		ist.HonorId = item.Id
 		ist.BrandId = tmp.Id
-		ist.CheckExist()
 		ist.InsertBMObject()
 	}
 
+	bbc := brand.BmBindBrandCertific{}
+	bbc.Id_ = bson.NewObjectId()
+	bbc.Id = bbc.Id_.Hex()
+	bbc.BrandId = tmp.Id
+	bbc.Clear()
 	for _, item := range tmp.Certifications {
 		ist := brand.BmBindBrandCertific{}
 		ist.Id_ = bson.NewObjectId()
 		ist.Id = ist.Id_.Hex()
 		ist.CertificationId = item.Id
 		ist.BrandId = tmp.Id
-		ist.CheckExist()
 		ist.InsertBMObject()
 	}
 
@@ -58,7 +66,6 @@ func (b *BmBrandBindProp) Exec() error {
 
 func (b *BmBrandBindProp) Prepare(pr interface{}) error {
 	req := pr.(brand.BmBrand)
-	//b.bk.Pr = req
 	b.BrickInstance().Pr = req
 	return nil
 }

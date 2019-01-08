@@ -2,11 +2,11 @@ package reservablepush
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
-	"github.com/alfredyang1986/ddsaas/bmmodel/reservable"
 	"github.com/alfredyang1986/blackmirror/bmerror"
 	"github.com/alfredyang1986/blackmirror/bmpipe"
 	"github.com/alfredyang1986/blackmirror/bmrouter"
 	"github.com/alfredyang1986/blackmirror/jsonapi"
+	"github.com/alfredyang1986/ddsaas/bmmodel/reservable"
 	"github.com/alfredyang1986/ddsaas/bmmodel/sessioninfo"
 	"io"
 	"net/http"
@@ -23,6 +23,15 @@ type BmReservablePushSession struct {
 func (b *BmReservablePushSession) Exec() error {
 	tmp := b.bk.Pr.(reservable.BmReservable)
 	session := tmp.SessionInfo
+
+	//TODO：使用recover做事務回滾？
+	//defer func() {
+	//	if r := recover(); r != nil {
+	//		println("HoHa => Panic Error! Msg:")
+	//		println(r)
+	//	}
+	//}()
+
 	err := session.InsertBMObject()
 	b.bk.Pr = tmp
 	return err

@@ -9,31 +9,28 @@ import (
 )
 
 type BmSessionInfo struct {
-	Id       string        `json:"id"`
-	Id_      bson.ObjectId `bson:"_id"`
-	BrandId  string        `json:"brandId" bson:"brandId"`
-	Title    string        `json:"title" bson:"title"`
-	Subtitle string        `json:"subtitle" bson:"subtitle"`
-	Alb      float64       `json:"alb" bson:"alb"`
-	Aub      float64       `json:"aub" bson:"aub"`
-	Level    string        `json:"level" bson:"level"`
-	Count    float64       `json:"count" bson:"count"`
-	Length   float64       `json:"length" bson:"length"`
-
-	Cate category.BmCategory `json:"Cate" jsonapi:"relationships"`
-
-	//TODO:20181109新增的
-	Description  string            `json:"description" bson:"description"`
-	Harvest      string            `json:"harvest" bson:"harvest"`
-	Acquisition  string            `json:"acquisition" bson:"acquisition"`
-	Accompany    float64           `json:"accompany" bson:"accompany"`
-	Status       float64           `json:"status" bson:"status"` //0活动 1体验课 2普通课程
-	Including    string            `json:"inc" bson:"including"`
-	Carrying     string            `json:"carrying" bson:"carrying"`
-	Notice       string            `json:"notice" bson:"notice"`
-	PlayChildren string            `json:"play_children" bson:"play_children"`
-	Cover        string            `json:"cover" bson:"cover"`
-	TagImgs      []tagimg.BmTagImg `json:"Tagimgs" jsonapi:"relationships"`
+	Id           string              `json:"id"`
+	Id_          bson.ObjectId       `bson:"_id"`
+	BrandId      string              `json:"brandId" bson:"brandId"`
+	Title        string              `json:"title" bson:"title"`
+	Subtitle     string              `json:"subtitle" bson:"subtitle"`
+	Alb          float64             `json:"alb" bson:"alb"`
+	Aub          float64             `json:"aub" bson:"aub"`
+	Level        string              `json:"level" bson:"level"`
+	Count        float64             `json:"count" bson:"count"`
+	Length       float64             `json:"length" bson:"length"`
+	Description  string              `json:"description" bson:"description"`
+	Harvest      string              `json:"harvest" bson:"harvest"`
+	Accompany    float64             `json:"accompany" bson:"accompany"`
+	Status       float64             `json:"status" bson:"status"` //0活动 1体验课 2普通课程
+	Acquisition  []interface{}       `json:"acquisition" bson:"acquisition"`
+	Including    []interface{}       `json:"inc" bson:"including"`
+	Carrying     []interface{}       `json:"carrying" bson:"carrying"`
+	Notice       string              `json:"notice" bson:"notice"`
+	PlayChildren string              `json:"play_children" bson:"play_children"`
+	Cover        string              `json:"cover" bson:"cover"`
+	Cate         category.BmCategory `json:"Cate" jsonapi:"relationships"`
+	TagImgs      []tagimg.BmTagImg   `json:"Tagimgs" jsonapi:"relationships"`
 }
 
 /*------------------------------------------------
@@ -119,8 +116,8 @@ func (bd *BmSessionInfo) ReSetProp() error {
 }
 
 func (bd *BmSessionInfo) DeleteProp() error {
-    bd.deleteBmSessionBindCat()
-    bd.deleteBmBindSessionImg()
+	bd.deleteBmSessionBindCat()
+	bd.deleteBmBindSessionImg()
 	return nil
 }
 
