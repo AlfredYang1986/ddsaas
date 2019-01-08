@@ -4,22 +4,27 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/ddsaas/bmmodel/attendee"
+	"github.com/alfredyang1986/ddsaas/bmmodel/count"
 	"github.com/alfredyang1986/ddsaas/bmmodel/sessioninfo"
 	"github.com/alfredyang1986/ddsaas/bmmodel/teacher"
 	"github.com/alfredyang1986/ddsaas/bmmodel/yard"
 	"gopkg.in/mgo.v2/bson"
+	"time"
 )
 
 type BmSessionable struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Status       float64 `json:"status" bson:"status"` //0活动 1体验课 2普通课程
-	StartDate    float64 `json:"start_date" bson:"start_date"`
-	EndDate      float64 `json:"end_date" bson:"end_date"`
-	CreateTime   float64 `json:"create_time" bson:"create_time"`
-	BrandId      string  `json:"brandId" bson:"brandId"`
-	ReservableId string  `json:"reservableId" bson:"reservableId"`
+	ClassTitle        string  `json:"classTitle" bson:"classTitle"`
+	Status            float64 `json:"status" bson:"status"` //0活动 1体验课 2普通课程
+	StartDate         float64 `json:"start_date" bson:"start_date"`
+	EndDate           float64 `json:"end_date" bson:"end_date"`
+	CreateTime        float64 `json:"create_time" bson:"create_time"`
+	CourseTotalCount  float64 `json:"courseTotalCount"`
+	CourseExpireCount float64 `json:"courseExpireCount"`
+	BrandId           string  `json:"brandId" bson:"brandId"`
+	ReservableId      string  `json:"reservableId" bson:"reservableId"`
 
 	Yard        yard.BmYard               `json:"Yard" jsonapi:"relationships"`
 	SessionInfo sessioninfo.BmSessionInfo `json:"SessionInfo" jsonapi:"relationships"`
@@ -123,6 +128,7 @@ func (bd *BmSessionable) ReSetProp() error {
 	bd.reSetSessionInfo()
 	bd.reSetTeachers()
 	bd.reSetAttendees()
+	bd.reSetCourseCount()
 	return nil
 }
 
@@ -271,6 +277,33 @@ func (bd *BmSessionable) reSetAttendees() error {
 	bd.Attendees = resultArr
 
 	return nil
+}
+
+func (bd *BmSessionable) reSetCourseCount() error {
+
+	req := request.Request{}
+	req.Res = "BmCourseUnit"
+	var eqCondi []interface{}
+	var ltCondi []interface{}
+	eq := request.Eqcond{}
+	eq.Ky = "sessionableId"
+	eq.Vy = bd.Id
+	eqCondi = append(eqCondi, eq)
+	c := req.SetConnect("conditions", eqCondi)
+	req1 := c.(request.Request)
+	var tmp count.BmCount
+	totalCount, err := tmp.FindCount(req1)
+	bd.CourseTotalCount = float64(totalCount)
+
+	lt := request.Ltcond{}
+	lt.Ky = "end_date"
+	lt.Vy = float64(time.Now().UnixNano() / 1e6)
+	ltCondi = append(ltCondi, lt)
+	ltc := req1.SetConnect("Ltcond", ltCondi)
+	expireCount, err := tmp.FindCount(ltc.(request.Request))
+	bd.CourseExpireCount = float64(expireCount)
+
+	return err
 }
 
 func (bd *BmSessionable) deleteBmSessionableBindYard() error {

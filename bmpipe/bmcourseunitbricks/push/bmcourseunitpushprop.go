@@ -22,18 +22,11 @@ type BmCourseUnitPushProp struct {
 
 func (b *BmCourseUnitPushProp) Exec() error {
 	tmp := b.bk.Pr.(courseunit.BmCourseUnit)
-
-	sessionabel := tmp.Sessionable
-	one2one := courseunit.BmCourseUnitBindSessionable{}
-	one2one.CourseUnitId = tmp.Id
-	one2one.SessionableId = sessionabel.Id
-	one2one.Id_ = bson.NewObjectId()
-	one2one.Id = one2one.Id_.Hex()
-	one2one.CheckExist()
-	err := one2one.InsertBMObject()
-
+	bindSessionable(tmp)
+	bindTeacher(tmp)
+	bindRoom(tmp)
 	b.bk.Pr = tmp
-	return err
+	return nil
 }
 
 func (b *BmCourseUnitPushProp) Prepare(pr interface{}) error {
@@ -72,5 +65,50 @@ func (b *BmCourseUnitPushProp) Return(w http.ResponseWriter) {
 		var reval courseunit.BmCourseUnit = b.BrickInstance().Pr.(courseunit.BmCourseUnit)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
+}
+
+func bindSessionable(courseUnit courseunit.BmCourseUnit) error {
+	sessionabel := courseUnit.Sessionable
+	one2one := courseunit.BmCourseUnitBindSessionable{}
+	one2one.CourseUnitId = courseUnit.Id
+	one2one.SessionableId = sessionabel.Id
+	one2one.Id_ = bson.NewObjectId()
+	one2one.ResetIdWithId_()
+	one2one.CheckExist()
+	err := one2one.InsertBMObject()
+	if err != nil {
+		panic("courseUnit bind error")
+	}
+	return err
+}
+
+func bindTeacher(courseUnit courseunit.BmCourseUnit) error {
+	t := courseUnit.Teacher
+	one2one := courseunit.BmCourseUnitBindTeacher{}
+	one2one.CourseUnitId = courseUnit.Id
+	one2one.TeacherId = t.Id
+	one2one.Id_ = bson.NewObjectId()
+	one2one.ResetIdWithId_()
+	one2one.CheckExist()
+	err := one2one.InsertBMObject()
+	if err != nil {
+		panic("courseUnit bind error")
+	}
+	return err
+}
+
+func bindRoom(courseUnit courseunit.BmCourseUnit) error {
+	r := courseUnit.Room
+	one2one := courseunit.BmCourseUnitBindRoom{}
+	one2one.CourseUnitId = courseUnit.Id
+	one2one.RoomId = r.Id
+	one2one.Id_ = bson.NewObjectId()
+	one2one.ResetIdWithId_()
+	one2one.CheckExist()
+	err := one2one.InsertBMObject()
+	if err != nil {
+		panic("courseUnit bind error")
+	}
+	return err
 }
 
