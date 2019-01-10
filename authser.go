@@ -258,6 +258,7 @@ func main() {
 	 *------------------------------------------------*/
 	fac.RegisterModel("BmKid", &kid.BmKid{})
 	fac.RegisterModel("BmApply", &apply.BmApply{})
+	fac.RegisterModel("BmApplyDetail", &apply.BmApplyDetail{})
 	fac.RegisterModel("BmApplyee", &applyee.BmApplyee{})
 	fac.RegisterModel("BmApplyBindKid", &apply.BmApplyBindKid{})
 	fac.RegisterModel("BmApplyBindApplyee", &apply.BmApplyBindApplyee{})
@@ -268,6 +269,8 @@ func main() {
 
 	fac.RegisterModel("BmApplyFindBrick", &applyfind.BmApplyFindBrick{})
 	fac.RegisterModel("BmAppliesFindBrick", &applyfind.BmAppliesFindBrick{})
+	fac.RegisterModel("BmApplyDetailFindBrick", &applyfind.BmApplyDetailFindBrick{})
+	fac.RegisterModel("BmApplyDetailFindMultiBrick", &applyfind.BmApplyDetailFindMultiBrick{})
 
 	fac.RegisterModel("BmApplyeePushBrick", &applyeepush.BmApplyeePushBrick{})
 	fac.RegisterModel("BmApplyeeFindBrick", &applyeefind.BmApplyeeFindBrick{})

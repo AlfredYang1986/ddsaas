@@ -12,18 +12,19 @@ type BmApply struct {
 	Id  string        `json:"id"`
 	Id_ bson.ObjectId `bson:"_id"`
 
-	Status     float64           `json:"status" bson:"status"` //0=未处理，1=已处理
-	ApplyTime  float64           `json:"apply_time" bson:"apply_time"`
-	ExceptTime float64           `json:"except_time" bson:"except_time"`
-	CreateTime float64             `json:"create_time" bson:"create_time"`
-	BrandId    string            `json:"brandId" bson:"brandId"`
-	ApplyFrom  string            `json:"applyFrom" bson:"applyFrom"`
-	CourseType float64           `json:"courseType" bson:"courseType"` //0活动 1体验课 2普通课程 -1预注册
-	CourseName string            `json:"courseName" bson:"courseName"`
-	Contact    string            `json:"contact" bson:"contact"`
-	Kids       []kid.BmKid       `json:"Kids" jsonapi:"relationships"`
-	Applyee    applyee.BmApplyee `json:"Applyee" jsonapi:"relationships"`
-	//ReservableId string            `json:"reservableId" bson:"reservableId"`
+	Status       float64           `json:"status" bson:"status"` //0=未处理，1=已处理
+	ApplyTime    float64           `json:"apply_time" bson:"apply_time"`
+	ExceptTime   float64           `json:"except_time" bson:"except_time"`
+	CreateTime   float64           `json:"create_time" bson:"create_time"`
+	ApplyeeId    string            `json:"applyeeId" bson:"applyeeId"`
+	BrandId      string            `json:"brandId" bson:"brandId"`
+	ApplyFrom    string            `json:"applyFrom" bson:"applyFrom"`
+	CourseType   float64           `json:"courseType" bson:"courseType"` //0活动 1体验课 2普通课程 -1预注册
+	CourseName   string            `json:"courseName" bson:"courseName"`
+	Contact      string            `json:"contact" bson:"contact"`
+	Kids         []kid.BmKid       `json:"Kids" jsonapi:"relationships"`
+	Applyee      applyee.BmApplyee `json:"Applyee" jsonapi:"relationships"`
+	ReservableId string            `json:"reservableId" bson:"reservableId"`
 }
 
 /*------------------------------------------------
