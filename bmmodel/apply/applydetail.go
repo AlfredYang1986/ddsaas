@@ -160,6 +160,9 @@ func (bd *BmApplyDetail) reSetYard() error {
 	eq := request.Eqcond{}
 	eq.Ky = "brandId"
 	eq.Vy = bd.BrandId
+	if bd.BrandId == "" {
+		panic("no brandId found!")
+	}
 	req := request.Request{}
 	req.Res = "BmYard"
 	var condi []interface{}
@@ -179,6 +182,9 @@ func (bd *BmApplyDetail) reSetReservable() error {
 	eq := request.Eqcond{}
 	eq.Ky = "id"
 	eq.Vy = bd.ReservableId
+	if bd.ReservableId == "" {
+		panic("no reservableId found!")
+	}
 	req := request.Request{}
 	req.Res = "BmReservable"
 	var condi []interface{}
