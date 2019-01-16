@@ -2,6 +2,7 @@ package sessionablefind
 
 import (
 	"github.com/alfredyang1986/blackmirror/bmcommon/bmsingleton/bmpkg"
+	"github.com/alfredyang1986/ddsaas/bmmodel/courseunit"
 	"github.com/alfredyang1986/ddsaas/bmmodel/sessionable"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"github.com/alfredyang1986/blackmirror/bmerror"
@@ -24,6 +25,7 @@ func (b *BmSessionableFindBrick) Exec() error {
 	var tmp sessionable.BmSessionable
 	err := tmp.FindOne(*b.bk.Req)
 	tmp.ReSetProp()
+	ReSetClassDate(&tmp)
 	b.bk.Pr = tmp
 	return err
 }
@@ -65,5 +67,33 @@ func (b *BmSessionableFindBrick) Return(w http.ResponseWriter) {
 		var reval sessionable.BmSessionable = b.BrickInstance().Pr.(sessionable.BmSessionable)
 		jsonapi.ToJsonAPI(&reval, w)
 	}
+}
+
+func ReSetClassDate(bd *sessionable.BmSessionable) error {
+
+	if bd.Status != 2 {
+		return nil
+	}
+
+	req := request.Request{}
+	req.Res = "BmCourseUnit"
+	var eqCondi []interface{}
+	eq := request.Eqcond{}
+	eq.Ky = "sessionableId"
+	eq.Vy = bd.Id
+	eqCondi = append(eqCondi, eq)
+	c := req.SetConnect("conditions", eqCondi)
+	req1 := c.(request.Request)
+	var tmp courseunit.BmCourseUnits
+	err := tmp.FindMulti(req1)
+	if tmp.CourseUnits == nil {
+		return nil
+	}
+	tmp.SortByStartDate(true)
+	bd.StartDate = tmp.CourseUnits[0].StartDate
+	tmp.SortByEndDate(false)
+	bd.EndDate = tmp.CourseUnits[0].EndDate
+
+	return err
 }
 

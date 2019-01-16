@@ -47,6 +47,10 @@ func (b *BmSessionablePushProp) Exec() error {
 	sbt.SessionableId = tmp.Id
 	sbt.Clear()
 	for _, item := range tmp.Teachers {
+
+		//push classTeacher
+		item.InsertBMObject()
+
 		ist := sessionable.BmSessionableBindTeacher{}
 		ist.Id_ = bson.NewObjectId()
 		ist.Id = ist.Id_.Hex()

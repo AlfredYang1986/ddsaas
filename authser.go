@@ -127,6 +127,7 @@ func main() {
 	fac.RegisterModel("BmCertification", &certification.BmCertification{})
 
 	fac.RegisterModel("BmTeacher", &teacher.BmTeacher{})
+	fac.RegisterModel("BmClassTeacher", &teacher.BmClassTeacher{})
 	fac.RegisterModel("BmTeachers", &teacher.BmTeachers{})
 
 	/*------------------------------------------------

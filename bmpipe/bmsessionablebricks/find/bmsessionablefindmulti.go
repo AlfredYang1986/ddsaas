@@ -23,6 +23,10 @@ type BmSessionableFindMulti struct {
 func (b *BmSessionableFindMulti) Exec() error {
 	var tmp sessionable.BmSessionables
 	err := tmp.FindMulti(*b.bk.Req)
+	for i, v := range tmp.Sessionables[:] {
+		ReSetClassDate(&v)
+		tmp.Sessionables[i] = v
+	}
 	b.bk.Pr = tmp
 	return err
 }

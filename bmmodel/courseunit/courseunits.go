@@ -4,6 +4,7 @@ import (
 	"github.com/alfredyang1986/blackmirror/bmmodel"
 	"github.com/alfredyang1986/blackmirror/bmmodel/request"
 	"gopkg.in/mgo.v2/bson"
+	"sort"
 )
 
 type BmCourseUnits struct {
@@ -80,4 +81,57 @@ func (bd *BmCourseUnits) FindMulti(req request.Request) error {
 		bd.CourseUnits[i] = r
 	}
 	return err
+}
+
+func (bd *BmCourseUnits) SortByStartDate(increasing bool) error {
+	courseUnits := bd.CourseUnits
+	if courseUnits == nil {
+		return nil
+	}
+	if increasing {
+		sort.Sort(BmCourseUnitsWrapper{courseUnits, func(cu1, cu2 *BmCourseUnit) bool {
+			return cu1.StartDate < cu2.StartDate //按开始时间递增排序
+		}})
+	} else {
+		sort.Sort(BmCourseUnitsWrapper{courseUnits, func(cu1, cu2 *BmCourseUnit) bool {
+			return cu1.StartDate > cu2.StartDate //按开始时间递减排序
+		}})
+	}
+
+	return nil
+}
+
+func (bd *BmCourseUnits) SortByEndDate(increasing bool) error {
+	courseUnits := bd.CourseUnits
+	if courseUnits == nil {
+		return nil
+	}
+	if increasing {
+		sort.Sort(BmCourseUnitsWrapper{courseUnits, func(cu1, cu2 *BmCourseUnit) bool {
+			return cu1.EndDate < cu2.EndDate //按结束时间递增排序
+		}})
+	} else {
+		sort.Sort(BmCourseUnitsWrapper{courseUnits, func(cu1, cu2 *BmCourseUnit) bool {
+			return cu1.EndDate > cu2.EndDate //按结束时间递减排序
+		}})
+	}
+
+	return nil
+}
+
+type BmCourseUnitsWrapper struct {
+	courseUnits []BmCourseUnit
+	sortBy      func(cu1, cu2 *BmCourseUnit) bool
+}
+
+func (bd BmCourseUnitsWrapper) Len() int {
+	return len(bd.courseUnits)
+}
+
+func (bd BmCourseUnitsWrapper) Swap(i, j int) {
+	bd.courseUnits[i], bd.courseUnits[j] = bd.courseUnits[j], bd.courseUnits[i]
+}
+
+func (bd BmCourseUnitsWrapper) Less(i, j int) bool {
+	return bd.sortBy(&bd.courseUnits[i], &bd.courseUnits[j])
 }

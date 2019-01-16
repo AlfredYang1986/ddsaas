@@ -28,7 +28,7 @@ type BmSessionable struct {
 
 	Yard        yard.BmYard               `json:"Yard" jsonapi:"relationships"`
 	SessionInfo sessioninfo.BmSessionInfo `json:"SessionInfo" jsonapi:"relationships"`
-	Teachers    []teacher.BmTeacher       `json:"Teachers" jsonapi:"relationships"`
+	Teachers    []teacher.BmClassTeacher       `json:"Teachers" jsonapi:"relationships"`
 	Attendees   []attendee.BmAttendee     `json:"Attendees" jsonapi:"relationships"`
 }
 
@@ -70,9 +70,9 @@ func (bd *BmSessionable) SetId(id string) {
 func (bd BmSessionable) SetConnect(tag string, v interface{}) interface{} {
 	switch tag {
 	case "Teachers":
-		var rst []teacher.BmTeacher
+		var rst []teacher.BmClassTeacher
 		for _, item := range v.([]interface{}) {
-			tmp := item.(teacher.BmTeacher)
+			tmp := item.(teacher.BmClassTeacher)
 			if len(tmp.Id) > 0 {
 				rst = append(rst, tmp)
 			}
@@ -228,8 +228,8 @@ func (bd *BmSessionable) reSetTeachers() error {
 	tt["$in"] = condi0
 	or_condi := bson.M{"_id": tt}
 
-	var resultArr []teacher.BmTeacher
-	err = bmmodel.FindMutilWithBson("BmTeacher", or_condi, &resultArr)
+	var resultArr []teacher.BmClassTeacher
+	err = bmmodel.FindMutilWithBson("BmClassTeacher", or_condi, &resultArr)
 
 	for i, ir := range resultArr {
 		ir.ResetIdWithId_()
